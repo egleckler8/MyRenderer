@@ -89,7 +89,8 @@ int main()
 
 
 
-    float vertices[] = {
+    float cubeVertices[] = {
+        // RGB and tex coords
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -128,11 +129,47 @@ int main()
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
-    float vertices2[] = {
-            -0.2f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f,1.0f,1.0f,
-            -0.8f,0.2f,0.0f, 0.0f, 1.0f, 0.0f,1.0f,0.0f,
-            -0.8f,0.8f,0.0f, 0.0f, 0.0f, 1.0f,0.0f,0.0f
+
+    float lightCubeVertices[] = {
+        // RGB and tex coords
+        -0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f,  0.5f, -0.5f,
+        0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f,  0.5f,
+        0.5f, -0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        -0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f,  0.5f,
+        0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
+        0.5f,  0.5f, -0.5f,
+        0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f
     };
+
 
     unsigned int indices[] = {
         0,1,3, // first triangle
@@ -151,35 +188,27 @@ int main()
     glGenBuffers(1, &VBO);
 
     // Create a vertex array object
-    // to help OpenGL intepret data from our vertices
+    // to help OpenGL intepret data from our cubeVertices
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
 
     // Create an element buffer object
     // To help draw our rectangle efficiently using indices
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-
-
-    unsigned int VBO2;
-    glGenBuffers(1, &VBO2);
-
-    // Create a vertex array object
-    // to help OpenGL intepret data from our vertices
-    unsigned int VAO2;
-    glGenVertexArrays(1, &VAO2);
+    // unsigned int EBO;
+    // glGenBuffers(1, &EBO);
 
 
 
-    // Initialization code
+
+    // THE CONTAINER CUBE:
     // Bind vertex array object
     glBindVertexArray(VAO);
-    // Copy the vertices array into a vertex buffer for OpenGL to use
+    // Copy the cubeVertices array into a vertex buffer for OpenGL to use
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
     // Copy our index array in an element buffer for OpenGL to use
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof (indices), indices, GL_STATIC_DRAW);
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof (indices), indices, GL_STATIC_DRAW);
     // then, set the vertex attribute pointers...
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -189,22 +218,32 @@ int main()
     glEnableVertexAttribArray(2);
 
 
-    // Initialization code
-    // Bind vertex array object
+    // THE LIGHT CUBE:
+    // Model stuff
+    unsigned int VBO2;
+    unsigned int VAO2;
+    glGenBuffers(1, &VBO2);
+    glGenVertexArrays(1, &VAO2);
     glBindVertexArray(VAO2);
-    // Copy the vertices array into a vertex buffer for OpenGL to use
     glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
-    // then, set the vertex attribute pointers...
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(lightCubeVertices), lightCubeVertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-    // texture attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
+
+
+    // World stuff
+    glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+    /*
+     * colors can basically be represented as an RGB vector of
+     * how much light of each R,G,B that the object reflects
+     *
+     * so, we can deadass just multiply a lighting vector with an
+     * object/pixel's "true color" vector to get the color in the lighting...
+     *
+     *
+     *
+     */
 
 
 
@@ -223,10 +262,8 @@ int main()
     // ************************************
     //      Shaders or something
     // ************************************
-    Shader shaderProgram1("Textured", "shaders/v-shader-1", "shaders/f-shader-1");
-    Shader shaderProgram2("Basic green", "shaders/v-shader-2", "shaders/f-shader-2");
-    Shader shaderProgramMvmt("Mvmt and lighting", "shaders/v-shader-mvmt", "shaders/f-shader-lighting");
     Shader shaders3D("3d", "shaders/v-shader-3", "shaders/f-shader-3");
+    Shader lightSrcShader("lighting", "shaders/v-lightsrc-1", "shaders/f-lightsrc-1");
 
 
 
@@ -237,10 +274,6 @@ int main()
     shaders3D.setIntUniform("texture2", 1);
 
 
-
-    // This will set the light position
-    float lightPos[] = {-0.5f, 0.5f, 0.0f};
-    shaderProgramMvmt.set3FUniform("lightPos", lightPos);
 
 
     // Create an input handler
@@ -267,23 +300,6 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
 
-    // THE CAMERA - building a relative coordinate space?
-
-    // We can choose the position...
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, -6.0f);
-
-    // It should be pointing at the origin
-    glm::vec3 cameraTarget = glm::vec3(0.0f,0.0,0.0f);
-    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
-
-    // L/R axis
-    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-
-    // Up/Down axis
-    glm::vec3 cameraUp = glm::normalize(glm::cross(cameraDirection, cameraRight));
-
-
 
     // ********************************
     //          Render loop!
@@ -297,15 +313,16 @@ int main()
         camera.Update();
 
         // Rendering commands:
-        glClearColor(0.4f, 0.8f, 0.95f, 1.0f); // state-setting
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // state-setting
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using
 
 
         // Double texture?
         glActiveTexture(GL_TEXTURE0);
-        lavalampTex.use();
+        containerTex.use();
+        // lavalampTex.use();
         glActiveTexture(GL_TEXTURE1);
-        faceTex.use();
+        lavalampTex.use();
 
 
         //
@@ -320,8 +337,6 @@ int main()
         // Create our view matrix to move the world into camera space
         // and we gonna spin...
         glm::mat4 viewMat = camera.GetViewMatrix();
-
-
 
         // Projection matrix moves camera space into clip space
         // we'll use a perspective projection matrix so farther things are smaller (real)
@@ -343,7 +358,6 @@ int main()
 
         glBindVertexArray(VAO);
 
-
         // Draw HELLA CUBES
         for(int i = 0; i < 10; i++)
         {
@@ -355,26 +369,21 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
         }
-
-
         glBindVertexArray(0);
 
-//        // SMALL ZESTY TRIANGLE
-//        shaderProgram2.use();
-//
-//        // Rotate over time...
-//        glm::mat4 trans = glm::mat4(1.0f);
-//        //trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f,0.0f,1.0f));
-//        trans = glm::scale(trans, glm::vec3(sin((float)glfwGetTime()),1.0f,0.0f));
-//
-//        shaderProgram2.setMat4FUniform("transform", trans);
-//
-//        containerTex.use();
-//
-//        // Redner the upper right triangle
-//        glBindVertexArray(VAO2);
-//        glDrawArrays(GL_TRIANGLES, 0, 3);
-//        glBindVertexArray(0);
+
+        // Render the light cube
+        lightSrcShader.use();
+
+        glm::mat4 lightModel = glm::mat4 (1.0f);
+        lightModel = glm::scale(lightModel, glm::vec3(0.2f ,0.2f ,0.2f));
+        lightSrcShader.setMat4FUniform("model", lightModel);
+        lightSrcShader.setMat4FUniform("view", viewMat);
+        lightSrcShader.setMat4FUniform("projection", projMat);
+        glBindVertexArray(VAO2);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
 
 
 

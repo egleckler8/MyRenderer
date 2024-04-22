@@ -50,10 +50,10 @@ private:
     double mLastTime = 0;
 
     /// The move speed for when the user manually moves the camera
-    float mMoveSpeed = 5.0f;
+    float mMoveSpeed = 8.0f;
 
     /// Sensitivity of camera rotation
-    float mSensitivity = 0.1f;
+    float mSensitivity = 0.15f;
 
     /// The last position of the mouse cursor, for camera rotation
     glm::vec2 mLastCursorPos = glm::vec2(300, 400);
@@ -67,8 +67,6 @@ private:
     static void StaticMouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     void RegisterUser(GLFWwindow* window);
-
-    // test
 
 
 

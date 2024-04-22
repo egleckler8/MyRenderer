@@ -69,6 +69,11 @@ void Camera::Update()
         else if (glfwGetKey(mWindow, GLFW_KEY_A) == GLFW_PRESS)
             mPosition -= (mMoveSpeed * (float)dT) * mRightVec;
 
+        // Space bar moving vertically would be nice...
+        // World vertical, not camera vertical.
+        if (glfwGetKey(mWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
+            mPosition += (mMoveSpeed * (float)dT) * UpVec;
+
 
     }
 
