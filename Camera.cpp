@@ -69,10 +69,20 @@ void Camera::Update()
         else if (glfwGetKey(mWindow, GLFW_KEY_A) == GLFW_PRESS)
             mPosition -= (mMoveSpeed * (float)dT) * mRightVec;
 
-        // Space bar moving vertically would be nice...
+        // Moving vertically would be nice...
         // World vertical, not camera vertical.
         if (glfwGetKey(mWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
             mPosition += (mMoveSpeed * (float)dT) * UpVec;
+        else if (glfwGetKey(mWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+            mPosition -= (mMoveSpeed * (float)dT * UpVec);
+
+
+        // Having yaw rotation on the keys would be nice...
+        // This could use adjusted in the future... it's super gross lowkey
+        if (glfwGetKey(mWindow, GLFW_KEY_Q) == GLFW_PRESS)
+            SetDirection(mPitch, mYaw - (2 * M_PI * mMoveSpeed * dT));
+        else if (glfwGetKey(mWindow, GLFW_KEY_E) == GLFW_PRESS)
+            SetDirection(mPitch, mYaw + (2 * M_PI * mMoveSpeed * dT));
 
 
     }
@@ -143,30 +153,49 @@ void Camera::CursorCallback(GLFWwindow *window, double x, double y)
         xOffset *= mSensitivity;
         yOffset *= mSensitivity;
 
-        // Adjust the pitch and yaw:
-        mYaw += xOffset;
-        mPitch += yOffset;
+        // Adjust the pitch and yaw & adjust camera direction basis
+        SetDirection(mPitch + yOffset, mYaw + xOffset);
 
-        // Avoid Euler angle weirdness
-        if(mPitch > 89.0f)
-            mPitch = 89.0f;
-        if(mPitch < -89.0f)
-            mPitch = -89.0f;
 
-        // Computer the direction we should be pointing!
-        glm::vec3 direction;
-        direction.x = cos(glm::radians(mYaw)) * cos(glm::radians(mPitch));
-        direction.y = sin(glm::radians(mPitch));
-        direction.z = sin(glm::radians(mYaw)) * cos(glm::radians(mPitch));
 
-        // And adjust our basis vectors
-        mFrontVec = glm::normalize(direction);
-        mRightVec = glm::normalize(glm::cross(mFrontVec, UpVec));
 
     }
 
 }
 
+
+
+/**
+ * Set the direction of the camera, changing the
+ * changing the basis vectors of the camera directions
+ *
+ * @param pitch new pitch, degrees
+ * @param yaw new yaw, degrees
+ */
+void Camera::SetDirection(double pitch, double yaw)
+{
+    // Set the members
+    mYaw = yaw;
+    mPitch = pitch;
+
+    // Avoid Euler angle weirdness
+    if(mPitch > 89.0f)
+        mPitch = 89.0f;
+    if(mPitch < -89.0f)
+        mPitch = -89.0f;
+
+    // Computer the direction we should be pointing!
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(mYaw)) * cos(glm::radians(mPitch));
+    direction.y = sin(glm::radians(mPitch));
+    direction.z = sin(glm::radians(mYaw)) * cos(glm::radians(mPitch));
+
+    // And adjust our basis vectors
+    mFrontVec = glm::normalize(direction);
+    mRightVec = glm::normalize(glm::cross(mFrontVec, UpVec));
+
+
+}
 
 
 

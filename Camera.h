@@ -50,7 +50,7 @@ private:
     double mLastTime = 0;
 
     /// The move speed for when the user manually moves the camera
-    float mMoveSpeed = 8.0f;
+    float mMoveSpeed = 5.0f;
 
     /// Sensitivity of camera rotation
     float mSensitivity = 0.15f;
@@ -67,6 +67,7 @@ private:
     static void StaticMouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     void RegisterUser(GLFWwindow* window);
+
 
 
 
@@ -122,10 +123,11 @@ public:
     void SetSensitivity(double s) { mSensitivity = s; }
 
 
+    void SetDirection(double pitch, double yaw);
+
+
     void Update();
     glm::mat4 GetViewMatrix();
-
-
 
 };
 

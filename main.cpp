@@ -90,92 +90,44 @@ int main()
 
 
     float cubeVertices[] = {
-        // RGB and tex coords
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        // positions          // normals           // texture coords
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+        0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
     };
-
-
-    float lightCubeVertices[] = {
-        // RGB and tex coords
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f,  0.5f, -0.5f,
-        0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
-        0.5f, -0.5f,  0.5f,
-        0.5f,  0.5f,  0.5f,
-        0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        0.5f,  0.5f,  0.5f,
-        0.5f,  0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f,  0.5f,
-        0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f,  0.5f,
-        0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        0.5f,  0.5f, -0.5f,
-        0.5f,  0.5f,  0.5f,
-        0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f
-    };
-
-
-    unsigned int indices[] = {
-        0,1,3, // first triangle
-        1,2,3 // second triangle
-    };
-
 
 
 
@@ -211,39 +163,26 @@ int main()
     //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof (indices), indices, GL_STATIC_DRAW);
     // then, set the vertex attribute pointers...
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    // normal vectors attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
     // texture 1 attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
 
     // THE LIGHT CUBE:
     // Model stuff
-    unsigned int VBO2;
     unsigned int VAO2;
-    glGenBuffers(1, &VBO2);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glGenVertexArrays(1, &VAO2);
     glBindVertexArray(VAO2);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(lightCubeVertices), lightCubeVertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-
-    // World stuff
-    glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
-    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
-    /*
-     * colors can basically be represented as an RGB vector of
-     * how much light of each R,G,B that the object reflects
-     *
-     * so, we can deadass just multiply a lighting vector with an
-     * object/pixel's "true color" vector to get the color in the lighting...
-     *
-     *
-     *
-     */
 
 
 
@@ -264,15 +203,31 @@ int main()
     // ************************************
     Shader shaders3D("3d", "shaders/v-shader-3", "shaders/f-shader-3");
     Shader lightSrcShader("lighting", "shaders/v-lightsrc-1", "shaders/f-lightsrc-1");
+    Shader shader4("version 4", "shaders/v4", "shaders/f4");
+
+
+
+    // World stuff
+    glm::vec3 lightPos(2.0f, 1.5f, -2.0f);
+    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+    /*
+     * colors can basically be represented as an RGB vector of
+     * how much light of each R,G,B that the object reflects
+     *
+     * so, we can deadass just multiply a lighting vector with an
+     * object/pixel's "true color" vector to get the color in the lighting...
+     *
+     *
+     *
+     */
 
 
 
     // attach textures to shaders?
     // tell the shader program which sampler uniform belongs to which texture unit
-    shaders3D.use();
-    shaders3D.setIntUniform("texture1", 0);
-    shaders3D.setIntUniform("texture2", 1);
-
+//    shader4.use();
+//    shader4.setIntUniform("texture1", 0);
+//    shader4.setIntUniform("texture2", 1);
 
 
 
@@ -317,25 +272,16 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using
 
 
-        // Double texture?
-        glActiveTexture(GL_TEXTURE0);
-        containerTex.use();
-        // lavalampTex.use();
-        glActiveTexture(GL_TEXTURE1);
-        lavalampTex.use();
-
-
-        //
-        // GOING 3D!!
-        //
+        //lightPos = glm::vec3(3*cos(t), 1.0f, 3*sin(t));
 
         // Create our model matrix to put our local coords into world coords
         glm::mat4 modelMat = glm::mat4(1.0f);
         // rotate a little so it's a floor?
-        modelMat = glm::rotate(modelMat, glm::radians(-70.0f), glm::vec3(1.0,0.0,0.0));
+        modelMat = glm::rotate(modelMat, t * glm::radians(45.0f), glm::vec3(1.0,0.5,0.0));
 
-        // Create our view matrix to move the world into camera space
-        // and we gonna spin...
+
+
+        // Thank god for our camera class ;)
         glm::mat4 viewMat = camera.GetViewMatrix();
 
         // Projection matrix moves camera space into clip space
@@ -346,40 +292,52 @@ int main()
         glm::mat4 projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 
-        modelMat = glm::rotate(modelMat, t * glm::radians(50.0f),
-                               glm::vec3(0.5f, 1.0f, 0.0f));
-
+        // Compute the normal mat on the cpu since the inversion operation
+        // is expensive in GLSL on the GPU
+        // NOTE:
+        // Here the normalMat is just in terms of the model mat! I did it with the model-view,
+        // but that fucked things up and made things weird. apparently, if we wanna do some
+        // non-uniform scaling and stuff (think of what stretching a triangle does to the normal)
+        // then we'll need to figure out how to use the view-model. that is probably later in the book.
+        glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(modelMat)));
 
         // cubes shaders
-        shaders3D.use();
-        shaders3D.setMat4FUniform("model", modelMat);
-        shaders3D.setMat4FUniform("view", viewMat);
-        shaders3D.setMat4FUniform("projection", projMat);
+        shader4.use();
+        shader4.setVec3Uniform("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+        shader4.setVec3Uniform("lightColor", lightColor);
+        shader4.setVec3Uniform("lightPos", lightPos);
+        shader4.setMat4Uniform("model", modelMat);
+        shader4.setMat4Uniform("view", viewMat);
+        shader4.setMat4Uniform("projection", projMat);
+        shader4.setMat3Uniform("normalMat", normalMat);
+
+
+
+        // Double texture?
+        glActiveTexture(GL_TEXTURE0);
+        containerTex.use();
+        glActiveTexture(GL_TEXTURE1);
+        lavalampTex.use();
+
+
 
         glBindVertexArray(VAO);
-
-        // Draw HELLA CUBES
-        for(int i = 0; i < 10; i++)
-        {
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(0.0,0.0,2) + cubePositions[i]);
-            float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle) + t * i * glm::radians(50.0f), glm::vec3(1.0,0.3,0.5));
-            shaders3D.setMat4FUniform("model", model);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        }
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
+
+
+
 
 
         // Render the light cube
         lightSrcShader.use();
 
         glm::mat4 lightModel = glm::mat4 (1.0f);
-        lightModel = glm::scale(lightModel, glm::vec3(0.2f ,0.2f ,0.2f));
-        lightSrcShader.setMat4FUniform("model", lightModel);
-        lightSrcShader.setMat4FUniform("view", viewMat);
-        lightSrcShader.setMat4FUniform("projection", projMat);
+        lightModel = glm::translate(lightModel, lightPos);
+        lightModel = glm::scale(lightModel, glm::vec3(0.2f));
+        lightSrcShader.setMat4Uniform("model", lightModel);
+        lightSrcShader.setMat4Uniform("view", viewMat);
+        lightSrcShader.setMat4Uniform("projection", projMat);
         glBindVertexArray(VAO2);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
