@@ -272,17 +272,18 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using
 
 
-        //lightPos = glm::vec3(3*cos(t), 1.0f, 3*sin(t));
+        // lightPos = glm::vec3(3*cos(t), 1.0f, 3*sin(t));
 
         // Create our model matrix to put our local coords into world coords
         glm::mat4 modelMat = glm::mat4(1.0f);
         // rotate a little so it's a floor?
-        modelMat = glm::rotate(modelMat, t * glm::radians(45.0f), glm::vec3(1.0,0.5,0.0));
-
-
+        modelMat = glm::rotate(modelMat, t * glm::radians(30.0f), glm::vec3(1.0,0.5,0.0));
 
         // Thank god for our camera class ;)
         glm::mat4 viewMat = camera.GetViewMatrix();
+
+        // We can do our lighting in view space!
+        glm::mat4 modelViewMat = viewMat * modelMat;
 
         // Projection matrix moves camera space into clip space
         // we'll use a perspective projection matrix so farther things are smaller (real)
@@ -295,20 +296,22 @@ int main()
         // Compute the normal mat on the cpu since the inversion operation
         // is expensive in GLSL on the GPU
         // NOTE:
-        // Here the normalMat is just in terms of the model mat! I did it with the model-view,
-        // but that fucked things up and made things weird. apparently, if we wanna do some
-        // non-uniform scaling and stuff (think of what stretching a triangle does to the normal)
-        // then we'll need to figure out how to use the view-model. that is probably later in the book.
-        glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(modelMat)));
+        // Make sure the normal mat is in view space
+        glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(modelViewMat)));
+
+
+        // Put the light position into view space
+        // turn lightPos into a vec4, so we can translate it when we transform
+        // it with the 4x4 viewmat. Important to keep the translation data!
+        glm::vec3 lightPosView(viewMat * glm::vec4(lightPos, 1.0f));
 
         // cubes shaders
         shader4.use();
         shader4.setVec3Uniform("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
         shader4.setVec3Uniform("lightColor", lightColor);
-        shader4.setVec3Uniform("lightPos", lightPos);
-        shader4.setMat4Uniform("model", modelMat);
-        shader4.setMat4Uniform("view", viewMat);
-        shader4.setMat4Uniform("projection", projMat);
+        shader4.setVec3Uniform("lightPos", lightPosView);
+        shader4.setMat4Uniform("modelViewMat", modelViewMat);
+        shader4.setMat4Uniform("projMat", projMat);
         shader4.setMat3Uniform("normalMat", normalMat);
 
 

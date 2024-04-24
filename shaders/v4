@@ -7,18 +7,18 @@ layout (location = 2) in vec3 aTexCoord;
 out vec3 Normal;
 out vec3 FragPos;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 modelViewMat;
+uniform mat4 projMat;
 uniform mat3 normalMat;
 
 
 void main()
 {
-
-    FragPos = (model * vec4(aPos, 1.0f)).xyz;
+    // Put fragment position into view space
+    FragPos = (modelViewMat * vec4(aPos, 1.0f)).xyz;
     Normal = normalMat * aNormal;
 
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
+    // Transform the position into clip perspective
+    gl_Position = projMat * modelViewMat * vec4(aPos, 1.0);
 
 }
