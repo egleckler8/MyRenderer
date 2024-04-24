@@ -130,6 +130,124 @@ int main()
     };
 
 
+    // making cylinder vertices
+    // we basically just need a top and bottom circle
+    // uhhhh texture coordinates will be weird so lets leave those out for now
+    // (r*cos(theta), r*sin(theta), z) for position
+    // wait normal is the same, i guess?
+    int steps = 25; // number of steps our cylinder mock will take
+    int arySize =(3 + 3) * steps * 2;
+    float cylinderVertices[] =
+    {
+        0.0f,1.0f,1.0f,0.0f,0.0f,1.0f,
+        0.24869f,1.0f,0.968583f,0.24869f,0.0f,0.968583f,
+        0.481754f,1.0f,0.876307f,0.481754f,0.0f,0.876307f,
+        0.684547f,1.0f,0.728969f,0.684547f,0.0f,0.728969f,
+        0.844328f,1.0f,0.535827f,0.844328f,0.0f,0.535827f,
+        0.951057f,1.0f,0.309017f,0.951057f,0.0f,0.309017f,
+        0.998027f,1.0f,0.0627905f,0.998027f,0.0f,0.0627905f,
+        0.982287f,1.0f,-0.187381f,0.982287f,0.0f,-0.187381f,
+        0.904827f,1.0f,-0.425779f,0.904827f,0.0f,-0.425779f,
+        0.770513f,1.0f,-0.637424f,0.770513f,0.0f,-0.637424f,
+        0.587785f,1.0f,-0.809017f,0.587785f,0.0f,-0.809017f,
+        0.368125f,1.0f,-0.929776f,0.368125f,0.0f,-0.929776f,
+        0.125333f,1.0f,-0.992115f,0.125333f,0.0f,-0.992115f,
+        -0.125333f,1.0f,-0.992115f,-0.125333f,0.0f,-0.992115f,
+        -0.368125f,1.0f,-0.929776f,-0.368125f,0.0f,-0.929776f,
+        -0.587785f,1.0f,-0.809017f,-0.587785f,0.0f,-0.809017f,
+        -0.770513f,1.0f,-0.637424f,-0.770513f,0.0f,-0.637424f,
+        -0.904827f,1.0f,-0.425779f,-0.904827f,0.0f,-0.425779f,
+        -0.982287f,1.0f,-0.187381f,-0.982287f,0.0f,-0.187381f,
+        -0.998027f,1.0f,0.0627906f,-0.998027f,0.0f,0.0627906f,
+        -0.951056f,1.0f,0.309017f,-0.951056f,0.0f,0.309017f,
+        -0.844328f,1.0f,0.535827f,-0.844328f,0.0f,0.535827f,
+        -0.684547f,1.0f,0.728969f,-0.684547f,0.0f,0.728969f,
+        -0.481754f,1.0f,0.876307f,-0.481754f,0.0f,0.876307f,
+        -0.24869f,1.0f,0.968583f,-0.24869f,0.0f,0.968583f,
+        0.0f,0.0f,1.0f,0.0f,0.0f,1.0f,
+        0.24869f,0.0f,0.968583f,0.24869f,0.0f,0.968583f,
+        0.481754f,0.0f,0.876307f,0.481754f,0.0f,0.876307f,
+        0.684547f,0.0f,0.728969f,0.684547f,0.0f,0.728969f,
+        0.844328f,0.0f,0.535827f,0.844328f,0.0f,0.535827f,
+        0.951057f,0.0f,0.309017f,0.951057f,0.0f,0.309017f,
+        0.998027f,0.0f,0.0627905f,0.998027f,0.0f,0.0627905f,
+        0.982287f,0.0f,-0.187381f,0.982287f,0.0f,-0.187381f,
+        0.904827f,0.0f,-0.425779f,0.904827f,0.0f,-0.425779f,
+        0.770513f,0.0f,-0.637424f,0.770513f,0.0f,-0.637424f,
+        0.587785f,0.0f,-0.809017f,0.587785f,0.0f,-0.809017f,
+        0.368125f,0.0f,-0.929776f,0.368125f,0.0f,-0.929776f,
+        0.125333f,0.0f,-0.992115f,0.125333f,0.0f,-0.992115f,
+        -0.125333f,0.0f,-0.992115f,-0.125333f,0.0f,-0.992115f,
+        -0.368125f,0.0f,-0.929776f,-0.368125f,0.0f,-0.929776f,
+        -0.587785f,0.0f,-0.809017f,-0.587785f,0.0f,-0.809017f,
+        -0.770513f,0.0f,-0.637424f,-0.770513f,0.0f,-0.637424f,
+        -0.904827f,0.0f,-0.425779f,-0.904827f,0.0f,-0.425779f,
+        -0.982287f,0.0f,-0.187381f,-0.982287f,0.0f,-0.187381f,
+        -0.998027f,0.0f,0.0627905f,-0.998027f,0.0f,0.0627905f,
+        -0.951057f,0.0f,0.309017f,-0.951057f,0.0f,0.309017f,
+        -0.844328f,0.0f,0.535827f,-0.844328f,0.0f,0.535827f,
+        -0.684547f,0.0f,0.728969f,-0.684547f,0.0f,0.728969f,
+        -0.481754f,0.0f,0.876307f,-0.481754f,0.0f,0.876307f,
+        -0.24869f,0.0f,0.968583f,-0.24869f,0.0f,0.968583f,
+    };
+
+
+//    float topY = 1.0;
+//    float bottomY = 0.0;
+//    float radius = 1.0;
+//    // top circle
+//    for (int i = 0; i < steps; i++)
+//    {
+//        float theta = i * (2 * M_PI) / steps;
+//
+//        glm::vec3 yeah(radius * cos(theta), 0.0 , radius * sin(theta));
+//        glm::vec3 yeahNorm(glm::normalize(yeah));
+//
+//        // let's just check the positions
+//        std::cout   << radius * sin(theta) << "f,"
+//                    << topY << "f,"
+//                    << radius * cos(theta) << "f,"
+//                    << yeahNorm.z << "f,"
+//                    << "0.0f,"
+//                    << yeahNorm.x << "f,"
+//                    << std::endl;
+//
+//        cylinderVertices[i]     = (float)(radius * cos(theta));           // pos x
+//        cylinderVertices[i + 1] = topY;           // pos y
+//        cylinderVertices[i + 2] = (float)(radius * sin(theta));             // pos z
+//        cylinderVertices[i + 3] = (float)yeahNorm.x;       // normal x
+//        cylinderVertices[i + 4] = 0.0;              // normal y
+//        cylinderVertices[i + 5] = (float)yeahNorm.z;       // normal z
+//
+//    }
+//    // bottom circle
+//    for (int i = 0; i < steps; i++)
+//    {
+//        double theta = i * (2 * M_PI) / steps;
+//
+//        glm::vec3 yeah(radius * cos(theta), 0.0 , radius * sin(theta));
+//        glm::vec3 yeahNorm(glm::normalize(yeah));
+//
+//        // let's just check the positions
+//        std::cout   << radius * sin(theta) << "f,"
+//                    << bottomY << "f,"
+//                    << radius * cos(theta) << "f,"
+//                    << yeahNorm.z << "f,"
+//                    << "0.0f,"
+//                    << yeahNorm.x << "f,"
+//                    << std::endl;
+//
+//        cylinderVertices[steps + i]     = (float)(radius * cos(theta));           // pos x
+//        cylinderVertices[steps + i + 1] = bottomY; ;           // pos y
+//        cylinderVertices[steps + i + 2] = (float)(radius * sin(theta));         // pos z
+//        cylinderVertices[steps + i + 3] = (float)yeahNorm.x;       // normal x
+//        cylinderVertices[steps + i + 4] = 0;            // normal y
+//        cylinderVertices[steps + i + 5] = (float)yeahNorm.z;                // normal z
+//
+//    }
+
+
+
 
 
 
@@ -176,13 +294,32 @@ int main()
     // THE LIGHT CUBE:
     // Model stuff
     unsigned int VAO2;
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glGenVertexArrays(1, &VAO2);
     glBindVertexArray(VAO2);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+
+    // THE CYLINDER
+    unsigned int VBOcyl;
+    unsigned int VAOcyl;
+    glGenBuffers(1, &VBOcyl);
+    glGenVertexArrays(1, &VAOcyl);
+    glBindVertexArray(VAOcyl);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOcyl);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cylinderVertices), cylinderVertices, GL_STATIC_DRAW);
+    // pos attrib
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // normals attrib
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+
+
+
 
 
 
@@ -272,18 +409,15 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using
 
 
-        // lightPos = glm::vec3(3*cos(t), 1.0f, 3*sin(t));
+        lightPos = glm::vec3(3*cos(t), 1.0f, 3*sin(t));
 
         // Create our model matrix to put our local coords into world coords
         glm::mat4 modelMat = glm::mat4(1.0f);
         // rotate a little so it's a floor?
-        modelMat = glm::rotate(modelMat, t * glm::radians(30.0f), glm::vec3(1.0,0.5,0.0));
+        //modelMat = glm::rotate(modelMat, t * glm::radians(30.0f), glm::vec3(1.0,0.5,0.0));
 
         // Thank god for our camera class ;)
         glm::mat4 viewMat = camera.GetViewMatrix();
-
-        // We can do our lighting in view space!
-        glm::mat4 modelViewMat = viewMat * modelMat;
 
         // Projection matrix moves camera space into clip space
         // we'll use a perspective projection matrix so farther things are smaller (real)
@@ -297,7 +431,9 @@ int main()
         // is expensive in GLSL on the GPU
         // NOTE:
         // Make sure the normal mat is in view space
-        glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(modelViewMat)));
+        // We can do our lighting in view space!
+        glm::mat4 modelViewMat = viewMat * modelMat;
+        glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(modelViewMat)));
 
 
         // Put the light position into view space
@@ -314,19 +450,38 @@ int main()
         shader4.setMat4Uniform("projMat", projMat);
         shader4.setMat3Uniform("normalMat", normalMat);
 
-
-
         // Double texture?
         glActiveTexture(GL_TEXTURE0);
         containerTex.use();
         glActiveTexture(GL_TEXTURE1);
         lavalampTex.use();
 
-
-
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
+
+
+
+        // CYLINDER
+        glm::mat4 modelMatCyl(1.0f);
+        glm::vec3 cylPos(3.0f, 0.0f, 0.0f);
+        modelMatCyl = glm::translate(modelMatCyl, cylPos);
+        glm::mat4 modelViewMatCyl = viewMat * modelMatCyl;
+        glm::mat3 normalMatCyl = glm::mat3(glm::transpose(glm::inverse(modelViewMatCyl)));
+
+        shader4.use();
+        shader4.setVec3Uniform("objectColor", glm::vec3(0.3f, 0.9f, 0.2f));
+        shader4.setVec3Uniform("lightColor", lightColor);
+        shader4.setVec3Uniform("lightPos", lightPosView);
+        shader4.setMat4Uniform("modelViewMat", modelViewMatCyl);
+        shader4.setMat4Uniform("projMat", projMat);
+        shader4.setMat3Uniform("normalMat", normalMatCyl);
+
+        glBindVertexArray(VAOcyl);
+        glDrawArrays(GL_TRIANGLES, 0, 50);
+        glBindVertexArray(0);
+
+
 
 
 
