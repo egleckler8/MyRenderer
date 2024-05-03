@@ -285,7 +285,7 @@ int main()
         // Create our model matrix to put our local coords into world coords
         glm::mat4 modelMat = glm::mat4(1.0f);
         // rotate a little so it's a floor?
-        //modelMat = glm::rotate(modelMat, t * glm::radians(30.0f), glm::vec3(1.0,0.5,0.0));
+        // modelMat = glm::rotate(modelMat, t * glm::radians(30.0f), glm::vec3(1.0,0.5,0.0));
 
         // Thank god for our camera class ;)
         glm::mat4 viewMat = camera.GetViewMatrix();
@@ -333,18 +333,22 @@ int main()
         shader4.setVec3Uniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 
         // yeah
-        shader4.setMat4Uniform("modelViewMat", modelViewMat);
         shader4.setMat4Uniform("projMat", projMat);
         shader4.setMat3Uniform("normalMat", normalMat);
-
-
-
-
-
-
-
+        //shader4.setMat4Uniform("modelViewMat", modelViewMat);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        for (int i = 0; i < 10; ++i)
+        {
+            glm::mat4 modelMat = glm::mat4(1.0f);
+            modelMat = glm::translate(modelMat, cubePositions[i]);
+            float angle = 20.0f * i;
+            modelMat = glm::rotate(modelMat, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            glm::mat4 modelViewMat = viewMat * modelMat;
+            shader4.setMat4Uniform("modelViewMat", modelViewMat);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+
         glBindVertexArray(0);
 
 
