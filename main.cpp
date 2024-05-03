@@ -326,14 +326,14 @@ int main()
         shader4.setIntUniform("material.specular", 1);
         shader4.set1FUniform("material.shininess", 32.0f);
 
-        // Light properties
-        shader4.setVec3Uniform("light.position", lightPosView);
-        shader4.setVec3Uniform("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-        shader4.setVec3Uniform("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f)); // darkened
-        shader4.setVec3Uniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-        shader4.set1FUniform("light.constant", 1.0f);
-        shader4.set1FUniform("light.linear", 0.09f);
-        shader4.set1FUniform("light.quadratic", 0.032f);
+        // Light properties (there's a lot...
+        shader4.setVec3Uniform("pointLights[0].position", lightPosView);
+        shader4.setVec3Uniform("pointLights[0].ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+        shader4.setVec3Uniform("pointLights[0].diffuse", glm::vec3(0.5f, 0.5f, 0.5f)); // darkened
+        shader4.setVec3Uniform("pointLights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+        shader4.set1FUniform("pointLights[0].constant", 1.0f);
+        shader4.set1FUniform("pointLights[0].linear", 0.09f);
+        shader4.set1FUniform("pointLights[0].quadratic", 0.032f);
 
         // yeah
         shader4.setMat4Uniform("projMat", projMat);

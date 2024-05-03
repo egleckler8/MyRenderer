@@ -29,7 +29,7 @@ struct DirectionalLight
 {
     vec3 direction;
 
-    // Color values for Phong
+    // Color values for Phonh
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
