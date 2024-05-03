@@ -208,7 +208,7 @@ int main()
     // ************************************
     Shader shaders3D("3d", "shaders/v-shader-3", "shaders/f-shader-3");
     Shader lightSrcShader("lighting", "shaders/v-lightsrc-1", "shaders/f-lightsrc-1");
-    Shader shader4("version 4", "shaders/v4", "shaders/f4");
+    Shader shader4("version 4", "shaders/v4.vert", "shaders/f4.frag");
 
 
 
@@ -331,6 +331,9 @@ int main()
         shader4.setVec3Uniform("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
         shader4.setVec3Uniform("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f)); // darkened
         shader4.setVec3Uniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+        shader4.set1FUniform("light.constant", 1.0f);
+        shader4.set1FUniform("light.linear", 0.09f);
+        shader4.set1FUniform("light.quadratic", 0.032f);
 
         // yeah
         shader4.setMat4Uniform("projMat", projMat);
