@@ -193,9 +193,12 @@ int main()
     // ************************************
     //      Textures or something
     // ************************************
-    Texture2D lavalampTex("lavalamp", "textures/lavalamp.jpg", GL_RGB, 0);
-    Texture2D containerTex("container", "textures/container.jpg", GL_RGB, 0);
-    Texture2D faceTex("face", "textures/awesomeface.png", GL_RGBA, 1);
+//    Texture2D lavalampTex("lavalamp", "textures/lavalamp.jpg", GL_RGB, 0);
+//    Texture2D containerTex("container", "textures/container.jpg", GL_RGB, 0);
+//    Texture2D faceTex("face", "textures/awesomeface.png", GL_RGBA, 1);
+    Texture2D diffuseMap("container2-diff", "textures/container2.png", GL_RGBA, 0);
+    Texture2D specularMap("container2-spec", "textures/container2_specular.png", GL_RGBA, 0);
+
 
 
 
@@ -273,7 +276,7 @@ int main()
         camera.Update();
 
         // Rendering commands:
-        glClearColor(0.0f, .0f, 0.0f, 1.0f); // state-setting
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // state-setting
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using
 
 
@@ -309,13 +312,18 @@ int main()
         // it with the 4x4 viewmat. Important to keep the translation data!
         glm::vec3 lightPosView(viewMat * glm::vec4(lightPos, 1.0f));
 
+        // cube textures
+        glActiveTexture(GL_TEXTURE0);
+        diffuseMap.use();
+        glActiveTexture(GL_TEXTURE1);
+        specularMap.use();
+
         // cubes shaders
         shader4.use();
 
         // Material properties
-        shader4.setVec3Uniform("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-        shader4.setVec3Uniform("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-        shader4.setVec3Uniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+        shader4.setIntUniform("material.diffuse", 0);
+        shader4.setIntUniform("material.specular", 1);
         shader4.set1FUniform("material.shininess", 32.0f);
 
         // Light properties
@@ -333,11 +341,7 @@ int main()
 
 
 
-        // Double texture?
-        glActiveTexture(GL_TEXTURE0);
-        containerTex.use();
-        glActiveTexture(GL_TEXTURE1);
-        lavalampTex.use();
+
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
