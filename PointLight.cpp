@@ -8,7 +8,10 @@
 
 /**
  * Set the uniforms in the associated shader program
- * with the light source paraemeters this object stores
+ * with the light source parameters this object stores
+ *
+ * The way point lights work in the shader is unique to
+ * the other light types, so overriding is necessary.
  */
 void PointLight::SetUniforms()
 {

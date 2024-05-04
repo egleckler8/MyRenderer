@@ -32,7 +32,12 @@ private:
     
 public:
 
-    // Constructor
+    /**
+     * Constructor
+     * @param phongColors - colors attributes of this light source
+     * @param attenCoeffs - attenuation coefficients of this light source
+     * @param shaderProgram - this light source's associated shader program
+     */
     PointLight( std::shared_ptr<PhongColors> phongColors,
                 std::shared_ptr<AttenuationCoefficients> attenCoeffs,
                 std::shared_ptr<Shader> shaderProgram)

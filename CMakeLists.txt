@@ -35,6 +35,10 @@ set(SOURCE_FILES main.cpp
         lighting_structs.h
         PointLight.cpp
         PointLight.h
+        DirectionalLight.cpp
+        DirectionalLight.h
+        SpotLight.cpp
+        SpotLight.h
 )
 
 # Add source files

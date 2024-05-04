@@ -12,7 +12,7 @@ struct Material
 
 struct PointLight
 {
-    vec3 position;
+    vec3 position; // world space
 
     // Color values for Phong
     vec3 ambient;
@@ -27,7 +27,7 @@ struct PointLight
 
 struct DirectionalLight
 {
-    vec3 direction;
+    vec3 direction; // world space
 
     // Color values for Phong
     vec3 ambient;
@@ -37,8 +37,8 @@ struct DirectionalLight
 
 struct SpotLight
 {
-    vec3 position;
-    vec3 direction;
+    vec3 position; // world space
+    vec3 direction; // ^
     float cutoffAngle; // rads
     float outerCutoffAngle; // ^
 
@@ -105,7 +105,9 @@ vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
 {
 
     // Compute light direction
-    vec3 lightDir = normalize(-light.direction);
+    // Must convert the light direction into view space!
+    vec3 lightDirView = vec3(ViewMat * vec4(light.direction, 1.0f));
+    vec3 lightDir = normalize(-lightDirView);
 
     // ambient lighting
     vec3 ambientLight = light.ambient * vec3(texture(material.diffuse, TexCoords));
@@ -166,8 +168,12 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 // Calculates spot lighting on a fragment
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
+
+    // Must convert the light direction into view space!
+    vec3 lightDirView = vec3(ViewMat * vec4(light.direction, 1.0f));
+
     // angle between light direction and spotlight direction
-    float theta = dot(light.direction, normalize(-light.direction));
+    float theta = dot(lightDirView, normalize(-lightDirView));
 
     // For the blur like a normal spotlight/flashlight
     float epsilon = light.cutoffAngle - light.outerCutoffAngle;
