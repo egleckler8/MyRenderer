@@ -29,7 +29,7 @@ struct DirectionalLight
 {
     vec3 direction;
 
-    // Color values for Phonh
+    // Color values for Phong
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -57,6 +57,7 @@ struct SpotLight
 in vec3 FragPos;
 in vec3 Normal;
 in vec2 TexCoords;
+in mat4 ViewMat;
 
 #define NUM_POINT_LIGHTS 1
 
@@ -133,7 +134,9 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
 
     // Compute light direction
-    vec3 lightDir = normalize(light.position - fragPos);
+    // Must convert the light position into view space!
+    vec3 lightPosView = vec3(ViewMat * vec4(light.position, 1.0f));
+    vec3 lightDir = normalize(lightPosView - fragPos);
 
     // ambient lighting
     vec3 ambientLight = light.ambient * vec3(texture(material.diffuse, TexCoords));
@@ -148,7 +151,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     vec3 specularLight = light.specular * spec * vec3(texture(material.specular, TexCoords));
 
     // Attenuation
-    float distance = length(light.position - fragPos);
+    float distance = length(lightPosView - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
 
 
@@ -170,16 +173,19 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     float epsilon = light.cutoffAngle - light.outerCutoffAngle;
     float intensity = clamp((theta - light.outerCutoffAngle) / epsilon, 0.0, 1.0);
 
-    // We'll add lighting contributions to this vector
-    vec3 result = vec3(0.0f);
-
     // Ambient lighting is always the same regardless of
     // whether this fragment is in the spotlight
     vec3 ambientLight = vec3(light.ambient * vec3(texture(material.diffuse, TexCoords)));
 
+    // Must convert the light position into view space!
+    vec3 lightPosView = vec3(ViewMat * vec4(light.position, 1.0f));
+
     // Attenuation
-    float distance = length(light.position - fragPos);
+    float distance = length(lightPosView - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
+
+    // We'll add lighting contributions to this vector
+    vec3 result = vec3(0.0f);
 
     // Only do other lighting calculations if the fragment
     // is in the spotlight
@@ -187,7 +193,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     {
 
         // Compute light direction
-        vec3 lightDir = normalize(light.position - fragPos);
+        vec3 lightDir = normalize(lightPosView - fragPos);
 
         // diffuse lighting
         float diff = max(dot(normal, lightDir), 0.0);

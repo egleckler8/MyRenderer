@@ -17,7 +17,7 @@
 #include <glm/glm.hpp>
 
 /**
- * Class to encapsualte the functionality of a GLSL shader
+ * Class to encapsulate the functionality of a GLSL shader
  */
 class Shader
 {
@@ -46,14 +46,6 @@ public:
 
     /// Assignment operator
     void operator=(const Shader &) = delete;
-
-
-    /**
-     * Get the id of the shader program this shader belongs to
-     * @return id of the shader program this shader belongs to
-     */
-    unsigned int GetProgramID() const { return mProgramID; }
-
 
     void use();
     void setBoolUniform(const std::string& uniformName, bool val) const;

@@ -20,7 +20,7 @@ class Camera
 private:
 
     /// Input window associated with the handler
-    GLFWwindow* mWindow = nullptr;
+    GLFWwindow* mWindow;
 
     /// Camera position in 3D world space
     glm::vec3 mPosition = glm::vec3(0.0f,0.0f,0.0f);

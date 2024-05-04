@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 /*
  * "Be sure to include GLAD before GLFW. The include file for GLAD includes
@@ -16,6 +15,9 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Texture2D.h"
+#include "LightSource.h"
+#include "PointLight.h"
+#include "lighting_structs.h"
 
 
 
@@ -56,7 +58,7 @@ int main()
 
 
     // "In the previous chapter we mentioned that GLAD manages function pointers
-    // for OpenGL so we want to initialize GLAD before we call any OpenGL function:"
+    // for OpenGL, so we want to initialize GLAD before we call any OpenGL function:"
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialized GLAD" << std::endl;
@@ -70,7 +72,7 @@ int main()
     /*
      * "We could actually set the viewport dimensions at values smaller than
      * GLFW’s dimensions; then all the OpenGL rendering would be displayed in
-     * a smaller window and we could for example display other elements outside
+     * a smaller window, and we could for example display other elements outside
      * the OpenGL viewport."
      *
      * ^^ Adding widgets stuff on the side?
@@ -143,7 +145,7 @@ int main()
     glGenBuffers(1, &VBO);
 
     // Create a vertex array object
-    // to help OpenGL intepret data from our cubeVertices
+    // to help OpenGL interpret data from our cubeVertices
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
 
@@ -196,8 +198,8 @@ int main()
 //    Texture2D lavalampTex("lavalamp", "textures/lavalamp.jpg", GL_RGB, 0);
 //    Texture2D containerTex("container", "textures/container.jpg", GL_RGB, 0);
 //    Texture2D faceTex("face", "textures/awesomeface.png", GL_RGBA, 1);
-    Texture2D diffuseMap("container2-diff", "textures/container2.png", GL_RGBA, 0);
-    Texture2D specularMap("container2-spec", "textures/container2_specular.png", GL_RGBA, 0);
+    Texture2D diffuseMap("container2-diff", "textures/container2.png", GL_RGBA, false);
+    Texture2D specularMap("container2-spec", "textures/container2_specular.png", GL_RGBA, false);
 
 
 
@@ -208,7 +210,7 @@ int main()
     // ************************************
     Shader shaders3D("3d", "shaders/v-shader-3", "shaders/f-shader-3");
     Shader lightSrcShader("lighting", "shaders/v-lightsrc-1", "shaders/f-lightsrc-1");
-    Shader shader4("version 4", "shaders/v4.vert", "shaders/f4.frag");
+    auto shader4 = std::make_shared<Shader>("version 4", "shaders/v4.vert", "shaders/f4.frag");
 
 
 
@@ -259,10 +261,28 @@ int main()
 
 
 
+    // Let's try out my new LightSource object!
+
+    // Its Phong stuff
+    glm::vec3 ambient(0.2f, 0.2f, 0.2f);
+    glm::vec3 diffuse(0.5f, 0.5f, 0.5f);
+    glm::vec3 specular(1.0f, 1.0f, 1.0f);
+    auto phongColors = std::make_shared<PhongColors>(ambient, diffuse, specular);
+
+    // Its attenuation stuff
+    float constant = 1.0f;
+    float linear = 0.09f;
+    float quadratic = 0.032f;
+    auto attenCoeffs = std::make_shared<AttenuationCoefficients>(constant, linear, quadratic);
+
+    PointLight cubeLight = PointLight(phongColors, attenCoeffs, shader4);
+
+
+
+
+
     // bruh
     glEnable(GL_DEPTH_TEST);
-
-
 
     // ********************************
     //          Render loop!
@@ -270,33 +290,19 @@ int main()
     while(!glfwWindowShouldClose(window))
     {
 
-        float t = (float)glfwGetTime();
+        auto t = (float)glfwGetTime();
 
         // Check for key presses?
         camera.Update();
 
         // Rendering commands:
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // state-setting
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // state-setting
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using
 
 
-        lightPos = glm::vec3(1.5*cos(1.2 *t), 1.0f, 1.5*sin(1.2 *t));
-
-        // Create our model matrix to put our local coords into world coords
         glm::mat4 modelMat = glm::mat4(1.0f);
-        // rotate a little so it's a floor?
-        // modelMat = glm::rotate(modelMat, t * glm::radians(30.0f), glm::vec3(1.0,0.5,0.0));
-
-        // Thank god for our camera class ;)
         glm::mat4 viewMat = camera.GetViewMatrix();
-
-        // Projection matrix moves camera space into clip space
-        // we'll use a perspective projection matrix so farther things are smaller (real)
-        // params are: 1. FoV, 2. aspect ratio, 3. near plane, 4. far plane
-        // We usually only do this OUTSIDE of the render loop since the
-        // projection matrix usually never changes
         glm::mat4 projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-
 
         // Compute the normal mat on the cpu since the inversion operation
         // is expensive in GLSL on the GPU
@@ -306,12 +312,6 @@ int main()
         glm::mat4 modelViewMat = viewMat * modelMat;
         glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(modelViewMat)));
 
-
-        // Put the light position into view space
-        // turn lightPos into a vec4, so we can translate it when we transform
-        // it with the 4x4 viewmat. Important to keep the translation data!
-        glm::vec3 lightPosView(viewMat * glm::vec4(lightPos, 1.0f));
-
         // cube textures
         glActiveTexture(GL_TEXTURE0);
         diffuseMap.use();
@@ -319,26 +319,22 @@ int main()
         specularMap.use();
 
         // cubes shaders
-        shader4.use();
+        shader4->use();
 
         // Material properties
-        shader4.setIntUniform("material.diffuse", 0);
-        shader4.setIntUniform("material.specular", 1);
-        shader4.set1FUniform("material.shininess", 32.0f);
+        shader4->setIntUniform("material.diffuse", 0);
+        shader4->setIntUniform("material.specular", 1);
+        shader4->set1FUniform("material.shininess", 32.0f);
 
-        // Light properties (there's a lot...
-        shader4.setVec3Uniform("pointLights[0].position", lightPosView);
-        shader4.setVec3Uniform("pointLights[0].ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-        shader4.setVec3Uniform("pointLights[0].diffuse", glm::vec3(0.5f, 0.5f, 0.5f)); // darkened
-        shader4.setVec3Uniform("pointLights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
-        shader4.set1FUniform("pointLights[0].constant", 1.0f);
-        shader4.set1FUniform("pointLights[0].linear", 0.09f);
-        shader4.set1FUniform("pointLights[0].quadratic", 0.032f);
+        // Light properties (there are a lot...)
+        lightPos = glm::vec3(0.0, 1.0f, -3 - 5*cos(0.5 *t));
+        cubeLight.SetPosition(lightPos);
+        cubeLight.SetUniforms();
 
         // yeah
-        shader4.setMat4Uniform("projMat", projMat);
-        shader4.setMat3Uniform("normalMat", normalMat);
-        //shader4.setMat4Uniform("modelViewMat", modelViewMat);
+        shader4->setMat4Uniform("viewMat", viewMat);
+        shader4->setMat4Uniform("projMat", projMat);
+        shader4->setMat3Uniform("normalMat", normalMat);
         glBindVertexArray(VAO);
         for (int i = 0; i < 10; ++i)
         {
@@ -346,8 +342,7 @@ int main()
             modelMat = glm::translate(modelMat, cubePositions[i]);
             float angle = 20.0f * i;
             modelMat = glm::rotate(modelMat, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            glm::mat4 modelViewMat = viewMat * modelMat;
-            shader4.setMat4Uniform("modelViewMat", modelViewMat);
+            shader4->setMat4Uniform("modelMat", modelMat);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 

@@ -30,6 +30,11 @@ set(SOURCE_FILES main.cpp
         Camera.h
         Texture2D.cpp
         Texture2D.h
+        LightSource.cpp
+        LightSource.h
+        lighting_structs.h
+        PointLight.cpp
+        PointLight.h
 )
 
 # Add source files
