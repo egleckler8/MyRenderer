@@ -20,12 +20,16 @@
  * @param horizontalFlip do we want to flip the texture horizontally?
  */
 Texture2D::Texture2D(const std::string& texName, const char* imgPath,
-                     GLenum colorFormat, bool verticalFlip) : mTextureName(texName)
+                     GLenum colorFormat, TextureType type, bool verticalFlip)
+                     : mTextureName(texName), mData(type)
 {
 
     // Generate an OpenGL texture object (page 60)
-    glGenTextures(1, &mTextureID);
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glGenTextures(1, &mData.id);
+    glBindTexture(GL_TEXTURE_2D, mData.id);
+
+    // Now fill the struct that holds this class' data
+
 
     // Specify the wrapping and filtering modes
     // These are the defaults, but we'll provide a way to change them with some functions
@@ -71,9 +75,9 @@ Texture2D::Texture2D(const std::string& texName, const char* imgPath,
 /**
  * Binds the texture for use
  */
-void Texture2D::use()
+void Texture2D::use() const
 {
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glBindTexture(GL_TEXTURE_2D, mData.id);
 }
 
 
@@ -84,7 +88,7 @@ void Texture2D::use()
  */
 void Texture2D::setFilterMode(GLenum mode)
 {
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glBindTexture(GL_TEXTURE_2D, mData.id);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mode);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mode);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -98,7 +102,7 @@ void Texture2D::setFilterMode(GLenum mode)
  */
 void Texture2D::setWrapMode(GLenum mode)
 {
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glBindTexture(GL_TEXTURE_2D, mData.id);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, mode);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, mode);
     glBindTexture(GL_TEXTURE_2D, 0);

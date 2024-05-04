@@ -199,8 +199,8 @@ int main()
 //    Texture2D lavalampTex("lavalamp", "textures/lavalamp.jpg", GL_RGB, 0);
 //    Texture2D containerTex("container", "textures/container.jpg", GL_RGB, 0);
 //    Texture2D faceTex("face", "textures/awesomeface.png", GL_RGBA, 1);
-    Texture2D diffuseMap("container2-diff", "textures/container2.png", GL_RGBA, false);
-    Texture2D specularMap("container2-spec", "textures/container2_specular.png", GL_RGBA, false);
+    Texture2D diffuseMap("container2-diff", "textures/container2.png", GL_RGBA, TextureType::Diffuse, false);
+    Texture2D specularMap("container2-spec", "textures/container2_specular.png", GL_RGBA, TextureType::Specular, false);
 
 
 

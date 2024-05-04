@@ -13,6 +13,23 @@
 #include <string>
 #include <glad/glad.h>
 
+enum TextureType
+{
+    Diffuse,
+    Specular,
+};
+
+// TODO docs
+struct TextureData
+{
+    unsigned int id;
+    TextureType type;
+
+    TextureData(TextureType type) : type(type) {}
+
+};
+
+
 /**
  * Class to encapsulate OpenGL 2D texture functionality
  */
@@ -20,18 +37,21 @@ class Texture2D
 {
 private:
 
-    /// Name of the texture for identification
-    std::string mTextureName;
+    /// Name of this texture, for debugging
+    const std::string& mTextureName;
 
-    /// OpenGL ID of the texture
-    unsigned int mTextureID;
+    /// The data related to this texute: OpenGL ID and texture type
+    TextureData mData;
+
+    /// Is this a specular or diffuse texture?
+    TextureType mType;
 
 
 public:
 
     // Constructor
     Texture2D(const std::string& texName, const char* imgPath,
-              GLenum colorFormat,  bool verticalFlip);
+              GLenum colorFormat, TextureType type, bool verticalFlip);
 
     /// Default constructor (disabled)
     Texture2D() = delete;
@@ -42,9 +62,17 @@ public:
     /// Assignment operator
     void operator=(const Texture2D &) = delete;
 
-    void use();
+    void use() const;
     void setWrapMode(GLenum mode);
     void setFilterMode(GLenum mode);
+
+    // ****************************************************************
+
+    /**
+     * Get the GL data associated with this texture
+     * @return Texture truct holding the GL id and texture type
+     */
+    TextureData GetData() const { return mData; }
 
 
 };

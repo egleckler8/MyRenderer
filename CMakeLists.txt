@@ -24,6 +24,8 @@ set(SOURCE_FILES main.cpp
         DirectionalLight.h
         SpotLight.cpp
         SpotLight.h
+        Mesh.cpp
+        Mesh.h
 )
 
 # Add source files
