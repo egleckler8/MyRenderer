@@ -4,24 +4,9 @@ project(learning_opengl)
 set(CMAKE_CXX_STANDARD 17)
 
 
-# ????
-# WTF....
-# got it from:
-# https://stackoverflow.com/questions/63628159/how-to-correctly-setup-cmake-for-glfw-on-clion-on-macos
-# some guy... jesus christ... what does this mean?? I only picked
-# to try this response because I was seeing "Cocoa" in my errors
-# and ChatGPT was suggesting things to do with macOS and stuff...
-# crazy...
-if (APPLE)
-    set(CMAKE_CXX_FLAGS "-framework Cocoa -framework IOKit")
-    # -framework OpenGL -framework CoreVideo
-    add_compile_definitions(GL_SILENCE_DEPRECATION)
-endif ()
-
 
 # Define a variable for the source files
 set(SOURCE_FILES main.cpp
-        glad.c
         MyFunctions.h
         MyFunctions.cpp
         Shader.cpp
@@ -64,10 +49,10 @@ include_directories(${GLFW_DIR}/include)
 
 
 # Assimp
-#set(ASSIMP_DIR ${LIB_DIR}/assimp/)
-#add_subdirectory(${ASSIMP_DIR})
-#target_link_libraries(${PROJECT_NAME} assimp)
-#include_directories(${ASSIMP_DIR}/include)
+set(ASSIMP_DIR ${LIB_DIR}/assimp/)
+add_subdirectory(${ASSIMP_DIR})
+target_link_libraries(${PROJECT_NAME} assimp)
+include_directories(${ASSIMP_DIR}/include)
 
 
 # glad
