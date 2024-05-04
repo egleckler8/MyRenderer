@@ -18,6 +18,7 @@
 #include "LightSource.h"
 #include "PointLight.h"
 #include "lighting_structs.h"
+#include "DirectionalLight.h"
 
 
 
@@ -279,6 +280,15 @@ int main()
 
 
 
+    // Evil sun...
+    glm::vec3 ambientDir(0.2f, 0.05f, 0.1f);
+    glm::vec3 diffuseDir(0.5f, 0.0f, 0.0f);
+    glm::vec3 specularDir(0.5f, 0.5f, 0.5f);
+    auto phongColorsDir = std::make_shared<PhongColors>(ambientDir, diffuseDir, specularDir);
+    DirectionalLight sunLight = DirectionalLight(glm::vec3(0.5f, -1.0f, -0.5f), phongColorsDir, shader4);
+
+
+
 
 
     // bruh
@@ -296,7 +306,7 @@ int main()
         camera.Update();
 
         // Rendering commands:
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // state-setting
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // state-setting
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using
 
 
@@ -330,6 +340,7 @@ int main()
         lightPos = glm::vec3(0.0, 1.0f, -3 - 5*cos(0.5 *t));
         cubeLight.SetPosition(lightPos);
         cubeLight.SetUniforms();
+        sunLight.SetUniforms();
 
         // yeah
         shader4->setMat4Uniform("viewMat", viewMat);
