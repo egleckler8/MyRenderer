@@ -1,3 +1,0 @@
-/Users/eli/VisualArt/learning-opengl/cmake-build-debug/CMakeFiles/learning_opengl.dir
-/Users/eli/VisualArt/learning-opengl/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/eli/VisualArt/learning-opengl/cmake-build-debug/CMakeFiles/rebuild_cache.dir
