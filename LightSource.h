@@ -16,7 +16,7 @@
 #include "lighting_structs.h"
 
 #include <memory>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 
 class Shader;
 /**
