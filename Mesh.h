@@ -67,7 +67,7 @@ public:
     void operator=(const Mesh &) = delete;
 
 
-    void Draw(std::shared_ptr<Shader> shader);
+    void Render(std::shared_ptr<Shader> shader);
 
 };
 

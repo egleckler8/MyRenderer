@@ -28,6 +28,12 @@ set(SOURCE_FILES main.cpp
         Mesh.h
         Model.cpp
         Model.h
+        WindowManager.cpp
+        WindowManager.h
+        RenderData.cpp
+        RenderData.h
+        Scene.cpp
+        Scene.h
 )
 
 # Add source files

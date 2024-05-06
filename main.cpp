@@ -21,9 +21,8 @@
 #include "DirectionalLight.h"
 #include "Model.h"
 
-
-
-
+const int SCREEN_WIDTH = 1000; ///< In pixels
+const int SCREEN_HEIGHT = 800; ///< In pixels
 
 
 int main()
@@ -47,7 +46,7 @@ int main()
 
 
     // Next, we're required to create a window object
-    GLFWwindow* window = glfwCreateWindow(800,800,"LearnOpenGL", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL", nullptr, nullptr);
     if (window == nullptr)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -70,7 +69,7 @@ int main()
 
 
     // Tell OpenGL the size of the rendering window
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     /*
      * "We could actually set the viewport dimensions at values smaller than
      * GLFW’s dimensions; then all the OpenGL rendering would be displayed in
@@ -307,7 +306,7 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // ********************************
-    //          Render loop!
+    //          RenderScene loop!
     // ********************************
     while(!glfwWindowShouldClose(window))
     {
@@ -324,7 +323,7 @@ int main()
 
         glm::mat4 modelMat = glm::mat4(1.0f);
         glm::mat4 viewMat = camera.GetViewMatrix();
-        glm::mat4 projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+        glm::mat4 projMat = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / SCREEN_HEIGHT, 0.1f, 100.0f);
 
         // Compute the normal mat on the cpu since the inversion operation
         // is expensive in GLSL on the GPU
@@ -378,7 +377,7 @@ int main()
         modelMat = glm::translate(modelMat, glm::vec3(1.0f, 0.0f, -5.0f));
         modelMat = glm::scale(modelMat, glm::vec3(0.3347f));
         shader4->setMat4Uniform("modelMat", modelMat);
-        backpack.Draw(shader4);
+        backpack.Render(shader4);
 
 
 
@@ -386,7 +385,7 @@ int main()
 
 
 
-        // Render the light cube
+        // RenderScene the light cube
         lightSrcShader.use();
 
         glm::mat4 lightModel = glm::mat4 (1.0f);

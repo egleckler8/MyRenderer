@@ -72,8 +72,13 @@ void Mesh::SetUpMesh()
 }
 
 
-
-void Mesh::Draw(std::shared_ptr<Shader> shader)
+/**
+ * Renders this mesh and its textures using the
+ * provied shader program
+ *
+ * @param shader Shader program with which to render this mesh
+ */
+void Mesh::Render(std::shared_ptr<Shader> shader)
 {
 
     // Set the texture uniforms in the shader

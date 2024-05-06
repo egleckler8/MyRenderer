@@ -21,10 +21,10 @@ void DirectionalLight::SetUniforms()
     auto shaders = GetShaderProgram();
     auto phongColors = GetPhongColors();
 
-
     // Set a slew of uniforms in the shaders:
     shaders->setVec3Uniform("dirLight.direction", mDirection);
     shaders->setVec3Uniform("dirLight.ambient", phongColors->ambient);
     shaders->setVec3Uniform("dirLight.diffuse", phongColors->diffuse); // darkened
     shaders->setVec3Uniform("dirLight.specular", phongColors->specular);
+
 }

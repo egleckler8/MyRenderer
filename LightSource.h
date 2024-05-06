@@ -41,7 +41,7 @@ private:
 
 protected:
 
-    // should I move mShaderProgram here??
+    // should I move mShaders here??
 
 public:
 
