@@ -32,7 +32,11 @@ void Model::LoadModel(const std::string &filepath)
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
         !scene->mRootNode)
     {
-        std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+        std::cout
+        << "****************************************************************" << std::endl
+        << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl
+        << "Occured when loading model from: " << filepath << std::endl
+        << "****************************************************************" << std::endl;
         return;
     }
     mFileDirectory = filepath.substr(0, filepath.find_last_of('/'));
@@ -194,7 +198,7 @@ std::vector<TextureData> Model::LoadMaterialTextures(aiMaterial *mat, aiTextureT
  * Draw all the Model's meshes
  * @param shader Shader program used to draw the meshes
  */
-void Model::Draw(Shader &shader)
+void Model::Draw(std::shared_ptr<Shader> shader)
 {
     for (unsigned int i = 0; i < mMeshes.size(); i++)
         mMeshes[i]->Draw(shader);
@@ -212,7 +216,7 @@ unsigned int Model::TextureFromFile(const char *filepath, std::string fileDirect
 {
 
     // We'll need this...
-    std::string fullFilepath = std::string(filepath) + '/' + fileDirectory;
+    std::string fullFilepath = fileDirectory + '/' + std::string(filepath);
 
     // Generate an OpenGL texture object (page 60)
     unsigned int textureId;
@@ -224,7 +228,10 @@ unsigned int Model::TextureFromFile(const char *filepath, std::string fileDirect
     // Bytes array of the image:
 
     // Shall we implement later?
-    //stbi_set_flip_vertically_on_load(verticalFlip);
+    // Uh.... LearnOpenGL said they do this by default... idek why
+    stbi_set_flip_vertically_on_load(true);
+
+    // Load the image
     unsigned char* data = stbi_load(fullFilepath.c_str(), &width, &height, &numChannels, 0);
 
     // Don't mess with nullptrs...

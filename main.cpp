@@ -19,6 +19,7 @@
 #include "PointLight.h"
 #include "lighting_structs.h"
 #include "DirectionalLight.h"
+#include "Model.h"
 
 
 
@@ -290,6 +291,17 @@ int main()
 
 
 
+    // ****************************************************************
+    //                         Trying out a model??
+    // ****************************************************************
+    auto filepath = "models/backpack/backpack.obj";
+    Model backpack = Model(filepath);
+    // OH FUCK IT WORKED...
+
+
+
+
+
 
     // bruh
     glEnable(GL_DEPTH_TEST);
@@ -361,6 +373,18 @@ int main()
         glBindVertexArray(0);
 
 
+        // RENDER THE BACKPACK:
+        modelMat = glm::mat4(1.0f);
+        modelMat = glm::translate(modelMat, glm::vec3(1.0f, 0.0f, -5.0f));
+        modelMat = glm::scale(modelMat, glm::vec3(0.3347f));
+        shader4->setMat4Uniform("modelMat", modelMat);
+        backpack.Draw(shader4);
+
+
+
+
+
+
 
         // Render the light cube
         lightSrcShader.use();
@@ -373,6 +397,8 @@ int main()
         lightSrcShader.setMat4Uniform("projection", projMat);
         glBindVertexArray(VAO2);
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
 
 
 

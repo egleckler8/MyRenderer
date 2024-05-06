@@ -89,3 +89,4 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 # Copy the resources directories to the build directory
 file(COPY shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 file(COPY textures DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
+file(COPY models DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)

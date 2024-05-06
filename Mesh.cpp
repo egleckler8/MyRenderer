@@ -73,7 +73,7 @@ void Mesh::SetUpMesh()
 
 
 
-void Mesh::Draw(Shader &shader)
+void Mesh::Draw(std::shared_ptr<Shader> shader)
 {
 
     // Set the texture uniforms in the shader
@@ -106,7 +106,7 @@ void Mesh::Draw(Shader &shader)
         }
 
         // Set the uniform to this texture number, assuming it's in the material struct
-        shader.set1FUniform(uniformName.c_str(), i);
+        shader->set1FUniform(uniformName.c_str(), i);
 
         glBindTexture(GL_TEXTURE_2D, mTextures[i].id);
 

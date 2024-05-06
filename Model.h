@@ -46,7 +46,7 @@ public:
      * Constructor
      * @param filepath filepath to the model's assets
      */
-    explicit Model(char* filepath) { LoadModel(filepath); }
+    explicit Model(const char* filepath) { LoadModel(filepath); }
 
     /// Default constructor (disabled)
     Model() = delete;
@@ -59,7 +59,7 @@ public:
 
     // ****************************************************************
 
-    void Draw(Shader &shader);
+    void Draw(std::shared_ptr<Shader> shader);
 
 
 
