@@ -7,6 +7,7 @@
 
 #include "Mesh.h"
 #include "Texture2D.h"
+#include "Shader.h"
 
 /**
  * Constructor
@@ -38,7 +39,7 @@ void Mesh::SetUpMesh()
     glGenBuffers(1, &mVBO);
     glGenBuffers(1, &mEBO);
 
-    // Bind the VAO and then VBO so we can set up the structure
+    // Bind the VAO and then VBO, so we can set up the structure
     glBindVertexArray(mVAO);
 
     // Make space for the vertices
@@ -78,7 +79,44 @@ void Mesh::Draw(Shader &shader)
     // Set the texture uniforms in the shader
     // textures associated with materials?
 
+    unsigned int diffuseNum = 1; // LearnOpenGl's naming conventions... pg. 163
+    unsigned int specularNum = 1;
 
+    for (unsigned int i = 0; i < mTextures.size(); ++i)
+    {
+        // activate the texture unit
+        glActiveTexture(GL_TEXTURE0 + i);
+
+        // We're going to get the data needed to set the shader uniform
+        // with the naming convention that LearnOpenGL came up with
+        TextureType type = mTextures[i].type;
+        std::string number;
+        std::string uniformName = "material.texture_"; // assume it's in a material struct
+
+        // retrieve texture number (the N in diffuse_textureN)
+        if (type == TextureType::Diffuse)
+        {
+            number = std::to_string(diffuseNum++);
+            uniformName += "diffuse_" + number;
+        }
+        else if (type == TextureType::Specular)
+        {
+            number = std::to_string(specularNum++);
+            uniformName += "specular_" + number;
+        }
+
+        // Set the uniform to this texture number, assuming it's in the material struct
+        shader.set1FUniform(uniformName.c_str(), i);
+
+        glBindTexture(GL_TEXTURE_2D, mTextures[i].id);
+
+    }
+    glActiveTexture(0);
+
+    // draw the mesh!
+    glBindVertexArray(mVAO);
+    glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 
 }
 

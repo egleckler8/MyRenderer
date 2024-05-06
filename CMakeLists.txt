@@ -26,6 +26,8 @@ set(SOURCE_FILES main.cpp
         SpotLight.h
         Mesh.cpp
         Mesh.h
+        Model.cpp
+        Model.h
 )
 
 # Add source files

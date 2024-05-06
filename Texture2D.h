@@ -24,7 +24,9 @@ struct TextureData
 {
     unsigned int id;
     TextureType type;
+    std::string filepath;
 
+    TextureData() {} // ugh
     TextureData(TextureType type) : type(type) {}
 
 };
