@@ -58,10 +58,6 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // Bind the window resize to it
     glfwSetFramebufferSizeCallback(mWindow, FramebufferSizeCallback);
 
-    // Initialize the camera with the window,
-    // since it initialized fine
-    mCamera = std::make_shared<Camera>(mWindow);
-
     // Initialize GLAD
     // "In the previous chapter we mentioned that GLAD manages function pointers
     // for OpenGL, so we want to initialize GLAD before we call any OpenGL function:"
@@ -96,6 +92,10 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // That's a later problem... :)     (bad idea, Eli...)
     mProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
 
+    // Initialize the camera with the window,
+    // since it initialized fine
+    mCamera = std::make_shared<Camera>(mWindow);
+
 }
 
 
@@ -128,7 +128,7 @@ void WindowManager::DisplayScene(const Scene& scene)
         mCamera->Update();
 
         // Set the background void
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Tell the scene to render itself with
