@@ -36,10 +36,7 @@ const std::string NORMAL_MAT_UNIFORM_NAME = "normalMat"; ///< Naming convention 
 RenderData::RenderData(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders)
     : mModel(model), mShaders(shaders)
 {
-
-
-
-    
+    // uhhh... yeah.
 }
 
 
