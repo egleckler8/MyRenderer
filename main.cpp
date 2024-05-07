@@ -1,11 +1,19 @@
 #include <iostream>
-#include <graphics-api.h>
+#include <GraphicsLib/api.h>
+
+const int SCREEN_WIDTH = 1000; ///< Chosen by me
+const int SCREEN_HEIGHT = 800; ///< Chosen by me
 
 
 int main()
 {
 
-    std::cout << "Hello, world!" << std::endl;
+    // Create window manager...
+    WindowManager window(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+
+
+
     return 0;
 
 

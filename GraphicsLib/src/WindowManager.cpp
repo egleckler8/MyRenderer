@@ -4,8 +4,9 @@
  */
 
 #include <iostream>
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
+#include <glad/glad.h>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
 
 #include "WindowManager.h"
 #include "Scene.h"
@@ -133,6 +134,8 @@ void WindowManager::DisplayScene(const Scene& scene)
     else
     {
         // Hmm... is this the best place for this code?
+        std::cout << "GLFW terminated." << std::endl;
+        glfwDestroyWindow(mWindow);
         glfwTerminate();
     }
 

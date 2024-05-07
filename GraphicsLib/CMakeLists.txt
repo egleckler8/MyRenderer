@@ -1,8 +1,8 @@
-project(graphics_lib)
-
+cmake_minimum_required(VERSION 3.27)
+set(CMAKE_CXX_STANDARD 17)
+project(GraphicsLib)
 
 set(SOURCE_FILES
-        include/graphics-api.h
         src/Shader.cpp
         src/Shader.h
         src/Camera.cpp
@@ -30,7 +30,15 @@ set(SOURCE_FILES
         src/Scene.h
 )
 
-add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
+set(HEADER_FILES
+        include/GraphicsLib/api.h
+)
+
+# Add library target
+add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
+
+# Make the includes files public; add them to include path
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 
 
@@ -39,10 +47,10 @@ add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 #
 
 # Here is where all the libraries are
-set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)
+set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 
-# GLFW
+# GLFW (built as cmake lib)
 set(GLFW_DIR ${LIB_DIR}/glfw-3.4)
 
 set(GLFW_BUILD_DOCS OFF CACHE INTERNAL "Build the GLFW documentation")
@@ -53,47 +61,39 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 add_subdirectory(${GLFW_DIR})
 target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLFW_DIR}/include)
-# include_directories(${GLFW_DIR}/include)
 
 
-# Assimp
-set(ASSIMP_DIR ${LIB_DIR}/assimp/)
+# Assimp (built as cmake lib)
+set(ASSIMP_DIR ${LIB_DIR}/assimp)
 add_subdirectory(${ASSIMP_DIR})
 target_link_libraries(${PROJECT_NAME} assimp)
 # include_directories(${ASSIMP_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${ASSIMP_DIR}/include)
 
 
-# glad
+# GLAD (built as cmake lib)
 set(GLAD_DIR ${LIB_DIR}/glad)
-add_library(glad_lib ${GLAD_DIR}/src/glad.c) # build the glad lib from src
-target_include_directories(glad_lib PRIVATE ${GLAD_DIR}/include) # Include directory for glad_lib itself
-target_link_libraries(${PROJECT_NAME} glad_lib)
+add_subdirectory(${GLAD_DIR})
+target_link_libraries(${PROJECT_NAME} glad)
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLAD_DIR}/include)
 
 
 
-# glm
+# GLM (header-only)
 set(GLM_DIR ${LIB_DIR}/glm)
-target_include_directories(${PROJECT_NAME} PRIVATE ${GLM_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_DIR})
 
 
-# stb_image
+# stb_image (header-only)
 set(STB_DIR ${LIB_DIR}/stb_image)
-include_directories(${STB_DIR}/)
+target_include_directories(${PROJECT_NAME} PUBLIC ${STB_DIR})
 
 
-# OpenGL
+# OpenGL (package on machine)
 find_package(OpenGL REQUIRED) # populates CMake with the data on OpenGL!
 include_directories(${OPENGL_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 
-
-# Export include files
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-# ugh... this will have to do for now...
 
 
 
