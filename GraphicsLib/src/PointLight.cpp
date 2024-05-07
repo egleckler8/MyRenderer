@@ -24,6 +24,7 @@ void PointLight::SetLightingUniforms(std::shared_ptr<Shader> shaders)
     auto attenCoeffs = mAttenuationCoefficients;
 
     // Set a slew of uniforms in the shaders:
+    shaders->use();
     shaders->setVec3Uniform("pointLights[0].position", mPosition);
     shaders->setVec3Uniform("pointLights[0].ambient", phongColors->ambient);
     shaders->setVec3Uniform("pointLights[0].diffuse", phongColors->diffuse); // darkened

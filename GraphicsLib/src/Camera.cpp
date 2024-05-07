@@ -4,8 +4,8 @@
  */
 
 #include "Camera.h"
-#include "GLFW/glfw3.h"
-#include "gtc/matrix_transform.hpp"
+#include <GLFW/glfw3.h>
+#include <gtc/matrix_transform.hpp>
 #include <iostream>
 
 
@@ -87,9 +87,6 @@ void Camera::Update()
 
     }
 
-    //std::cout << "Pos: (" << mPosition.x << ',' << mPosition.y << ',' << mPosition.z << ')' << std::endl;
-    // std::cout << "Pitch: " << mPitch << " | Yaw: " << mYaw << std::endl;
-
 
 }
 
@@ -159,9 +156,6 @@ void Camera::CursorCallback(GLFWwindow *window, double x, double y)
         // Adjust the pitch and yaw & adjust camera direction basis
         SetDirection(mPitch + yOffset, mYaw + xOffset);
 
-
-
-
     }
 
 }
@@ -196,7 +190,6 @@ void Camera::SetDirection(double pitch, double yaw)
     // And adjust our basis vectors
     mFrontVec = glm::normalize(direction);
     mRightVec = glm::normalize(glm::cross(mFrontVec, UpVec));
-
 
 }
 

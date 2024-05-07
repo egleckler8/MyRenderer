@@ -258,6 +258,7 @@ unsigned int Model::TextureFromFile(const char *filepath, std::string fileDirect
 
         }
 
+
         // Bind and generate the texture
         glBindTexture(GL_TEXTURE_2D, textureId);
         glTexImage2D(GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, GL_UNSIGNED_BYTE, data);

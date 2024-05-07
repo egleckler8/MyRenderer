@@ -63,7 +63,7 @@ void RenderData::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightS
     mShaders->setMat4Uniform(MODEL_MAT_UNIFORM_NAME, mModelMatrix);
     mShaders->setMat4Uniform(VIEW_MAT_UNIFORM_NAME, viewMat);
     mShaders->setMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
-    mShaders->setMat4Uniform(NORMAL_MAT_UNIFORM_NAME, normalMat);
+    mShaders->setMat3Uniform(NORMAL_MAT_UNIFORM_NAME, normalMat);
 
     // Set lighting uniforms
     // THIS WILL FAIL HORRIBLY IF THE SHADERS DON'T FOLLOW THE
