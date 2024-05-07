@@ -58,6 +58,7 @@ void Scene::RenderScene(glm::mat4 projMat) const
     {
         entity->Render(projMat, viewMat, lightsAffectingThisObject);
     }
+    // Now we should be good??
 
 
 }

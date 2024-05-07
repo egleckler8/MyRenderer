@@ -11,7 +11,7 @@
 #define LEARNING_OPENGL__TEXTURE2D_H
 
 #include <string>
-#include "../dependencies/glad/include/glad/glad.h"
+#include <glad/glad.h>
 
 enum TextureType
 {

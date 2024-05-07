@@ -10,7 +10,7 @@
 #ifndef LEARNING_OPENGL__LIGHTING_STRUCTS_H
 #define LEARNING_OPENGL__LIGHTING_STRUCTS_H
 
-#include "../dependencies/glm/glm.hpp"
+#include <glm.hpp>
 
 /**
  * Simple struct to package up the color

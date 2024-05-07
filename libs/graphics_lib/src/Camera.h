@@ -9,7 +9,7 @@
 #ifndef LEARNING_OPENGL__CAMERA_H
 #define LEARNING_OPENGL__CAMERA_H
 
-#include "../dependencies/glm/glm.hpp"
+#include <glm.hpp>
 
 class GLFWwindow;
 /**

@@ -17,9 +17,9 @@
 #ifndef LEARNING_OPENGL__WINDOWMANAGER_H
 #define LEARNING_OPENGL__WINDOWMANAGER_H
 
-#include "../dependencies/glad/include/glad/glad.h"
-#include "GLFW/glfw3.h"
-#include "../dependencies/glm/glm.hpp"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm.hpp>
 
 class Scene;
 /**
@@ -32,8 +32,8 @@ private:
     /// GLFW window object this engine will render to
     GLFWwindow* mWindow;
 
-    /// The perspective matrix rarely changes, and so will
-    /// be held here for use in the RenderScene function loop
+    /// The perspective matrix rarely changes and is dependent
+    /// on screen aspect ratio, so we'll keep it in this class
     glm::mat4 mProjectionMatrix;
 
     static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);

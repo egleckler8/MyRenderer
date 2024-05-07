@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Project setup
 project(learning_opengl)
-set(GRAPHICS_LIBRARY graphics) # set the target name
+set(GRAPHICS_LIBRARY graphics_lib) # set the target name
 
 
 # Add the graphics library we've written :)

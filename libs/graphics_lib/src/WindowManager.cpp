@@ -110,7 +110,7 @@ void WindowManager::FramebufferSizeCallback(GLFWwindow* window, int width, int h
  * @param scene Scene object encapsulating necessary rendering
  *              data for all the game objects
  */
-void WindowManager::DisplayScene(const Scene &scene)
+void WindowManager::DisplayScene(const Scene& scene)
 {
 
     if(!glfwWindowShouldClose(mWindow))

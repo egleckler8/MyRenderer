@@ -8,7 +8,7 @@
 #ifndef LEARNING_OPENGL__MESH_H
 #define LEARNING_OPENGL__MESH_H
 
-#include "../dependencies/glm/glm.hpp"
+#include <glm.hpp>
 #include <vector>
 
 #include "Texture2D.h"

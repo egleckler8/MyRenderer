@@ -13,7 +13,7 @@
 #ifndef LEARNING_OPENGL__SCENE_H
 #define LEARNING_OPENGL__SCENE_H
 
-#include "../dependencies/glm/glm.hpp"
+#include <glm.hpp>
 #include <vector>
 
 class RenderData;

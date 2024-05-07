@@ -14,7 +14,7 @@
 #define LEARNING_OPENGL__SHADER_H
 
 #include <string>
-#include "../dependencies/glm/glm.hpp"
+#include <glm.hpp>
 
 /**
  * Class to encapsulate the functionality of a GLSL shader

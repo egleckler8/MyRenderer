@@ -10,9 +10,9 @@
 
 #include <vector>
 
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include "Mesh.h"// "had to" do this, some weird error on the constructor
 
