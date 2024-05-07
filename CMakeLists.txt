@@ -7,8 +7,8 @@ set(GRAPHICS_LIBRARY graphics_lib) # set the target name
 
 
 # Add the graphics library we've written :)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/${GRAPHICS_LIBRARY})
-include_directories(${GRAPHICS_LIBRARY})
+add_subdirectory(${GRAPHICS_LIBRARY})
+include_directories(${GRAPHICS_LIBRARY}/include)
 
 
 # Define a variable for the source files

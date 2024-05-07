@@ -10,6 +10,12 @@
 #define LEARNING_OPENGL_LIBS_GRAPHICS_INCLUDE_GRAPHICS_H
 
 // All necessary includes for the API:
-// TODO
+#include <WindowManager.h>
+#include <Scene.h>
+#include <RenderData.h>
+#include <LightSource.h>
+#include <PointLight.h>
+#include <DirectionalLight.h>
+
 
 #endif //LEARNING_OPENGL_LIBS_GRAPHICS_INCLUDE_GRAPHICS_H
