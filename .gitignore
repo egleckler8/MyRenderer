@@ -1,5 +1,2 @@
 /cmake-build-debug
-/libs
-/models
-/shaders
-/textures
+/resources
