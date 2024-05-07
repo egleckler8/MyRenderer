@@ -19,6 +19,35 @@ const std::string NORMAL_MAT_UNIFORM_NAME = "normalMat"; ///< Naming convention 
 
 
 /**
+ * Constructor
+ *
+ * - - - - - - - - - - WARNING: - - - - - - - - - - - - - - - - -
+ *  You'd better make sure that the shader program
+ *  supplied to the constructor fits with the textures
+ *  stored in the model! The when Model::RenderScene is called,
+ *  it will invoke the shader program and try to bind
+ *  textures. It's on the shader programmer on modeling
+ *  artist to coordinate this (the way things are now, at least)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * @param model 3D model of the object
+ * @param shaders shader program with which toto render the object
+ */
+RenderData::RenderData(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders)
+    : mModel(model), mShaders(shaders)
+{
+
+
+
+    
+}
+
+
+
+
+
+
+/**
  * Set the shader uniforms corresponding to the transformation
  * matrices. Does not deal with lighting at all!
  *
@@ -58,3 +87,4 @@ void RenderData::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightS
     // all happen in this call!
     mModel->Render(mShaders);
 }
+

@@ -40,11 +40,7 @@ protected:
 public:
 
     // Constructor
-    LightSource(std::shared_ptr<PhongColors> phongColors,
-                std::shared_ptr<Shader> shaderProgram)
-                :
-                mPhongColors(phongColors)
-                {}
+    LightSource(std::shared_ptr<PhongColors> phongColors) : mPhongColors(phongColors) {}
     
     /// Default constructor (disabled)
     LightSource() = delete;

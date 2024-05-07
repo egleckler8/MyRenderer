@@ -32,13 +32,10 @@ private:
     /// Pointers to all the LightSources
     std::vector<LightSource*> mLights;
 
-    /// Pointer to the camera object
-    std::shared_ptr<Camera> mCamera;
-
 public:
 
-    /// Default constructor (disabled)
-    Scene() = delete;
+    /// Default constructor
+    Scene() = default;
 
     /// Copy constructor (disabled)
     Scene(const Scene &) = delete;
@@ -60,7 +57,7 @@ public:
      */
     void AddLightSource(LightSource* lightSrc) { mLights.push_back(lightSrc); }
 
-    void RenderScene(glm::mat4 projMat) const;
+    void RenderScene(glm::mat4 viewMat, glm::mat4 projMat) const;
 
 
 };

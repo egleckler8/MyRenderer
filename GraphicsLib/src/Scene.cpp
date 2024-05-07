@@ -14,9 +14,10 @@
  * Render all the objects and lighting
  * with OpenGL.
  *
- * @param projMat Projection matrix
+ * @param projMat Projection matrix from the window
+ * @param viewMat View matrix from the camera
  */
-void Scene::RenderScene(glm::mat4 projMat) const
+void Scene::RenderScene(glm::mat4 viewMat, glm::mat4 projMat) const
 {
     /*
      problem: we have a list of light sources
@@ -31,7 +32,7 @@ void Scene::RenderScene(glm::mat4 projMat) const
 
      so, we need to devise some algo to make sure
      light sources get rendered in a logical manner.
-     i.e we need to set the uniforms in each of the RenderData's
+     i.e. we need to set the uniforms in each of the RenderData's
      shaders in a way that makes the final, lighted,
      rendered object look normal.
 
@@ -44,8 +45,6 @@ void Scene::RenderScene(glm::mat4 projMat) const
 
      */
 
-    auto viewMat = mCamera->GetViewMatrix();
-
     // We can have fun optimizing this...
     // we'll only add certain lights to this list
     // We'll fully free to only add certain lights
@@ -56,7 +55,7 @@ void Scene::RenderScene(glm::mat4 projMat) const
     // Crude...
     for (auto entity : mEntities)
     {
-        entity->Render(projMat, viewMat, lightsAffectingThisObject);
+        entity->Render(viewMat, projMat, lightsAffectingThisObject);
     }
     // Now we should be good??
 

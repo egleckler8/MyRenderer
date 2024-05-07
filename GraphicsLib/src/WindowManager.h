@@ -17,10 +17,12 @@
 #ifndef LEARNING_OPENGL__WINDOWMANAGER_H
 #define LEARNING_OPENGL__WINDOWMANAGER_H
 
-#include <GLFW/glfw3.h>
+
 #include <glm.hpp>
 
+class GLFWwindow;
 class Scene;
+class Camera;
 /**
  * Super awesome rendering engine
  */
@@ -34,6 +36,9 @@ private:
     /// The perspective matrix rarely changes and is dependent
     /// on screen aspect ratio, so we'll keep it in this class
     glm::mat4 mProjectionMatrix;
+
+    /// Camera to view the window
+    std::shared_ptr<Camera> mCamera;
 
     static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -54,6 +59,12 @@ public:
     // ****************************************************************
 
     void DisplayScene(const Scene &scene);
+
+    /**
+     * Get the GLFW window managed by this class
+     * @return pointer to a GLFW window
+     */
+    GLFWwindow* GetWindow() const { return mWindow; }
 
 
 

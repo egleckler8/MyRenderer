@@ -11,10 +11,15 @@
 
 // All necessary includes for the API:
 #include "../src/WindowManager.h"
+#include "../src/Scene.h"
 #include "../src/RenderData.h"
 #include "../src/LightSource.h"
 #include "../src/PointLight.h"
 #include "../src/DirectionalLight.h"
+#include "../src/Camera.h"
+#include "../src/Model.h"
+#include "../src/Shader.h"
+
 
 
 #endif //LEARNING_OPENGL_LIBS_GRAPHICS_INCLUDE_GRAPHICS_H

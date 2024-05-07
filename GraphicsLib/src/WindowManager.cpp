@@ -5,11 +5,13 @@
 
 #include <iostream>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 
 #include "WindowManager.h"
 #include "Scene.h"
+#include "Camera.h"
 
 /**
  * Constructor
@@ -26,6 +28,7 @@
  */
 WindowManager::WindowManager(int screenWidth, int screenHeight)
 {
+
     //
     // Initialize the window
     //
@@ -44,6 +47,7 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // Next, we're required to create a window object
     // Intialize the mWindow member
     mWindow = glfwCreateWindow(screenWidth,screenHeight,"TODO", nullptr, nullptr);
+
     if (mWindow == nullptr)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -53,6 +57,10 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     glfwMakeContextCurrent(mWindow);
     // Bind the window resize to it
     glfwSetFramebufferSizeCallback(mWindow, FramebufferSizeCallback);
+
+    // Initialize the camera with the window,
+    // since it initialized fine
+    mCamera = std::make_shared<Camera>(mWindow);
 
     // Initialize GLAD
     // "In the previous chapter we mentioned that GLAD manages function pointers
@@ -116,6 +124,8 @@ void WindowManager::DisplayScene(const Scene& scene)
 
     if(!glfwWindowShouldClose(mWindow))
     {
+        glfwPollEvents();
+        mCamera->Update();
 
         // Set the background void
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -128,7 +138,10 @@ void WindowManager::DisplayScene(const Scene& scene)
         // the projection matrix depends on the window aspect
         // ratio, so it felt natural to have that here. However,
         // it might be more natural to move it in the future.
-        scene.RenderScene(mProjectionMatrix);
+        scene.RenderScene(mCamera->GetViewMatrix(), mProjectionMatrix);
+
+
+        glfwSwapBuffers(mWindow);
 
     }
     else

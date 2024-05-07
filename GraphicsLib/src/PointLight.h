@@ -38,10 +38,9 @@ public:
      * @param shaderProgram - this light source's associated shader program
      */
     PointLight( std::shared_ptr<PhongColors> phongColors,
-                std::shared_ptr<AttenuationCoefficients> attenCoeffs,
-                std::shared_ptr<Shader> shaderProgram)
+                std::shared_ptr<AttenuationCoefficients> attenCoeffs)
                 :
-                LightSource(phongColors, shaderProgram),
+                LightSource(phongColors),
                 mAttenuationCoefficients(attenCoeffs)
                 {}
     

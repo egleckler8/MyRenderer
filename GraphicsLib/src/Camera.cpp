@@ -15,7 +15,7 @@
  * @param window GLFWWindow this camera will "inhabit"
  * @param pos Initial position of the camera in world space
  */
-Camera::Camera(GLFWwindow *window, glm::vec3 pos) : mWindow(window), mPosition(pos)
+Camera::Camera(GLFWwindow *window) : mWindow(window)
 {
     // Set up the window with some configurations that will
     // make the camera work as we want it to
@@ -86,6 +86,9 @@ void Camera::Update()
 
 
     }
+
+    //std::cout << "Pos: (" << mPosition.x << ',' << mPosition.y << ',' << mPosition.z << ')' << std::endl;
+    // std::cout << "Pitch: " << mPitch << " | Yaw: " << mYaw << std::endl;
 
 
 }

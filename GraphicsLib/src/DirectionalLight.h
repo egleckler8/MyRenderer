@@ -31,10 +31,9 @@ public:
      * @param shaderProgram - this light source's associated shader program
      */
     DirectionalLight(   glm::vec3 direction,
-                        std::shared_ptr<PhongColors> phongColors,
-                        std::shared_ptr<Shader> shaderProgram)
+                        std::shared_ptr<PhongColors> phongColors)
                         :
-                        LightSource(phongColors, shaderProgram), mDirection(direction)
+                        LightSource(phongColors), mDirection(direction)
                         {}
 
     /// Default constructor (disabled)

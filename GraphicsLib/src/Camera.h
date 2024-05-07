@@ -75,7 +75,7 @@ private:
 public:
 
     // Constructor
-    Camera(GLFWwindow* window, glm::vec3 pos);
+    Camera(GLFWwindow *window);
 
     /// Default constructor (disabled)
     Camera() = delete;

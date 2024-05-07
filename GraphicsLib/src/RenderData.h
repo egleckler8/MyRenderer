@@ -40,23 +40,8 @@ private:
 
 public:
 
-    /**
-     * Constructor
-     *
-     * - - - - - - - - - - WARNING: - - - - - - - - - - - - - - - - -
-     *  You'd better make sure that the shader program
-     *  supplied to the constructor fits with the textures
-     *  stored in the model! The when Model::RenderScene is called,
-     *  it will invoke the shader program and try to bind
-     *  textures. It's on the shader programmer on modeling
-     *  artist to coordinate this (the way things are now, at least)
-     * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-     *
-     * @param model 3D model of the object
-     * @param shaders shader program with which toto render the object
-     */
-    RenderData(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders)
-                : mModel(model), mShaders(shaders) {}
+
+    RenderData(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders);
 
     /// Default constructor (disabled)
     RenderData() = delete;

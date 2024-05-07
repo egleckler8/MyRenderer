@@ -6,8 +6,11 @@
 #include "Model.h"
 
 #include <iostream>
+#include <glad/glad.h>
 
-#include "stb_image.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 
 #include "Texture2D.h"
 
