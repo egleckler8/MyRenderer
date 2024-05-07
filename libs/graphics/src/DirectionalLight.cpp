@@ -3,8 +3,8 @@
  * @author Elijah Gleckler
  */
 
-#include "../include/DirectionalLight.h"
-#include "../include/Shader.h"
+#include "DirectionalLight.h"
+#include "Shader.h"
 
 /**
  * Set the lighting uniforms in the provided shader program.
