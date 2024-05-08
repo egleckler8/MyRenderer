@@ -54,7 +54,8 @@ public:
      *
      * @return Pointer to this object's light source
      */
-    LightSource* GetLightSource() { return mLightSource.get(); }
+    std::shared_ptr<LightSource> GetLightSource()
+        { return mLightSource; }
 
 
 

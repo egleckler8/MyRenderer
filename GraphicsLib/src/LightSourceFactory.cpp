@@ -154,7 +154,6 @@ std::shared_ptr<LightSource>
 }
 
 
-
 /**
  * Turns phong color json data into the struct.
  * Json must be formatted exactly as follows:

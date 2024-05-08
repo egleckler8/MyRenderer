@@ -1,9 +1,14 @@
 #include <iostream>
+#include <fstream>
 #include "glm.hpp"
 #include "GLFW/glfw3.h"
-#include "GraphicsLib/api.h"
-#include <fstream>
 #include "nlohmann/json.hpp"
+
+#include "GraphicsLib/api.h"
+#include <GameLib/api.h>
+
+
+
 
 
 const int SCREEN_WIDTH = 1000; ///< Chosen by me
@@ -24,31 +29,32 @@ int main()
     // Create a render data thingy
     RenderObjectFactory objectFactory("../resources");
 
-    std::ifstream f("../resources/json/backpack.json");
-    auto data = json::parse(f);
+    std::ifstream fObj("../resources/json/backpack.json");
+    auto data = json::parse(fObj);
     auto backpack = objectFactory.CreateFromJson(data);
     // make it face towards use when we spawn:
-    backpack.SetScale(glm::vec3(1.0f, 1.0f, -1.0f));
+    backpack->SetScale(glm::vec3(1.0f, 1.0f, -1.0f));
 
-    // A directional light source
-    glm::vec3 lightDir(0.5f, -1.0f, 0.0f);
-    glm::vec3 sunAmbient(0.1f);
-    glm::vec3 sunDiffuse(0.5f);
-    glm::vec3 sunSpecular(1.0f);
-    auto sunColors = std::make_shared<PhongColors>(sunAmbient, sunDiffuse, sunSpecular);
-    DirectionalLight theSun(lightDir, sunColors);
 
-    auto attenCoeffs = std::make_shared<AttenuationCoefficients>(1.0, 0.09, 0.032);
 
-    PointLight tester(sunColors, attenCoeffs);
-    tester.SetPosition(glm::vec3(0.0f, 0.0f, -10.0f));
+    LightSourceFactory lightFactory;
+    std::ifstream fLight1("../resources/json/sun.json");
+    auto data1 = json::parse(fLight1);
+    auto theSun = lightFactory.CreateFromJson(data1);
+
+    std::ifstream fLight2("../resources/json/tester.json");
+    auto data2 = json::parse(fLight2);
+    auto tester = lightFactory.CreateFromJson(data2);
+
+
+    //tester.SetPosition(glm::vec3(0.0f, 0.0f, -10.0f));
 
     // Create a scene and add everything
     Scene scene;
-    scene.AddRenderObject(&backpack);
-    scene.AddLightSource(&theSun);
-    scene.AddLightSource(&tester);
-    tester.SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));
+    scene.AddRenderObject(backpack);
+    scene.AddLightSource(theSun);
+    scene.AddLightSource(tester);
+    // tester->SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));
 
     while(true)
     {
@@ -58,8 +64,8 @@ int main()
         glm::vec3 axis(1.0f, 0.0f, 0.0f);
         float angle = glm::radians(t * 50.0);
         float scale = sin(t);
-        backpack.SetPosition(pos);
-        backpack.SetRotation(angle, axis);
+        backpack->SetPosition(pos);
+        // backpack->SetRotation(angle, axis);
         //backpack.SetScale(scale);
 
         window.DisplayScene(scene);

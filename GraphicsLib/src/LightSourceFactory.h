@@ -38,6 +38,9 @@ private:
 
 public:
 
+    /// Constructor (default)
+    LightSourceFactory() {}
+
     /// Copy constructor (disabled)
     LightSourceFactory(const LightSourceFactory &) = delete;
 

@@ -76,7 +76,8 @@ public:
 
     // ****************************************************************
 
-    void Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights);
+    void Render(glm::mat4 viewMat, glm::mat4 projMat,
+                std::vector<std::shared_ptr<LightSource>>& lights);
 
     void SetPosition(glm::vec3 pos);
     void SetRotation(float rads, glm::vec3 axis);

@@ -28,9 +28,10 @@
  * @return  New RenderObject, using above assets,
  *          initialized to default pos/rotation/scale
  */
-RenderObject RenderObjectFactory::Create(const std::string& modelFile,
-                                         const std::string& vertShaderFile,
-                                         const std::string& fragShaderFile)
+std::shared_ptr<RenderObject>
+    RenderObjectFactory::Create(const std::string& modelFile,
+                                const std::string& vertShaderFile,
+                                const std::string& fragShaderFile)
 {
 
     // First, let's see if we've already loaded this model
@@ -84,8 +85,9 @@ RenderObject RenderObjectFactory::Create(const std::string& modelFile,
     }
 
     // Oh yeah...
-    return RenderObject(modelPtr, shaderPtr);
+    return std::make_shared<RenderObject>(modelPtr, shaderPtr);
 }
+
 
 
 /**
@@ -110,12 +112,14 @@ RenderObject RenderObjectFactory::Create(const std::string& modelFile,
  * @return New RenderObject, using above assets,
  *         initialized to default pos/rotation/scale
  */
-RenderObject RenderObjectFactory::CreateFromJson(const json& configJson)
+std::shared_ptr<RenderObject>
+    RenderObjectFactory::CreateFromJson(const json& configJson)
 {
     // Grab the asset filepath data from the json
     std::string modelFile = configJson.at("model_file");
     std::string vertShaderFile = configJson.at("vertex_shader_file");
     std::string fragShaderFile = configJson.at("fragment_shader_file");
+
 
     return Create(modelFile, vertShaderFile, fragShaderFile);
 }
