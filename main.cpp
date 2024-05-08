@@ -24,9 +24,9 @@ int main()
 
     // A directional light source
     glm::vec3 lightDir(0.5f, -1.0f, 0.0f);
-    glm::vec3 sunAmbient(0.2f, 0.2f, 0.2f);
-    glm::vec3 sunDiffuse(0.5f, 0.5f, 0.5f);
-    glm::vec3 sunSpecular(1.0f, 1.0f, 1.0f);
+    glm::vec3 sunAmbient(0.1f);
+    glm::vec3 sunDiffuse(0.5f);
+    glm::vec3 sunSpecular(1.0f);
     auto sunColors = std::make_shared<PhongColors>(sunAmbient, sunDiffuse, sunSpecular);
     DirectionalLight theSun(lightDir, sunColors);
 
@@ -39,11 +39,12 @@ int main()
     Scene scene;
     scene.AddEntity(&backpackData);
     scene.AddLightSource(&theSun);
-    // scene.AddLightSource(&tester);
+    scene.AddLightSource(&tester);
+    tester.SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));
 
     while(true)
     {
-        // tester.SetPosition(camera->GetPosition());
+
         window.DisplayScene(scene);
     }
 

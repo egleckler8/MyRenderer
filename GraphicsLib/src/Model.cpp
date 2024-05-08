@@ -89,6 +89,7 @@ std::shared_ptr<Mesh> Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
     std::vector<TextureData> textures;
+    float materialShininess = 0;
 
     // Get all the vertex data
     for(unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -134,6 +135,7 @@ std::shared_ptr<Mesh> Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 
 
     // Get all the material data
+    // Assimp makes sure there is only one material per mesh!
     if(mesh->mMaterialIndex >= 0)
     {
         // Get pointer to this particular material
@@ -148,10 +150,40 @@ std::shared_ptr<Mesh> Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
         std::vector<TextureData> specularMaps = LoadMaterialTextures(material,
                                                             aiTextureType_SPECULAR, TextureType::Specular);
         textures.insert(textures.end(), specularMaps.begin(),specularMaps.end());
+
+        /*
+         * We should find out the shininess...
+         *
+         * https://assimp.sourceforge.net/lib_html/materials.html
+         *
+         * There might be multiple specular textures, although that
+         * would be rare (and I think I'll just use models with one
+         * specular texture...). So I'm going to take a shortcut here
+         * and say that the shininess value, since it's only used by
+         * specular lighting calculations, will be the average of
+         * the SHININESS values stored in each aiTexture
+         */
+        // So, grab that average:
+        float sum = 0.0;
+        float n = specularMaps.size();
+        for (auto specTex : specularMaps)
+        {
+            sum += specTex.shininess;
+        }
+
+        // Hahaha....
+        // This should never ever happen. Definitely.
+        if (n == 0)
+            n = 1.0;
+
+        float avgSpec = sum / n;
+        // There we go...
+        materialShininess = avgSpec;
+
     }
 
     // Make a shared pointer to share the love (no copy constructors  >:0  )
-    return std::make_shared<Mesh>(vertices, indices, textures);
+    return std::make_shared<Mesh>(vertices, indices, textures, materialShininess);
 }
 
 
@@ -189,6 +221,16 @@ std::vector<TextureData> Model::LoadMaterialTextures(aiMaterial *mat, aiTextureT
             texture.id = TextureFromFile(str.C_Str(), mFileDirectory);
             texture.type = typeName;
             texture.filepath = str.C_Str();
+
+            // Get the shininess from the material
+            float shininess = 0.0;
+            if(AI_SUCCESS != mat->Get(AI_MATKEY_SHININESS,shininess)) {
+                // on a failure??
+                shininess = -1.0;
+                std::cerr << "Could not load material shininess..." << std::endl;
+            }
+            texture.shininess = shininess;
+
             textures.push_back(texture);
             mTexturesLoaded.push_back(texture); // add to loaded textures
         } }
@@ -242,21 +284,15 @@ unsigned int Model::TextureFromFile(const char *filepath, std::string fileDirect
     {
         // Find out what kind of colorformat this image is
         GLenum colorFormat;
-        switch(numChannels)
-        {
-            case 1:
-                colorFormat = GL_RED;
-                break;
 
-            case 3:
-                colorFormat = GL_RGB;
-                break;
+        if (numChannels == 1)
+            colorFormat = GL_RED;
+        else if (numChannels == 3)
+            colorFormat = GL_RGB;
+        else if (numChannels == 4)
+            colorFormat = GL_RGBA;
 
-            case 4:
-                colorFormat = GL_RGBA;
-                break;
 
-        }
 
 
         // Bind and generate the texture

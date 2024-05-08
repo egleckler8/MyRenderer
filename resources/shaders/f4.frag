@@ -121,10 +121,12 @@ vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
 
     // specular lighting
     vec3 reflectDir = reflect(-lightDir, normal);
+    //float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec3 specularLight = light.specular * spec * vec3(texture(material.texture_specular_1, TexCoords));
 
     // No attenuation on directional light (right now).
+    //specularLight *= 0.0;
 
     // combine results & output
     vec3 result = ambientLight + diffuseLight + specularLight;
@@ -160,12 +162,11 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
 
     // Attenuate!
-    ambientLight *= attenuation;
     diffuseLight *= attenuation;
     specularLight *= attenuation;
 
     // combine the results and output
-    vec3 result = ambientLight + diffuseLight + specularLight;
+    vec3 result = ambientLight+ diffuseLight + specularLight;
     return result;
 
 }
@@ -222,7 +223,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     }
 
     // Add in the ambient light, of course!
-    result += (ambientLight * attenuation);
+    result += ambientLight;
 
     return result;
 

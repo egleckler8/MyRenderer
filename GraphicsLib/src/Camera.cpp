@@ -79,10 +79,16 @@ void Camera::Update()
 
         // Having yaw rotation on the keys would be nice...
         // This could use adjusted in the future... it's super gross lowkey
-        if (glfwGetKey(mWindow, GLFW_KEY_Q) == GLFW_PRESS)
+        if (glfwGetKey(mWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
             SetDirection(mPitch, mYaw - (2 * M_PI * mMoveSpeed * dT));
-        else if (glfwGetKey(mWindow, GLFW_KEY_E) == GLFW_PRESS)
+        else if (glfwGetKey(mWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
             SetDirection(mPitch, mYaw + (2 * M_PI * mMoveSpeed * dT));
+
+        // Pitch, too...
+        if (glfwGetKey(mWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
+            SetDirection(mPitch - (8.0 * mMoveSpeed * dT), mYaw);
+        else if (glfwGetKey(mWindow, GLFW_KEY_UP) == GLFW_PRESS)
+            SetDirection(mPitch + (8.0 * mMoveSpeed * dT), mYaw);
 
 
     }

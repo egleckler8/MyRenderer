@@ -17,11 +17,13 @@
  */
 Mesh::Mesh( std::vector<Vertex> vertices,
             std::vector<unsigned int> indices,
-            std::vector<TextureData> textures)
+            std::vector<TextureData> textures,
+            float shininess)
             :
             mVertices(vertices),
             mIndices(indices),
-            mTextures(textures)
+            mTextures(textures),
+            mMaterialShininess(shininess)
 {
     // This will initialize the VAO, VBO, EBO--never fear
     SetUpMesh();
@@ -119,6 +121,9 @@ void Mesh::Render(std::shared_ptr<Shader> shaders)
 
     }
     glActiveTexture(0);
+
+    // Set the shininess of the mesh's singular material...
+    shaders->set1FUniform("material.shininess", mMaterialShininess);
 
     // draw the mesh!
     glBindVertexArray(mVAO);

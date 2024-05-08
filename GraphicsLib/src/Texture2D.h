@@ -24,9 +24,14 @@ struct TextureData
     unsigned int id;
     TextureType type;
     std::string filepath;
+    float shininess; ///< will be -1.0 if this does not apply.
+    // sorry... I really hate this way of doing it.
+    // Hopefully I muster the will to refactor to a cleaner
+    // solution later...
+
 
     TextureData() {} // ugh
-    TextureData(TextureType type) : type(type) {}
+    //TextureData(TextureType type) : type(type) {}
 
 };
 
