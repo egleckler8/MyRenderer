@@ -53,7 +53,7 @@ void Scene::RenderScene(glm::mat4 viewMat, glm::mat4 projMat) const
     auto lightsAffectingThisObject = mLights;
 
     // Crude...
-    for (auto entity : mEntities)
+    for (auto entity : mObjects)
     {
         entity->Render(viewMat, projMat, lightsAffectingThisObject);
     }

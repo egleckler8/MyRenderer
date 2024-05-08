@@ -28,7 +28,7 @@
  * @return  New RenderObject, using above assets,
  *          initialized to default pos/rotation/scale
  */
-std::shared_ptr<RenderObject>
+std::unique_ptr<RenderObject>
     RenderObjectFactory::Create(const std::string& modelFile,
                                 const std::string& vertShaderFile,
                                 const std::string& fragShaderFile)
@@ -85,7 +85,7 @@ std::shared_ptr<RenderObject>
     }
 
     // Oh yeah...
-    return std::make_shared<RenderObject>(modelPtr, shaderPtr);
+    return std::make_unique<RenderObject>(modelPtr, shaderPtr);
 }
 
 
@@ -112,14 +112,13 @@ std::shared_ptr<RenderObject>
  * @return New RenderObject, using above assets,
  *         initialized to default pos/rotation/scale
  */
-std::shared_ptr<RenderObject>
+std::unique_ptr<RenderObject>
     RenderObjectFactory::CreateFromJson(const json& configJson)
 {
     // Grab the asset filepath data from the json
     std::string modelFile = configJson.at("model_file");
     std::string vertShaderFile = configJson.at("vertex_shader_file");
     std::string fragShaderFile = configJson.at("fragment_shader_file");
-
 
     return Create(modelFile, vertShaderFile, fragShaderFile);
 }

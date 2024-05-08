@@ -44,10 +44,10 @@ class Scene
 private:
 
     /// Pointers to all the Rendering data
-    std::vector<std::shared_ptr<RenderObject>> mEntities;
+    std::vector<RenderObject*> mObjects;
 
     /// Pointers to all the LightSources
-    std::vector<std::shared_ptr<LightSource>> mLights;
+    std::vector<LightSource*> mLights;
 
 public:
 
@@ -66,15 +66,13 @@ public:
      * Add a physical entity to the scene
      * @param renderData thing to add
      */
-    void AddRenderObject(std::shared_ptr<RenderObject> renderData)
-        { mEntities.push_back(renderData); }
+    void AddRenderObject(RenderObject* renderData) { mObjects.push_back(renderData); }
 
     /**
      * Add a light source to the scene
      * @param lightSrc
      */
-    void AddLightSource(std::shared_ptr<LightSource> lightSrc)
-        { mLights.push_back(lightSrc); }
+    void AddLightSource(LightSource* lightSrc) { mLights.push_back(lightSrc); }
 
     void RenderScene(glm::mat4 viewMat, glm::mat4 projMat) const;
 

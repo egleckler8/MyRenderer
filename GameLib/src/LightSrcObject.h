@@ -20,7 +20,7 @@ class LightSrcObject : public GameObject
 private:
 
     /// Light source object associated with this GameObject
-    std::shared_ptr<LightSource> mLightSource = nullptr;
+    std::unique_ptr<LightSource> mLightSource = nullptr;
 
 public:
 
@@ -31,8 +31,8 @@ public:
      * @param lightSrc Pointer to the light source
      */
     LightSrcObject(std::unique_ptr<RenderObject> renderData, glm::vec3 hitbox,
-                    std::shared_ptr<LightSource> lightSrc)
-                    : GameObject(std::move(renderData), hitbox), mLightSource(lightSrc) {}
+                    std::unique_ptr<LightSource> lightSrc)
+                    : GameObject(std::move(renderData), hitbox), mLightSource(std::move(lightSrc)) {}
 
     /// Default constructor (disabled)
     LightSrcObject() = delete;
@@ -54,8 +54,7 @@ public:
      *
      * @return Pointer to this object's light source
      */
-    std::shared_ptr<LightSource> GetLightSource()
-        { return mLightSource; }
+    LightSource* GetLightSource() { return mLightSource.get(); }
 
 
 

@@ -51,9 +51,9 @@ int main()
 
     // Create a scene and add everything
     Scene scene;
-    scene.AddRenderObject(backpack);
-    scene.AddLightSource(theSun);
-    scene.AddLightSource(tester);
+    scene.AddRenderObject(backpack.get());
+    scene.AddLightSource(theSun.get());
+    scene.AddLightSource(tester.get());
     // tester->SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));
 
     while(true)

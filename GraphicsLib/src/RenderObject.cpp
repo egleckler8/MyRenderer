@@ -57,7 +57,7 @@ RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
  * @param projMat projection matrix used to render this model
  */
 void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat,
-                          std::vector<std::shared_ptr<LightSource>>& lights)
+                          std::vector<LightSource*>& lights)
 {
     if (mModel != nullptr && mShaders != nullptr)
     {

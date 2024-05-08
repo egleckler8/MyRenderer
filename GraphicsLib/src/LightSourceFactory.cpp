@@ -51,7 +51,7 @@ AttenuationCoefficients AttenCoeffsFromJson(const json& data);
  *
  * @param configJson json data to load phong colors & atten. coeffs.
  */
-std::shared_ptr<PointLight>
+std::unique_ptr<PointLight>
     LightSourceFactory::CreatePointLight(const json &configJson)
 {
     // Phong colors:
@@ -62,7 +62,7 @@ std::shared_ptr<PointLight>
     auto attenCoeffData = configJson.at("attenuation_coefficients");
     AttenuationCoefficients attenCoeffs = AttenCoeffsFromJson(attenCoeffData);
 
-    return std::make_shared<PointLight>(phongColors, attenCoeffs);
+    return std::make_unique<PointLight>(phongColors, attenCoeffs);
 }
 
 
@@ -93,7 +93,7 @@ std::shared_ptr<PointLight>
  *
  * @param configJson json data to load phong colors & direction
  */
-std::shared_ptr<DirectionalLight>
+std::unique_ptr<DirectionalLight>
     LightSourceFactory::CreateDirectionalLight(const json &configJson)
 {
     // Direction:
@@ -104,7 +104,7 @@ std::shared_ptr<DirectionalLight>
     auto phongData = configJson.at("phong_colors");
     PhongColors phongColors = PhongColorsFromJson(phongData);
 
-    return std::make_shared<DirectionalLight>(direction, phongColors);
+    return std::make_unique<DirectionalLight>(direction, phongColors);
 }
 
 
@@ -123,13 +123,13 @@ std::shared_ptr<DirectionalLight>
  *
  * @param configJson json data to load the light source
  */
-std::shared_ptr<LightSource>
+std::unique_ptr<LightSource>
     LightSourceFactory::CreateFromJson(const json &configJson)
 {
     auto type = configJson.at("type");
     auto data = configJson.at("data");
 
-    std::shared_ptr<LightSource> lightPtr = nullptr;
+    std::unique_ptr<LightSource> lightPtr = nullptr;
 
     // Create based on source type
     if (type == "point")

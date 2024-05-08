@@ -77,11 +77,11 @@ public:
 
     // ****************************************************************
 
-    std::shared_ptr<RenderObject> Create(const std::string& modelFile,
+    std::unique_ptr<RenderObject> Create(const std::string& modelFile,
                         const std::string& vertShaderFile,
                         const std::string& fragShaderFile);
 
-    std::shared_ptr<RenderObject> CreateFromJson(const nlohmann::json &configJson);
+    std::unique_ptr<RenderObject> CreateFromJson(const nlohmann::json &configJson);
 
 };
 

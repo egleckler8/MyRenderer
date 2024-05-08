@@ -27,7 +27,7 @@ class GameObject
 private:
 
     /// Rendering data for this entity
-    std::shared_ptr<RenderObject> mRenderData = nullptr;
+    std::unique_ptr<RenderObject> mRenderData = nullptr;
 
     /// Position of this object in world space, in METERS.
     glm::vec3 mPosition = glm::vec3(0.0f);
@@ -77,7 +77,7 @@ public:
      *
      * @return Pointer to this object's render data
      */
-    std::shared_ptr<RenderObject> GetRenderData() const { return mRenderData; }
+    RenderObject* GetRenderData() const { return mRenderData.get(); }
 
 
 
