@@ -47,20 +47,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/in
 #
 
 # Here is where all the libraries are
-set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
-
-
-# GLFW (built as cmake lib)
-set(GLFW_DIR ${LIB_DIR}/glfw-3.4)
-
-set(GLFW_BUILD_DOCS OFF CACHE INTERNAL "Build the GLFW documentation")
-set(GLFW_INSTALL OFF CACHE INTERNAL "Generate installation target")
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-
-add_subdirectory(${GLFW_DIR})
-target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${GLFW_DIR}/include)
+set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
 
 
 # Assimp (built as cmake lib)
@@ -76,12 +63,6 @@ set(GLAD_DIR ${LIB_DIR}/glad)
 add_subdirectory(${GLAD_DIR})
 target_link_libraries(${PROJECT_NAME} glad)
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLAD_DIR}/include)
-
-
-
-# GLM (header-only)
-set(GLM_DIR ${LIB_DIR}/glm)
-target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_DIR})
 
 
 # stb_image (header-only)

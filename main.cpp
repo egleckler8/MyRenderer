@@ -1,4 +1,5 @@
 #include <iostream>
+#include <glm.hpp>
 #include <GraphicsLib/api.h>
 
 const int SCREEN_WIDTH = 1000; ///< Chosen by me
