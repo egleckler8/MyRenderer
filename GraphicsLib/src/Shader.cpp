@@ -1,5 +1,5 @@
 /**
- * @file Shader.cpp
+ * @file ShaderProgram.cpp
  * @author Elijah Gleckler
  */
 
@@ -18,7 +18,7 @@ using namespace std;
  * @param vertexPath filepath to the vertex shader GLSL code
  * @param fragmentPath filepath to the fragment shader GLSL code
  */
-Shader::Shader(string programName, const char* vertexPath, const char* fragmentPath) : mProgramName(programName)
+ShaderProgram::ShaderProgram(string programName, const char* vertexPath, const char* fragmentPath) : mProgramName(programName)
 {
 
     //
@@ -181,7 +181,7 @@ Shader::Shader(string programName, const char* vertexPath, const char* fragmentP
  * Use this shader program.
  * Binds this shader program to OpenGL
  */
-void Shader::use()
+void ShaderProgram::use()
 {
     glUseProgram(mProgramID);
 }
@@ -195,7 +195,7 @@ void Shader::use()
  * @param uniformName the name of the uniform we want to set
  * @param val the new value to set it to
  */
-void Shader::setBoolUniform(const std::string &uniformName, bool val) const
+void ShaderProgram::setBoolUniform(const std::string &uniformName, bool val) const
 {
     glUniform1i(glGetUniformLocation(mProgramID, uniformName.c_str()), (int)val);
 }
@@ -209,7 +209,7 @@ void Shader::setBoolUniform(const std::string &uniformName, bool val) const
  * @param uniformName the name of the uniform we want to set
  * @param val the new value to set it to
  */
-void Shader::setIntUniform(const std::string &uniformName, int val) const
+void ShaderProgram::setIntUniform(const std::string &uniformName, int val) const
 {
     glUniform1i(glGetUniformLocation(mProgramID, uniformName.c_str()), val);
 }
@@ -223,7 +223,7 @@ void Shader::setIntUniform(const std::string &uniformName, int val) const
  * @param uniformName the name of the uniform we want to set
  * @param val the new value to set it to
  */
-void Shader::set1FUniform(const std::string &uniformName, float val) const
+void ShaderProgram::set1FUniform(const std::string &uniformName, float val) const
 {
     glUniform1f(glGetUniformLocation(mProgramID, uniformName.c_str()), val);
 }
@@ -238,7 +238,7 @@ void Shader::set1FUniform(const std::string &uniformName, float val) const
  * @param uniformName the name of the uniform we want to set
  * @param ary (Pointer to first element of) three element array, new value
  */
-void Shader::set3FUniform(const std::string& uniformName, float ary[])
+void ShaderProgram::set3FUniform(const std::string& uniformName, float ary[])
 {
     glUniform3f(glGetUniformLocation(mProgramID, uniformName.c_str()), ary[0], ary[1], ary[2]);
 }
@@ -254,7 +254,7 @@ void Shader::set3FUniform(const std::string& uniformName, float ary[])
  * @param uniformName the name of the uniform we want to set
  * @param ary (Pointer to first element of) four element array, new value
  */
-void Shader::set4FUniform(const string &uniformName, float ary[])
+void ShaderProgram::set4FUniform(const string &uniformName, float ary[])
 {
     glUniform4f(glGetUniformLocation(mProgramID, uniformName.c_str()), ary[0], ary[1], ary[2], ary[3]);
 }
@@ -268,7 +268,7 @@ void Shader::set4FUniform(const string &uniformName, float ary[])
  * @param uniformName the name of the uniform we want to set
  * @param mat the transformation matrix we want to pass in
  */
-void Shader::setMat4Uniform(const std::string& uniformName, glm::mat4 mat)
+void ShaderProgram::setMat4Uniform(const std::string& uniformName, glm::mat4 mat)
 {
     unsigned int loc = glGetUniformLocation(mProgramID, uniformName.c_str());
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
@@ -284,7 +284,7 @@ void Shader::setMat4Uniform(const std::string& uniformName, glm::mat4 mat)
  * @param uniformName the name of the uniform we want to set
  * @param mat the transformation matrix we want to pass in
  */
-void Shader::setMat3Uniform(const std::string& uniformName, glm::mat3 mat)
+void ShaderProgram::setMat3Uniform(const std::string& uniformName, glm::mat3 mat)
 {
     unsigned int loc = glGetUniformLocation(mProgramID, uniformName.c_str());
     glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
@@ -300,7 +300,7 @@ void Shader::setMat3Uniform(const std::string& uniformName, glm::mat3 mat)
  * @param uniformName the name of the uniform we want to set
  * @param mat the vec3 we want to pass in
  */
-void Shader::setVec3Uniform(const std::string& uniformName, glm::vec3 vec)
+void ShaderProgram::setVec3Uniform(const std::string& uniformName, glm::vec3 vec)
 {
     unsigned int loc = glGetUniformLocation(mProgramID, uniformName.c_str());
     glUniform3fv(loc, 1, glm::value_ptr(vec));

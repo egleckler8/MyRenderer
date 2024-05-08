@@ -35,7 +35,7 @@ const std::string NORMAL_MAT_UNIFORM_NAME = "normalMat"; ///< Naming convention 
  * @param model 3D model of the object
  * @param shaders shader program with which toto render the object
  */
-RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders)
+RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderProgram> shaders)
     : mModel(model), mShaders(shaders)
 {
     // Default model matrix at the origin
@@ -55,8 +55,11 @@ RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<Shader>
  * @param viewMat view matrix used to render this model
  * @param projMat projection matrix used to render this model
  */
-void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights) const
+void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights)
 {
+    // Update the model matrix based on our current
+    // position, rotation, and scale
+    UpdateModelMatrix();
 
     // Model-View matrix and Normal Matrix
     glm::mat4 modelViewMat = viewMat * mModelMatrix;
@@ -116,7 +119,6 @@ void RenderObject::UpdateModelMatrix()
 void RenderObject::SetPosition(glm::vec3 pos)
 {
     mPosition = pos;
-    UpdateModelMatrix();
 }
 
 
@@ -131,7 +133,6 @@ void RenderObject::SetRotation(float rads, glm::vec3 axis)
     auto axisNorm = glm::normalize(axis);
     auto rotation = std::pair<float, glm::vec3>(rads, axisNorm);
     mRotation = rotation;
-    UpdateModelMatrix();
 }
 
 
@@ -146,7 +147,6 @@ void RenderObject::SetRotation(float rads, glm::vec3 axis)
 void RenderObject::SetScale(glm::vec3 scale)
 {
     mScale = scale;
-    UpdateModelMatrix();
 }
 
 
@@ -162,7 +162,6 @@ void RenderObject::SetScale(glm::vec3 scale)
 void RenderObject::SetScale(float scale)
 {
     mScale = glm::vec3(scale);
-    UpdateModelMatrix();
 }
 
 

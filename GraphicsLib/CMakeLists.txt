@@ -32,6 +32,8 @@ set(SOURCE_FILES
 
 set(HEADER_FILES
         include/GraphicsLib/api.h
+        src/RenderObjectFactory.cpp
+        src/RenderObjectFactory.h
 )
 
 # Add library target

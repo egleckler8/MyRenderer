@@ -24,7 +24,7 @@
 #include <glm.hpp>
 
 class Model;
-class Shader;
+class ShaderProgram;
 class LightSource;
 /**
  * All the data necessary to render a 3d object
@@ -36,8 +36,8 @@ private:
     /// 3D odel of the object, including meshes & textures.
     std::shared_ptr<Model> mModel;
 
-    /// Shader program this object will follow.
-    std::shared_ptr<Shader> mShaders;
+    /// ShaderProgram program this object will follow.
+    std::shared_ptr<ShaderProgram> mShaders;
 
     /// Model matrix for this object. Make sure to adjust this
     /// before rendering to make sure your object is in the right
@@ -50,6 +50,7 @@ private:
     /// Rotation angle/axis pair of the object.
     /// I decided it would be good to enfore the angle/axis coupling
     /// ANGLE IN RADIANS! (you can use glm::radians()...)
+    /// Would be nice if it were normalized... SetRotation() does that...
     std::pair<float, glm::vec3> mRotation =
             std::pair<float, glm::vec3>(0.0, glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -62,7 +63,7 @@ private:
 public:
 
 
-    RenderObject(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders);
+    RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderProgram> shaders);
 
     /// Default constructor (disabled)
     RenderObject() = delete;
@@ -75,7 +76,7 @@ public:
 
     // ****************************************************************
 
-    void Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights) const;
+    void Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights);
 
     void SetPosition(glm::vec3 pos);
     void SetRotation(float rads, glm::vec3 axis);

@@ -26,7 +26,7 @@
 
 #include "Mesh.h"// "had to" do this, some weird error on the constructor
 
-class Shader;
+class ShaderProgram;
 /**
  * A whole 3D model with multiple meshes
  */
@@ -54,7 +54,7 @@ public:
 
     /**
      * Constructor
-     * @param filepath filepath to the model's assets
+     * @param filepath filepath to the model's object file
      */
     explicit Model(const char* filepath) { LoadModel(filepath); }
 
@@ -69,7 +69,7 @@ public:
 
     // ****************************************************************
 
-    void Render(std::shared_ptr<Shader> shader);
+    void Render(std::shared_ptr<ShaderProgram> shader);
 
 
 

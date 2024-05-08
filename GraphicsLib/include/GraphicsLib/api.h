@@ -16,9 +16,11 @@
 #include "../src/LightSource.h"
 #include "../src/PointLight.h"
 #include "../src/DirectionalLight.h"
+// #include "../src/SpotLight.h" // not ready, yet...
 #include "../src/Camera.h"
 #include "../src/Model.h"
 #include "../src/Shader.h"
+#include "../src/RenderObjectFactory.h"
 
 
 

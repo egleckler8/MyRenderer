@@ -33,7 +33,7 @@ struct Vertex
 };
 
 
-class Shader;
+class ShaderProgram;
 /**
  * A mesh of vertices. Only one material!
  */
@@ -82,7 +82,7 @@ public:
     void operator=(const Mesh &) = delete;
 
 
-    void Render(std::shared_ptr<Shader> shaders);
+    void Render(std::shared_ptr<ShaderProgram> shaders);
 
 };
 

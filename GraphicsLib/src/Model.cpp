@@ -241,9 +241,9 @@ std::vector<TextureData> Model::LoadMaterialTextures(aiMaterial *mat, aiTextureT
 
 /**
  * RenderScene all the Model's meshes
- * @param shader Shader program used to draw the meshes
+ * @param shader ShaderProgram program used to draw the meshes
  */
-void Model::Render(std::shared_ptr<Shader> shader)
+void Model::Render(std::shared_ptr<ShaderProgram> shader)
 {
     for (unsigned int i = 0; i < mMeshes.size(); i++)
         mMeshes[i]->Render(shader);
@@ -253,9 +253,10 @@ void Model::Render(std::shared_ptr<Shader> shader)
 /**
  * Taking the filepath to a texture image, generates the texture
  * and returns the OpenGL texture Id
+ *
  * @param filepath
  * @param fileDirectory
- * @return
+ * @return OpenGL texture id
  */
 unsigned int Model::TextureFromFile(const char *filepath, std::string fileDirectory)
 {

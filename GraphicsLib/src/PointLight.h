@@ -54,7 +54,7 @@ public:
     void operator=(const PointLight &) = delete;
 
     // Must do this:
-    virtual void SetLightingUniforms(std::shared_ptr<Shader> shaders) override;
+    virtual void SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders) override;
 
 
     // ****************************************************************

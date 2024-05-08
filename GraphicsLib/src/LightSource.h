@@ -18,7 +18,7 @@
 #include <memory>
 #include <glm.hpp>
 
-class Shader;
+class ShaderProgram;
 /**
  * A simple light source using the Phong model
  */
@@ -53,7 +53,7 @@ public:
 
     /// Sets the uniforms corresponding to this light source
     /// in the associated shader program.
-    virtual void SetLightingUniforms(std::shared_ptr<Shader> shaders) = 0;
+    virtual void SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders) = 0;
 
 
     // ****************************************************************

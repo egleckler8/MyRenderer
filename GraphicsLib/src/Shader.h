@@ -1,5 +1,5 @@
 /**
- * @file Shader.h
+ * @file ShaderProgram.h
  * @author Elijah Gleckler
  *
  * Class to encapsulate the functionality of a GLSL shader
@@ -19,7 +19,7 @@
 /**
  * Class to encapsulate the functionality of a GLSL shader
  */
-class Shader
+class ShaderProgram
 {
 private:
 
@@ -36,16 +36,16 @@ public:
 
 
     // Constructor
-    Shader(std::string programName, const char* vertexPath, const char* fragmentPath);
+    ShaderProgram(std::string programName, const char* vertexPath, const char* fragmentPath);
 
     /// Default constructor (disabled)
-    Shader() = delete;
+    ShaderProgram() = delete;
 
     /// Copy constructor (disabled)
-    Shader(const Shader &) = delete;
+    ShaderProgram(const ShaderProgram &) = delete;
 
     /// Assignment operator
-    void operator=(const Shader &) = delete;
+    void operator=(const ShaderProgram &) = delete;
 
     void use();
     void setBoolUniform(const std::string& uniformName, bool val) const;

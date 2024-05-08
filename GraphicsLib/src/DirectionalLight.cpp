@@ -16,9 +16,9 @@
  *
  * ALL SHADERS ONLY SUPPORT ONE DIRECTIONAL LIGHT RIGHT NOW...
  *
- * @param shaders Shader program into which to insert uniforms
+ * @param shaders ShaderProgram program into which to insert uniforms
  */
-void DirectionalLight::SetLightingUniforms(std::shared_ptr<Shader> shaders)
+void DirectionalLight::SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders)
 {
     // Grab these values from the parent class
     auto phongColors = GetPhongColors();

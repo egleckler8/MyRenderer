@@ -15,9 +15,9 @@
  * The way point lights work in the shader is unique to
  * the other light types, so overriding is necessary.
  *
- * @param shaders Shader program into which to insert uniforms
+ * @param shaders ShaderProgram program into which to insert uniforms
  */
-void PointLight::SetLightingUniforms(std::shared_ptr<Shader> shaders)
+void PointLight::SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders)
 {
     // Grab these values from the parent class
     auto phongColors = GetPhongColors();

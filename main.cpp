@@ -14,15 +14,17 @@ int main()
     WindowManager window(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
-    // Create a camera
+    // Get THE camera
     auto camera = window.GetCamera();
 
 
     // Create a render data thingy
-    auto backpackModel = std::make_shared<Model>("../resources/models/backpack/backpack.obj");
-    auto backpackShaders = std::make_shared<Shader>("backpackShaders", "../resources/shaders/v4.vert", "../resources/shaders/f4.frag");
-    RenderObject backpackData(backpackModel, backpackShaders);
-
+    RenderObjectFactory objectFactory("../resources");
+    auto backpack = objectFactory.Create("../resources/models/backpack/backpack.obj",
+                                         "../resources/shaders/v4.vert",
+                                         "../resources/shaders/f4.frag");
+    // make it face towards use when we spawn:
+    backpack.SetScale(glm::vec3(1.0f, 1.0f, -1.0f));
 
     // A directional light source
     glm::vec3 lightDir(0.5f, -1.0f, 0.0f);
@@ -39,7 +41,7 @@ int main()
 
     // Create a scene and add everything
     Scene scene;
-    scene.AddEntity(&backpackData);
+    scene.AddEntity(&backpack);
     scene.AddLightSource(&theSun);
     scene.AddLightSource(&tester);
     tester.SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));
@@ -49,12 +51,12 @@ int main()
         float t = glfwGetTime();
 
         glm::vec3 pos(3.0*sin(t), 0.0, 3.0*cos(t));
-        glm::vec3 axis(0.0f, 1.0f, 0.5f);
+        glm::vec3 axis(1.0f, 0.0f, 0.0f);
         float angle = glm::radians(t * 50.0);
         float scale = sin(t);
-        backpackData.SetPosition(pos);
-        backpackData.SetRotation(angle, axis);
-        backpackData.SetScale(scale);
+        backpack.SetPosition(pos);
+        backpack.SetRotation(angle, axis);
+        //backpack.SetScale(scale);
 
         window.DisplayScene(scene);
     }
