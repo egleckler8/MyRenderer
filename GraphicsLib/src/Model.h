@@ -2,7 +2,17 @@
  * @file Model.h
  * @author Elijah Gleckler
  *
- * A whole 3D model with multiple meshes
+ * A whole 3D model with multiple meshes.
+ * Model loading functionality with Assimp.
+ *
+ * Check this video to see how to carefully
+ * make your own things in blender, then use
+ * them here:
+ *
+ * https://www.youtube.com/watch?v=4DQquG_o-Ac
+ *
+ * (from LearnOpenGL pg. 172)
+ *
  */
 
 #ifndef LEARNING_OPENGL__MODEL_H

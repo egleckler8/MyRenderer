@@ -13,7 +13,7 @@ int main()
 
 
     // Create a camera
-    auto camera = std::make_shared<Camera>(window.GetWindow());
+    auto camera = window.GetCamera();
 
 
     // Create a render data thingy

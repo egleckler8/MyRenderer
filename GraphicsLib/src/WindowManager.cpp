@@ -141,7 +141,7 @@ void WindowManager::DisplayScene(const Scene& scene)
         // it might be more natural to move it in the future.
         scene.RenderScene(mCamera->GetViewMatrix(), mProjectionMatrix);
 
-
+        // Double-buffering, baby
         glfwSwapBuffers(mWindow);
 
     }

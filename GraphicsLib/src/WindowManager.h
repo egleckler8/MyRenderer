@@ -37,7 +37,7 @@ private:
     /// on screen aspect ratio, so we'll keep it in this class
     glm::mat4 mProjectionMatrix;
 
-    /// Camera to view the window
+    /// Camera to view the window. Constructed here.
     std::shared_ptr<Camera> mCamera;
 
     static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -65,6 +65,12 @@ public:
      * @return pointer to a GLFW window
      */
     GLFWwindow* GetWindow() const { return mWindow; }
+
+    /**
+     * Get a pointer to this window's camera
+     * @return pointer to this window's camera
+     */
+    std::shared_ptr<Camera> GetCamera() const { return mCamera; }
 
 
 
