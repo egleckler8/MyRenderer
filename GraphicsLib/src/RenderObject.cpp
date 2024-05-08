@@ -1,9 +1,11 @@
 /**
- * @file RenderData.cpp
+ * @file RenderObject.cpp
  * @author Elijah Gleckler
  */
 
-#include "RenderData.h"
+#include <gtc/matrix_transform.hpp>
+
+#include "RenderObject.h"
 #include "Shader.h"
 #include "Model.h"
 #include "LightSource.h"
@@ -33,10 +35,12 @@ const std::string NORMAL_MAT_UNIFORM_NAME = "normalMat"; ///< Naming convention 
  * @param model 3D model of the object
  * @param shaders shader program with which toto render the object
  */
-RenderData::RenderData(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders)
+RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<Shader> shaders)
     : mModel(model), mShaders(shaders)
 {
-    // uhhh... yeah.
+    // Default model matrix at the origin
+    // with scale 1.0 and no rotation
+    UpdateModelMatrix();
 }
 
 
@@ -51,7 +55,7 @@ RenderData::RenderData(std::shared_ptr<Model> model, std::shared_ptr<Shader> sha
  * @param viewMat view matrix used to render this model
  * @param projMat projection matrix used to render this model
  */
-void RenderData::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights) const
+void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights) const
 {
 
     // Model-View matrix and Normal Matrix
@@ -84,4 +88,84 @@ void RenderData::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightS
     // all happen in this call!
     mModel->Render(mShaders);
 }
+
+
+
+/**
+ * Updates the model matrix based on the current
+ * data members storing the position, rotation,
+ * and scale of the object.
+ */
+void RenderObject::UpdateModelMatrix()
+{
+    glm::mat4 modelMat(1.0f);
+    modelMat = glm::scale(modelMat, mScale);
+    modelMat = glm::rotate(modelMat, mRotation.first, mRotation.second);
+    modelMat = glm::translate(modelMat, mPosition);
+    mModelMatrix = modelMat;
+}
+
+
+
+/**
+ * Set the position of this object
+ * in the world. Adjusts the member model matrix.
+ *
+ * @param pos New position in world space
+ */
+void RenderObject::SetPosition(glm::vec3 pos)
+{
+    mPosition = pos;
+    UpdateModelMatrix();
+}
+
+
+/**
+ * Set the rotation of this object, using glm/gtc's
+ * angle/axis convention. Make sure your angle is in radians!
+ * @param rads new angle in radians!
+ * @param axis axis of rotation. make sure it's a valid axis!! (not the zero vector)
+ */
+void RenderObject::SetRotation(float rads, glm::vec3 axis)
+{
+    auto axisNorm = glm::normalize(axis);
+    auto rotation = std::pair<float, glm::vec3>(rads, axisNorm);
+    mRotation = rotation;
+    UpdateModelMatrix();
+}
+
+
+/**
+ * Set the scale of the object.
+ * 
+ * This override gives the option of stretching
+ * weirdly because it has a vector input.
+ * 
+ * @param scale New xyz scale of the object
+ */
+void RenderObject::SetScale(glm::vec3 scale)
+{
+    mScale = scale;
+    UpdateModelMatrix();
+}
+
+
+/**
+ * Set the scale of the object.
+ *
+ * This override simply scales the object
+ * in all dimensions evenly--it basically
+ * shrinks/grows it to the provided scale
+ *
+ * @param scale New xyz scale of the object
+ */
+void RenderObject::SetScale(float scale)
+{
+    mScale = glm::vec3(scale);
+    UpdateModelMatrix();
+}
+
+
+
+
 

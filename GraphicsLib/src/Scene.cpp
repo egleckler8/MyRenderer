@@ -5,7 +5,7 @@
 
 #include "Scene.h"
 
-#include "RenderData.h"
+#include "RenderObject.h"
 #include "Camera.h"
 #include "Model.h"
 
@@ -32,7 +32,7 @@ void Scene::RenderScene(glm::mat4 viewMat, glm::mat4 projMat) const
 
      so, we need to devise some algo to make sure
      light sources get rendered in a logical manner.
-     i.e. we need to set the uniforms in each of the RenderData's
+     i.e. we need to set the uniforms in each of the RenderObject's
      shaders in a way that makes the final, lighted,
      rendered object look normal.
 

@@ -9,7 +9,7 @@
  * GameObjects will call a RenderScene function with
  * a pointer to a WindowManager as an argument
  * which will then call WindowManager::RenderScene
- * passing its RenderData to this class.
+ * passing its RenderObject to this class.
  *
  * Also has to keep track of the camera!
  */

@@ -24,8 +24,8 @@ set(SOURCE_FILES
         src/Model.h
         src/WindowManager.cpp
         src/WindowManager.h
-        src/RenderData.cpp
-        src/RenderData.h
+        src/RenderObject.cpp
+        src/RenderObject.h
         src/Scene.cpp
         src/Scene.h
 )

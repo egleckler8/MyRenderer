@@ -16,7 +16,7 @@
 #include <glm.hpp>
 #include <vector>
 
-class RenderData;
+class RenderObject;
 class LightSource;
 class Camera;
 /**
@@ -27,7 +27,7 @@ class Scene
 private:
 
     /// Pointers to all the Rendering data
-    std::vector<RenderData*> mEntities;
+    std::vector<RenderObject*> mEntities;
 
     /// Pointers to all the LightSources
     std::vector<LightSource*> mLights;
@@ -49,7 +49,7 @@ public:
      * Add a physical entity to the scene
      * @param entity thing to add
      */
-    void AddEntity(RenderData* entity) { mEntities.push_back(entity); }
+    void AddEntity(RenderObject* entity) { mEntities.push_back(entity); }
 
     /**
      * Add a light source to the scene

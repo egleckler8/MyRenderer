@@ -114,7 +114,7 @@ void Mesh::Render(std::shared_ptr<Shader> shaders)
 
         // Set the uniform to this texture number, assuming it's in the material struct
         shaders->use(); // I suppose we should assure this, even though it was
-                        // likely already called in RenderData::Render
+                        // likely already called in RenderObject::Render
         shaders->set1FUniform(uniformName.c_str(), i);
 
         glBindTexture(GL_TEXTURE_2D, mTextures[i].id);

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <glm.hpp>
+#include <GLFW/glfw3.h>
 #include <GraphicsLib/api.h>
 
 const int SCREEN_WIDTH = 1000; ///< Chosen by me
@@ -20,7 +21,7 @@ int main()
     // Create a render data thingy
     auto backpackModel = std::make_shared<Model>("../resources/models/backpack/backpack.obj");
     auto backpackShaders = std::make_shared<Shader>("backpackShaders", "../resources/shaders/v4.vert", "../resources/shaders/f4.frag");
-    RenderData backpackData(backpackModel, backpackShaders);
+    RenderObject backpackData(backpackModel, backpackShaders);
 
 
     // A directional light source
@@ -45,6 +46,15 @@ int main()
 
     while(true)
     {
+        float t = glfwGetTime();
+
+        glm::vec3 pos(3.0*sin(t), 0.0, 3.0*cos(t));
+        glm::vec3 axis(0.0f, 1.0f, 0.5f);
+        float angle = glm::radians(t * 50.0);
+        float scale = sin(t);
+        backpackData.SetPosition(pos);
+        backpackData.SetRotation(angle, axis);
+        backpackData.SetScale(scale);
 
         window.DisplayScene(scene);
     }

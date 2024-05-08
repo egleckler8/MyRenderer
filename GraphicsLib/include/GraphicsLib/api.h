@@ -12,7 +12,7 @@
 // All necessary includes for the API:
 #include "../src/WindowManager.h"
 #include "../src/Scene.h"
-#include "../src/RenderData.h"
+#include "../src/RenderObject.h"
 #include "../src/LightSource.h"
 #include "../src/PointLight.h"
 #include "../src/DirectionalLight.h"
