@@ -17,7 +17,7 @@
 #ifndef LEARNING_OPENGL__WINDOWMANAGER_H
 #define LEARNING_OPENGL__WINDOWMANAGER_H
 
-
+#include <memory>
 #include <glm.hpp>
 
 class GLFWwindow;

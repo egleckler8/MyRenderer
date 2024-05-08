@@ -27,7 +27,7 @@ private:
     // will get set in the app with setter
 
     /// Attenuation coefficients
-    std::shared_ptr<AttenuationCoefficients> mAttenuationCoefficients;
+    AttenuationCoefficients mAttenuationCoefficients;
     
 public:
 
@@ -37,8 +37,8 @@ public:
      * @param attenCoeffs - attenuation coefficients of this light source
      * @param shaderProgram - this light source's associated shader program
      */
-    PointLight( std::shared_ptr<PhongColors> phongColors,
-                std::shared_ptr<AttenuationCoefficients> attenCoeffs)
+    PointLight( PhongColors phongColors,
+                AttenuationCoefficients attenCoeffs)
                 :
                 LightSource(phongColors),
                 mAttenuationCoefficients(attenCoeffs)

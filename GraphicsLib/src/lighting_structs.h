@@ -5,6 +5,10 @@
  * Some useful structs to encapsulate some of the
  * repeated values that are used for different
  * light sources
+ *
+ * Also includes some json loading functionality
+ * for these structs using the conventions of the
+ * json_utils.h
  */
 
 #ifndef LEARNING_OPENGL__LIGHTING_STRUCTS_H
@@ -28,36 +32,7 @@ struct PhongColors
     /// The color of specular light from this source in RGB
     glm::vec3 specular = glm::vec3(0.0f);
 
-
-    // ****************************************************************
-
-    /**
-     * Constructor
-     * @param ambientColor - color of ambient light
-     * @param diffuseColor - color of diffuse light
-     * @param specularColor - color of specular light
-     */
-    PhongColors(glm::vec3 ambientColor,
-                glm::vec3 diffuseColor,
-                glm::vec3 specularColor)
-        :
-        ambient(ambientColor),
-        diffuse(diffuseColor),
-        specular(specularColor)
-    {}
-
-    /// Default constructor (disabled)
-    PhongColors() = delete;
-
-    /// Copy constructor (disabled)
-    PhongColors(const PhongColors &) = delete;
-
-    /// Assignment operator
-    void operator=(const PhongColors &) = delete;
-
 };
-
-
 
 /**
  * Encapsulates the constants for calculating
@@ -75,33 +50,18 @@ struct AttenuationCoefficients
     /// Constant coefficient (almost always 1.0)
     float constant;
 
-    // Linear coefficient
+    /// Linear coefficient
     float linear;
 
-    // Quadratic coefficient
+    /// Quadratic coefficient
     float quadratic;
-
-    // ****************************************************************
-
-    /**
-     * Constructor
-     * @param linearCoeff - linear coefficient of attenuation
-     * @param quadraticCoeff - quadratic coefficient of attenuation
-     */
-    AttenuationCoefficients(float constCoeff, float linearCoeff, float quadraticCoeff)
-                            : constant(constCoeff), linear(linearCoeff), quadratic(quadraticCoeff) {}
-
-    /// Default constructor (disabled)
-    AttenuationCoefficients() = delete;
-
-    /// Copy constructor (disabled)
-    AttenuationCoefficients(const AttenuationCoefficients &) = delete;
-
-    /// Assignment operator
-    void operator=(const AttenuationCoefficients &) = delete;
 
 };
 
 
 
+
+
 #endif //LEARNING_OPENGL__LIGHTING_STRUCTS_H
+
+

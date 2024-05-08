@@ -21,6 +21,7 @@
 #include "../src/Model.h"
 #include "../src/Shader.h"
 #include "../src/RenderObjectFactory.h"
+#include "../src/LightSourceFactory.h"
 
 
 

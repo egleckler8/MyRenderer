@@ -34,21 +34,21 @@ class RenderObject
 private:
 
     /// 3D odel of the object, including meshes & textures.
-    std::shared_ptr<Model> mModel;
+    std::shared_ptr<Model> mModel = nullptr;
 
     /// ShaderProgram program this object will follow.
-    std::shared_ptr<ShaderProgram> mShaders;
+    std::shared_ptr<ShaderProgram> mShaders = nullptr;
 
     /// Model matrix for this object. Make sure to adjust this
     /// before rendering to make sure your object is in the right
     /// place, has the right rotation, and is the right size!
-    glm::mat4 mModelMatrix;
+    glm::mat4 mModelMatrix = glm::mat4(1.0f);
 
     /// Position in world space
     glm::vec3 mPosition = glm::vec3(0.0f);
 
     /// Rotation angle/axis pair of the object.
-    /// I decided it would be good to enfore the angle/axis coupling
+    /// I decided it would be good to enforce the angle/axis coupling
     /// ANGLE IN RADIANS! (you can use glm::radians()...)
     /// Would be nice if it were normalized... SetRotation() does that...
     std::pair<float, glm::vec3> mRotation =

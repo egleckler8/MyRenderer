@@ -30,6 +30,8 @@ set(SOURCE_FILES
         src/Scene.h
         src/RenderObjectFactory.cpp
         src/RenderObjectFactory.h
+        src/LightSourceFactory.cpp
+        src/LightSourceFactory.h
 )
 
 set(HEADER_FILES

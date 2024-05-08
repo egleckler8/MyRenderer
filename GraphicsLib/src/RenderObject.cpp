@@ -3,6 +3,7 @@
  * @author Elijah Gleckler
  */
 
+#include <iostream>
 #include <gtc/matrix_transform.hpp>
 
 #include "RenderObject.h"
@@ -57,39 +58,47 @@ RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
  */
 void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat, std::vector<LightSource*>& lights)
 {
-    // Update the model matrix based on our current
-    // position, rotation, and scale
-    UpdateModelMatrix();
-
-    // Model-View matrix and Normal Matrix
-    glm::mat4 modelViewMat = viewMat * mModelMatrix;
-    glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(modelViewMat)));
-
-    // Set the transformation uniforms
-    mShaders->use(); // will not re-bind, OpenGL optimizes this for us
-    mShaders->setMat4Uniform(MODEL_MAT_UNIFORM_NAME, mModelMatrix);
-    mShaders->setMat4Uniform(VIEW_MAT_UNIFORM_NAME, viewMat);
-    mShaders->setMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
-    mShaders->setMat3Uniform(NORMAL_MAT_UNIFORM_NAME, normalMat);
-
-    // Set lighting uniforms
-    // THIS WILL FAIL HORRIBLY IF THE SHADERS DON'T FOLLOW THE
-    // EXPECTED NAMING CONVENTIONS!!!
-
-    // We neither want to exceed the maximum number of lights
-    // (which we've also specified in the shaders) nor do we
-    // want to index out of bounds on the light sources vector
-    for (   int i = 0;
-            i < lights.size() && i < MAX_LIGHTS_PER_SHADER;
-            ++i)
+    if (mModel != nullptr && mShaders != nullptr)
     {
-        auto light = lights.at(i);
-        light->SetLightingUniforms(mShaders);
+        // Update the model matrix based on our current
+        // position, rotation, and scale
+        UpdateModelMatrix();
+
+        // Model-View matrix and Normal Matrix
+        glm::mat4 modelViewMat = viewMat * mModelMatrix;
+        glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(modelViewMat)));
+
+        // Set the transformation uniforms
+        mShaders->use(); // will not re-bind, OpenGL optimizes this for us
+        mShaders->setMat4Uniform(MODEL_MAT_UNIFORM_NAME, mModelMatrix);
+        mShaders->setMat4Uniform(VIEW_MAT_UNIFORM_NAME, viewMat);
+        mShaders->setMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
+        mShaders->setMat3Uniform(NORMAL_MAT_UNIFORM_NAME, normalMat);
+
+        // Set lighting uniforms
+        // THIS WILL FAIL HORRIBLY IF THE SHADERS DON'T FOLLOW THE
+        // EXPECTED NAMING CONVENTIONS!!!
+
+        // We neither want to exceed the maximum number of lights
+        // (which we've also specified in the shaders) nor do we
+        // want to index out of bounds on the light sources vector
+        for (   int i = 0;
+                i < lights.size() && i < MAX_LIGHTS_PER_SHADER;
+                ++i)
+        {
+            auto light = lights.at(i);
+            light->SetLightingUniforms(mShaders);
+        }
+
+        // Binding textures & shaders and setting uniforms
+        // all happen in this call!
+        mModel->Render(mShaders);
+    }
+    else
+    {
+        std::cout << "Be careful! Cannot render an instance with unitialized assets." << std::endl;
     }
 
-    // Binding textures & shaders and setting uniforms
-    // all happen in this call!
-    mModel->Render(mShaders);
 }
 
 

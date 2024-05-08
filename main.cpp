@@ -1,9 +1,9 @@
 #include <iostream>
-#include <glm.hpp>
-#include <GLFW/glfw3.h>
-#include <GraphicsLib/api.h>
+#include "glm.hpp"
+#include "GLFW/glfw3.h"
+#include "GraphicsLib/api.h"
 #include <fstream>
-#include <nlohmann/json.hpp>
+#include "nlohmann/json.hpp"
 
 
 const int SCREEN_WIDTH = 1000; ///< Chosen by me
@@ -45,7 +45,7 @@ int main()
 
     // Create a scene and add everything
     Scene scene;
-    scene.AddEntity(&backpack);
+    scene.AddRenderObject(&backpack);
     scene.AddLightSource(&theSun);
     scene.AddLightSource(&tester);
     tester.SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));

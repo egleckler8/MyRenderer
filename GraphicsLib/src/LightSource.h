@@ -31,16 +31,16 @@ private:
      * of this light source, using the Phong lighting model,
      * to each fragment in the associated shader.
      */
-    std::shared_ptr<PhongColors> mPhongColors;
-
-protected:
-
-    // should I move mShaders here??
+    PhongColors mPhongColors;
 
 public:
 
-    // Constructor
-    LightSource(std::shared_ptr<PhongColors> phongColors) : mPhongColors(phongColors) {}
+    /**
+     * Constructor
+     * @param phongColors Ambient, diffuse, and specular colors
+     *                    for Phong lighting model.
+     */
+    LightSource(PhongColors phongColors) : mPhongColors(phongColors) {}
     
     /// Default constructor (disabled)
     LightSource() = delete;
@@ -50,6 +50,9 @@ public:
     
     /// Assignment operator
     void operator=(const LightSource &) = delete;
+
+    /// Virtual destructor
+    virtual ~LightSource() {}
 
     /// Sets the uniforms corresponding to this light source
     /// in the associated shader program.
@@ -64,7 +67,7 @@ public:
      * Get the Phong lighting colors for this light source
      * @return the Phong lighting colors for this light source
      */
-    std::shared_ptr<PhongColors> GetPhongColors() const { return mPhongColors; }
+    PhongColors& GetPhongColors() { return mPhongColors; }
 
     /**
      * Set the ambient color of this light source
@@ -72,7 +75,7 @@ public:
      */
     void SetAmbientColor(const glm::vec3 &ambientColor)
     {
-        mPhongColors->ambient = ambientColor;
+        mPhongColors.ambient = ambientColor;
     }
 
     /**
@@ -81,7 +84,7 @@ public:
      */
     void SetDiffuseColor(const glm::vec3 &diffuseColor)
     {
-        mPhongColors->diffuse = diffuseColor;
+        mPhongColors.diffuse = diffuseColor;
     }
 
     /**
@@ -90,7 +93,7 @@ public:
      */
     void SetSpecularColor(const glm::vec3 &specularColor)
     {
-        mPhongColors->specular = specularColor;
+        mPhongColors.specular = specularColor;
     }
 
 };

@@ -26,7 +26,7 @@
 /**
  * Spotlight-style light source, like a player-held flashlight.
  */
-class SpotLight : public PointLight
+class SpotLight //: public PointLight
 {
 private:
 
