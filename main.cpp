@@ -2,6 +2,9 @@
 #include <glm.hpp>
 #include <GLFW/glfw3.h>
 #include <GraphicsLib/api.h>
+#include <fstream>
+#include <nlohmann/json.hpp>
+
 
 const int SCREEN_WIDTH = 1000; ///< Chosen by me
 const int SCREEN_HEIGHT = 800; ///< Chosen by me
@@ -20,9 +23,10 @@ int main()
 
     // Create a render data thingy
     RenderObjectFactory objectFactory("../resources");
-    auto backpack = objectFactory.Create("../resources/models/backpack/backpack.obj",
-                                         "../resources/shaders/v4.vert",
-                                         "../resources/shaders/f4.frag");
+
+    std::ifstream f("../resources/json/backpack.json");
+    auto data = json::parse(f);
+    auto backpack = objectFactory.CreateFromJson(data);
     // make it face towards use when we spawn:
     backpack.SetScale(glm::vec3(1.0f, 1.0f, -1.0f));
 

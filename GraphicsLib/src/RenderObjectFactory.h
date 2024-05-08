@@ -20,6 +20,10 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <nlohmann/json_fwd.hpp>
+
+// for clarity... recommended by nlohmann
+using json = nlohmann::json;
 
 class ShaderProgram;
 class Model;
@@ -76,6 +80,8 @@ public:
     RenderObject Create(const std::string& modelFile,
                         const std::string& vertShaderFile,
                         const std::string& fragShaderFile);
+
+    RenderObject CreateFromJson(const nlohmann::json &configJson);
 
 };
 

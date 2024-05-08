@@ -28,12 +28,12 @@ set(SOURCE_FILES
         src/RenderObject.h
         src/Scene.cpp
         src/Scene.h
+        src/RenderObjectFactory.cpp
+        src/RenderObjectFactory.h
 )
 
 set(HEADER_FILES
         include/GraphicsLib/api.h
-        src/RenderObjectFactory.cpp
-        src/RenderObjectFactory.h
 )
 
 # Add library target
@@ -55,15 +55,17 @@ set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
 # Assimp (built as cmake lib)
 set(ASSIMP_DIR ${LIB_DIR}/assimp)
 add_subdirectory(${ASSIMP_DIR})
-target_link_libraries(${PROJECT_NAME} assimp)
-# include_directories(${ASSIMP_DIR}/include)
+target_link_libraries(${PROJECT_NAME} PUBLIC assimp) # idk how to not make public
+# does the thing where the includes are not found in the header file "Model.h"
+# but they are found in the cpp, and theres an enum in one of the function
+# declarations, so I can't exactly forward declare everything...
 target_include_directories(${PROJECT_NAME} PRIVATE ${ASSIMP_DIR}/include)
 
 
 # GLAD (built as cmake lib)
 set(GLAD_DIR ${LIB_DIR}/glad)
 add_subdirectory(${GLAD_DIR})
-target_link_libraries(${PROJECT_NAME} glad)
+target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLAD_DIR}/include)
 
 
@@ -75,7 +77,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${STB_DIR})
 # OpenGL (package on machine)
 find_package(OpenGL REQUIRED) # populates CMake with the data on OpenGL!
 include_directories(${OPENGL_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENGL_LIBRARIES})
 
 
 

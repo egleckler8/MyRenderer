@@ -19,9 +19,9 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 
 
-#
-# Dependencies
-#
+# ****************************************************************
+#                       Dependencies
+# ****************************************************************
 
 # Here is where all the libraries are
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
@@ -37,8 +37,12 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(${GLFW_DIR})
 # Link to all the targets that need it:
-target_link_libraries(${GRAPHICS_LIBRARY} glfw ${GLFW_LIBRARIES}) # lib to graphics lib
-target_include_directories(${GRAPHICS_LIBRARY} PRIVATE ${GLFW_DIR}/include) # includes to graphics lib
+# to graphics lib
+target_link_libraries(${GRAPHICS_LIBRARY} PRIVATE glfw ${GLFW_LIBRARIES})
+target_include_directories(${GRAPHICS_LIBRARY} PRIVATE ${GLFW_DIR}/include)
+# to main
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw ${GLFW_LIBRARIES}) # lib to graphics lib
+target_include_directories(${PROJECT_NAME} PRIVATE ${GLFW_DIR}/include) # includes to graphics lib
 # And the input lib
 
 
@@ -49,6 +53,17 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_DIR}) # includes to main
 target_include_directories(${GRAPHICS_LIBRARY} PUBLIC ${GLM_DIR}) # includes to graphics lib
 
 
+# nlohmann json
+include(FetchContent)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json) # link to main
+target_link_libraries(${GRAPHICS_LIBRARY} PRIVATE nlohmann_json::nlohmann_json) # link to graphics lib
+# wow... that is scary easy... WHY!??! (existential pain)
+
+# ****************************************************************
 
 
 

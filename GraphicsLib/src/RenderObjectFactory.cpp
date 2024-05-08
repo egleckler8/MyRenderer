@@ -5,6 +5,8 @@
 
 #include "RenderObjectFactory.h"
 
+#include <nlohmann/json.hpp>
+
 #include "RenderObject.h"
 #include "Shader.h"
 #include "Model.h"
@@ -15,7 +17,11 @@
  * Will not reload models that have been already loaded,
  * due to the member map variables.
  *
- * @param modelFile         File for the created object's 3D model, like a .obj
+ * @param modelFile         File for the created object's 3D model, like a .obj.
+ *                          This path should be relative to the "models" folder
+ *                          in the resources directory, e.g. if the filepath is:
+ *                          "../resources/models/backpack/backpack.obj", only use
+ *                          "backpack/backpack.obj" as an argument.
  * @param vertShaderFile    Vertex shader file
  * @param fragShaderFile    Fragment shader file
  *
@@ -40,7 +46,8 @@ RenderObject RenderObjectFactory::Create(const std::string& modelFile,
     {
         // It has not been loaded yet, so do it now.
         // The model class loads from path to object file
-        modelPtr = std::make_shared<Model>(modelFile.c_str());
+        auto modelFilepath = mResourceDir + "/models/" + modelFile;
+        modelPtr = std::make_shared<Model>(modelFilepath.c_str());
 
         // Remember to insert this to the map, now!
         std::pair<std::string, std::shared_ptr<Model>> p(modelFile, modelPtr);
@@ -65,8 +72,8 @@ RenderObject RenderObjectFactory::Create(const std::string& modelFile,
     {
         // They have not been compiled yet, so do it now
         // Remember to build the full shader paths!
-        auto vertFilepath = mResourceDir + '/' + vertShaderFile;
-        auto fragFilepath = mResourceDir + '/' + fragShaderFile;
+        auto vertFilepath = mResourceDir + "/shaders/" + vertShaderFile;
+        auto fragFilepath = mResourceDir + "/shaders/" + fragShaderFile;
         shaderPtr = std::make_shared<ShaderProgram>(programName,
                                                     vertFilepath.c_str(),
                                                     fragFilepath.c_str());
@@ -78,4 +85,37 @@ RenderObject RenderObjectFactory::Create(const std::string& modelFile,
 
     // Oh yeah...
     return RenderObject(modelPtr, shaderPtr);
+}
+
+
+/**
+ * Create a RenderObject from a nlohmann::json object
+ * conforming to this exact format:
+ *
+ * {
+ *     "model_file": <filename of 3d model with parent dir>,
+ *     "vertex_shader_file":<filename of vertex shader>,
+ *     "fragment_shader_file":<filename of fragment shader>
+ * }
+ *
+ * All filenames should be relative to the implied
+ * directory within the resources directory, e.g.
+ * the vertex shader "v4.vert" is assumed to be at the
+ * filepath "root/resources/shaders/v4.vert," and the
+ * model "backpack/backpack.obj" is assumed to be located
+ * at "root/resources/models/backpack/backpack.obj"
+ *
+ * @param configJson json object holding filepaths to assets
+ *
+ * @return New RenderObject, using above assets,
+ *         initialized to default pos/rotation/scale
+ */
+RenderObject RenderObjectFactory::CreateFromJson(const json& configJson)
+{
+    // Grab the asset filepath data from the json
+    std::string modelFile = configJson.at("model_file");
+    std::string vertShaderFile = configJson.at("vertex_shader_file");
+    std::string fragShaderFile = configJson.at("fragment_shader_file");
+
+    return Create(modelFile, vertShaderFile, fragShaderFile);
 }
