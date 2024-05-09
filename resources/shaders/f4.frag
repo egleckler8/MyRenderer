@@ -92,7 +92,7 @@ void main()
     }
 
     // spot lighting
-    vec3 spotLighting = CalcSpotLight(spotLight, norm, FragPos, viewDir);
+    // vec3 spotLighting = CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
     // add up the results & output
     vec3 result = directionalLighting + pointLighting;

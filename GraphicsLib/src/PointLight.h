@@ -24,7 +24,7 @@ private:
 
     /// Position of this light source IN WORLD SPACE
     glm::vec3 mPosition = glm::vec3(0.0f);
-    // will get set in the app with setter
+    // will be set after initializiation
 
     /// Attenuation coefficients
     AttenuationCoefficients mAttenuationCoefficients;

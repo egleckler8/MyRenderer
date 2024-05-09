@@ -112,9 +112,9 @@ void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat,
 void RenderObject::UpdateModelMatrix()
 {
     glm::mat4 modelMat(1.0f);
-    modelMat = glm::scale(modelMat, mScale);
-    modelMat = glm::rotate(modelMat, mRotation.first, mRotation.second);
     modelMat = glm::translate(modelMat, mPosition);
+    modelMat = glm::rotate(modelMat, mRotation.first, mRotation.second);
+    modelMat = glm::scale(modelMat, mScale);
     mModelMatrix = modelMat;
 }
 
