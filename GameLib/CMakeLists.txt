@@ -17,6 +17,8 @@ set(SOURCE_FILES
         src/SceneBuilderVisitor.h
         src/Game.cpp
         src/Game.h
+        src/GameObjectLoader.cpp
+        src/GameObjectLoader.h
 )
 
 set(HEADER_FILES

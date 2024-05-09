@@ -20,6 +20,8 @@
 #include <string>
 #include <nlohmann/json_fwd.hpp>
 
+using json = nlohmann::json;
+
 class LightSource;
 class PointLight;
 class DirectionalLight;
@@ -30,11 +32,9 @@ class LightSourceFactory
 {
 private:
 
-    std::unique_ptr<PointLight> CreatePointLight(const nlohmann::json& configJson);
+    std::unique_ptr<PointLight> CreatePointLight(const json &data);
     std::unique_ptr<DirectionalLight> CreateDirectionalLight(const nlohmann::json &configJson);
     // void CreateSpotLight(const nlohmann::json& configJson);
-
-
 
 public:
 

@@ -36,9 +36,9 @@ glm::vec3 VectorFromJson(const json& data)
  * Should be of this format:
  *
  *  {
- *      "r":<red component>,
- *      "g":<green ... >,
- *      "b":<blue ...>
+ *      "r": <red component>,
+ *      "g": <green ... >,
+ *      "b": <blue ...>
  *  }
  *
  * @param data data of the color
@@ -51,4 +51,29 @@ glm::vec3 ColorFromJson(const json& data)
     g = data.at("g");
     b = data.at("b");
     return glm::vec3(r, g, b);
+}
+
+
+/**
+ * Get a rotation angle/axis pair from json data.
+ * Should be of this format:
+ *
+ *  {
+ *      "angle": <angle in radians>,
+ *      "axis":
+ *      {
+ *          "x": <x component>,
+ *          "y": <y component>,
+ *          "z": <z component>
+ *      }
+ *  }
+ *
+ * @param data data of the rotation config
+ * @return angle/axis rotation pair
+ */
+std::pair<float, glm::vec3> RotationFromJson(const nlohmann::json& data)
+{
+    float angle = data.at("angle");
+    glm::vec3 axis = VectorFromJson(data.at("rotation"));
+    return std::pair<float, glm::vec3>(angle, axis);
 }

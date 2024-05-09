@@ -17,6 +17,7 @@
 
 glm::vec3 VectorFromJson(const nlohmann::json& data);
 glm::vec3 ColorFromJson(const nlohmann::json& data);
+std::pair<float, glm::vec3> RotationFromJson(const nlohmann::json& data);
 
 
 

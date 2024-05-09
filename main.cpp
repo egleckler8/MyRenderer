@@ -61,12 +61,12 @@ int main()
         float t = glfwGetTime();
 
         glm::vec3 pos(3.0*sin(t), 0.0, 3.0*cos(t));
-        glm::vec3 axis(1.0f, 0.0f, 0.0f);
-        float angle = glm::radians(t * 800.0);
+        glm::vec3 axis(0.0f, 1.0f, 0.0f);
+        float angle = glm::radians(t * 500.0);
         float scale = (sin(0.2 * t) + 1.5) * 0.5;
         backpack->SetPosition(pos);
         backpack->SetRotation(angle, axis);
-        backpack->SetScale(scale);
+        //backpack->SetScale(scale);
 
         window.DisplayScene(scene);
     }

@@ -27,7 +27,7 @@ class GameObject
 private:
 
     /// Rendering data for this entity
-    std::unique_ptr<RenderObject> mRenderData = nullptr;
+    RenderObject* mRenderData = nullptr;
 
     /// Position of this object in world space, in METERS.
     glm::vec3 mPosition = glm::vec3(0.0f);
@@ -46,9 +46,28 @@ private:
 
 public:
 
-    // Constructor
-    GameObject(std::unique_ptr<RenderObject> renderData, glm::vec3 hitbox)
-                : mRenderData(std::move(renderData)), mHitbox(hitbox) {}
+
+    /**
+     * Construcotr
+     * @param renderData    Unique ptr to the render data. What I'd like to
+     *                      communicate here by using a unique_ptr is that
+     *                      this GameObject will be the new owner of the
+     *                      RenderObject instance.
+     * @param position      Position in world space of the object
+     * @param hitbox        Rectangular prism hitbox of the object
+     * @param rotation      Axis/angle pair of the 3D rotation
+     */
+    GameObject(std::unique_ptr<RenderObject> renderData,
+               glm::vec3 position, glm::vec3 hitbox,
+               std::pair<float, glm::vec3> rotation)
+               :
+               mPosition(position), mHitbox(hitbox), mRotation(rotation)
+               {
+                    // Unpack the unique_ptr and take the raw ptr
+                    mRenderData = std::move(renderData).get();
+                    // The unique_ptr is moved to the constructor and
+                    // destroyed when it then falls out of scope.
+               }
 
     /// Default constructor (disabled)
     GameObject() = delete;
@@ -69,15 +88,13 @@ public:
     void SetRotation(float rads, glm::vec3 axis);
 
     /**
-     * Get a pointer to the render data. Don't want to share
-     * this pointer or move it out, so just hand over the
-     * raw pointer.
+     * Get a pointer to the light source. Make a copy of the member ptr
      *
      * Maybe I could make this more airtight (against nullptr) later...
      *
      * @return Pointer to this object's render data
      */
-    RenderObject* GetRenderData() const { return mRenderData.get(); }
+    RenderObject* GetRenderData() const { return mRenderData; }
 
 
 

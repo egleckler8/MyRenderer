@@ -20,7 +20,7 @@ class LightSrcObject : public GameObject
 private:
 
     /// Light source object associated with this GameObject
-    std::unique_ptr<LightSource> mLightSource = nullptr;
+    LightSource* mLightSource = nullptr;
 
 public:
 
@@ -30,9 +30,18 @@ public:
      * @param hitbox Hitbox
      * @param lightSrc Pointer to the light source
      */
-    LightSrcObject(std::unique_ptr<RenderObject> renderData, glm::vec3 hitbox,
-                    std::unique_ptr<LightSource> lightSrc)
-                    : GameObject(std::move(renderData), hitbox), mLightSource(std::move(lightSrc)) {}
+    LightSrcObject(std::unique_ptr<RenderObject> renderData,
+                   glm::vec3 position, glm::vec3 hitbox,
+                   std::pair<float, glm::vec3> rotation,
+                   std::unique_ptr<LightSource> lightSrc)
+                   :
+                   GameObject(std::move(renderData), position, hitbox, rotation)
+                   {
+                        // Unpack the unique_ptr and take the raw ptr
+                        mLightSource = std::move(lightSrc).get();
+                        // The unique_ptr is moved to the constructor and
+                        // destroyed when it then falls out of scope.
+                   }
 
     /// Default constructor (disabled)
     LightSrcObject() = delete;
@@ -46,15 +55,13 @@ public:
     // ****************************************************************
 
     /**
-     * Get a pointer to the light source. Don't want to share
-     * this pointer or move it out, so just hand over the
-     * raw pointer.
+     * Get a pointer to the light source. Make a copy of the member ptr
      *
      * Maybe I could make this more airtight (against nullptr) later...
      *
      * @return Pointer to this object's light source
      */
-    LightSource* GetLightSource() { return mLightSource.get(); }
+    LightSource* GetLightSource() { return mLightSource; }
 
 
 

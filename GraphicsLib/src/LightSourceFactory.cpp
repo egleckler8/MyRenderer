@@ -49,17 +49,17 @@ AttenuationCoefficients AttenCoeffsFromJson(const json& data);
  * ALL RGB VALUES SHOULD BE FLOATS FROM 0.0 TO 1.0!!
  *
  *
- * @param configJson json data to load phong colors & atten. coeffs.
+ * @param data json data to load phong colors & atten. coeffs.
  */
 std::unique_ptr<PointLight>
-    LightSourceFactory::CreatePointLight(const json &configJson)
+    LightSourceFactory::CreatePointLight(const json &data)
 {
     // Phong colors:
-    auto phongData = configJson.at("phong_colors");
+    auto phongData = data.at("phong_colors");
     PhongColors phongColors = PhongColorsFromJson(phongData);
 
     // Attenuation coeffiecients:
-    auto attenCoeffData = configJson.at("attenuation_coefficients");
+    auto attenCoeffData = data.at("attenuation_coefficients");
     AttenuationCoefficients attenCoeffs = AttenCoeffsFromJson(attenCoeffData);
 
     return std::make_unique<PointLight>(phongColors, attenCoeffs);
