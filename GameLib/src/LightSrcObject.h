@@ -11,7 +11,7 @@
 #include <memory>
 #include "GameObject.h"
 
-class PointLight;
+class LightSource;
 /**
  *  * GameObject that has a light source, like a torch
  */
