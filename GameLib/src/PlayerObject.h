@@ -39,12 +39,12 @@ public:
      * @param hitbox Player hitbox
      * @param cameraMan Camera manager pointer to track the player
      */
-    PlayerObject(std::unique_ptr<RenderObject> renderData,
+    PlayerObject(RenderObject* renderData,
                  glm::vec3 position, glm::vec3 hitbox,
                  std::pair<float, glm::vec3> rotation,
                  std::shared_ptr<CameraManager> cameraMan)
                  :
-                 GameObject(std::move(renderData), position, hitbox, rotation),
+                 GameObject(renderData, position, hitbox, rotation),
                  mCameraMan(cameraMan) {}
 
     /// Default constructor (disabled)

@@ -9,6 +9,28 @@
 
 
 
+/**
+ * Construcotr
+ * @param renderData    Unique ptr to the render data. What I'd like to
+ *                      communicate here by using a unique_ptr is that
+ *                      this GameObject will be the new owner of the
+ *                      RenderObject instance.
+ * @param position      Position in world space of the object
+ * @param hitbox        Rectangular prism hitbox of the object
+ * @param rotation      Axis/angle pair of the 3D rotation
+ */
+GameObject::GameObject(RenderObject *renderData,
+                       glm::vec3 position,
+                       glm::vec3 hitbox,
+                       std::pair<float, glm::vec3> rotation) :
+                       mPosition(position), mHitbox(hitbox),
+                       mRotation(rotation), mRenderData(renderData)
+{
+    // Make sure to set the render data's position!
+    mRenderData->SetPosition(mPosition);
+    // and orientation...
+    mRenderData->SetRotation(mRotation.first, mRotation.second);
+}
 
 
 
@@ -51,4 +73,3 @@ void GameObject::AcceptVisitor(GameObjectVisitor &visitor)
 {
     visitor.VisitGameObject(this);
 }
-

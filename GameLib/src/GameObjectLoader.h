@@ -59,9 +59,9 @@ public:
 
     // ****************************************************************
 
-    std::vector<std::unique_ptr<GameObject>> LoadObjects(const nlohmann::json& data);
-    std::unique_ptr<GameObject> LoadObject(const nlohmann::json& data);
-    std::unique_ptr<LightSrcObject> LoadLightSrcObject(const nlohmann::json& data);
+    std::vector<GameObject*> LoadObjects(const nlohmann::json& data);
+    GameObject* LoadObject(const nlohmann::json& data);
+    LightSrcObject* LoadLightSrcObject(const nlohmann::json& data);
     // std::unique_ptr<PlayerObject> LoadPlayerObject(const nlohmann::json& data);
     // TODO ^^ player object...
 

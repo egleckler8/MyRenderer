@@ -149,7 +149,6 @@ void WindowManager::DisplayScene(const Scene& scene)
     {
         // Hmm... is this the best place for this code?
         std::cout << "GLFW terminated." << std::endl;
-        glfwDestroyWindow(mWindow);
         glfwTerminate();
     }
 

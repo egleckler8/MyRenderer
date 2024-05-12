@@ -52,3 +52,4 @@ void SceneBuilderVisitor::VisitPlayerObject(PlayerObject *playerObject)
     VisitGameObject(playerObject);
     // anything else with the camera?
 }
+

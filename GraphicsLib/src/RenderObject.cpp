@@ -37,7 +37,7 @@ const std::string NORMAL_MAT_UNIFORM_NAME = "normalMat"; ///< Naming convention 
  * @param shaders shader program with which toto render the object
  */
 RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderProgram> shaders)
-    : mModel(model), mShaders(shaders)
+    : mModel(std::move(model)), mShaders(std::move(shaders))
 {
     // Default model matrix at the origin
     // with scale 1.0 and no rotation
@@ -97,7 +97,10 @@ void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat,
     }
     else
     {
-        std::cout << "Be careful! Cannot render an instance with unitialized assets." << std::endl;
+        std::cout
+        << "Be careful! Cannot render an instance with unitialized assets.\n"
+        << "(RenderObject.cpp line 102)"
+        << std::endl;
     }
 
 }

@@ -17,13 +17,11 @@
  */
 Mesh::Mesh( std::vector<Vertex> vertices,
             std::vector<unsigned int> indices,
-            std::vector<TextureData> textures,
-            float shininess)
+            std::vector<TextureData> textures)
             :
             mVertices(vertices),
             mIndices(indices),
-            mTextures(textures),
-            mMaterialShininess(shininess)
+            mTextures(textures)
 {
     // This will initialize the VAO, VBO, EBO--never fear
     SetUpMesh();
@@ -86,8 +84,10 @@ void Mesh::Render(std::shared_ptr<ShaderProgram> shaders)
     // Set the texture uniforms in the shader
     // textures associated with materials?
 
-    unsigned int diffuseNum = 1; // LearnOpenGl's naming conventions... pg. 163
+    // LearnOpenGL's naming conventions... pg. 163
+    unsigned int diffuseNum = 1;
     unsigned int specularNum = 1;
+    unsigned int roughnessNum = 1;
 
     for (unsigned int i = 0; i < mTextures.size(); ++i)
     {
@@ -111,6 +111,11 @@ void Mesh::Render(std::shared_ptr<ShaderProgram> shaders)
             number = std::to_string(specularNum++);
             uniformName += "specular_" + number;
         }
+        else if (type == TextureType::Roughness)
+        {
+            number = std::to_string(roughnessNum++);
+            uniformName += "roughness_" + number;
+        }
 
         // Set the uniform to this texture number, assuming it's in the material struct
         shaders->use(); // I suppose we should assure this, even though it was
@@ -121,9 +126,6 @@ void Mesh::Render(std::shared_ptr<ShaderProgram> shaders)
 
     }
     glActiveTexture(0);
-
-    // Set the shininess of the mesh's singular material...
-    shaders->set1FUniform("material.shininess", mMaterialShininess);
 
     // draw the mesh!
     glBindVertexArray(mVAO);

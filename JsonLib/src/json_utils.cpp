@@ -59,7 +59,7 @@ glm::vec3 ColorFromJson(const json& data)
  * Should be of this format:
  *
  *  {
- *      "angle": <angle in radians>,
+ *      "angle": <angle in degrees>,
  *      "axis":
  *      {
  *          "x": <x component>,
@@ -68,12 +68,19 @@ glm::vec3 ColorFromJson(const json& data)
  *      }
  *  }
  *
+ *  NOTE: I've decided that the input from the json
+ *  files should be in degrees, since they are much
+ *  easier to work with as a human! Therefore, this
+ *  since glm works in radians, this function will
+ *  be the point of conversion from degrees to rads.
+ *
  * @param data data of the rotation config
  * @return angle/axis rotation pair
  */
 std::pair<float, glm::vec3> RotationFromJson(const nlohmann::json& data)
 {
     float angle = data.at("angle");
-    glm::vec3 axis = VectorFromJson(data.at("rotation"));
+    angle = glm::radians(angle); // convert to radians!
+    glm::vec3 axis = VectorFromJson(data.at("axis"));
     return std::pair<float, glm::vec3>(angle, axis);
 }

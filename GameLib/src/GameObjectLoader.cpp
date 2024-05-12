@@ -33,7 +33,7 @@
  *      "hitbox": {"x": <width>, "y": <height>, "z": <depth> },
  *      "rotation":
  *      {
- *          "angle": <angle in radians>,
+ *          "angle": <angle in degrees>,
  *          "axis": {"x": <x component>, "y": <y ...> , "z": <z ...> }
  *      }
  *  }
@@ -41,7 +41,7 @@
  * @param data Json data to load from
  * @return Initialized GameObject
  */
-std::unique_ptr<GameObject> GameObjectLoader::LoadObject(const nlohmann::json &data)
+GameObject* GameObjectLoader::LoadObject(const nlohmann::json &data)
 {
     // Render data
     auto renderDataJson = data.at("render_data");
@@ -59,8 +59,7 @@ std::unique_ptr<GameObject> GameObjectLoader::LoadObject(const nlohmann::json &d
     auto rotationData = data.at("rotation");
     auto rotation = RotationFromJson(rotationData);
 
-    return std::make_unique<GameObject>(
-        std::move(renderData), position, hitbox, rotation);
+    return new GameObject(renderData, position, hitbox, rotation);
 }
 
 
@@ -90,7 +89,7 @@ std::unique_ptr<GameObject> GameObjectLoader::LoadObject(const nlohmann::json &d
  * @param data Json data to load from
  * @return Initialized LightSrcObject
  */
-std::unique_ptr<LightSrcObject>
+LightSrcObject*
     GameObjectLoader::LoadLightSrcObject(const json &data)
 {
     // I hate to copy all this, but it's not quite that easy to
@@ -117,8 +116,7 @@ std::unique_ptr<LightSrcObject>
     auto lightSrcPtr = mLightSourceFactory.CreateFromJson(lightSrcData);
 
     // Moving the unique_ptr's to their parents
-    return std::make_unique<LightSrcObject>(
-        std::move(renderData), position, hitbox, rotation, std::move(lightSrcPtr));
+    return new LightSrcObject(renderData, position, hitbox, rotation, lightSrcPtr);
 }
 
 
@@ -146,28 +144,28 @@ std::unique_ptr<LightSrcObject>
  * @param data Json object to load
  * @return collection of all the loaded game objects
  */
-std::vector<std::unique_ptr<GameObject>> GameObjectLoader::LoadObjects(const json &data)
+std::vector<GameObject*> GameObjectLoader::LoadObjects(const json &data)
 {
     auto gameObjectsData = data.at("game_objects");
 
     // Fill 'er up...
-    std::vector<std::unique_ptr<GameObject>> gameObjects;
+    std::vector<GameObject*> gameObjects;
 
     // Loop over all the json objects in the array
     for (const json& gameObjectData : gameObjectsData)
     {
         // We'll store the created GameObject here:
-        std::unique_ptr<GameObject> gameObject;
+        GameObject* gameObject = nullptr;
 
         // Deduce & create the appropriate object type
         auto objectType = gameObjectData.at("type");
         if (objectType == "game_object")
         {
-            gameObject = LoadObject(gameObjectData);
+            gameObject = LoadObject(gameObjectData.at("data"));
         }
         else if (objectType == "light_source_object")
         {
-            gameObject = LoadLightSrcObject(gameObjectData);
+            gameObject = LoadLightSrcObject(gameObjectData.at("data"));
         }
         // else if (objectType == "player_object")
         // {
@@ -181,7 +179,7 @@ std::vector<std::unique_ptr<GameObject>> GameObjectLoader::LoadObjects(const jso
         }
 
         // Give the vector ownership of the object
-        gameObjects.push_back(std::move(gameObject));
+        gameObjects.push_back(gameObject);
 
     }
 

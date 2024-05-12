@@ -28,7 +28,7 @@
  * @return  New RenderObject, using above assets,
  *          initialized to default pos/rotation/scale
  */
-std::unique_ptr<RenderObject>
+RenderObject*
     RenderObjectFactory::Create(const std::string& modelFile,
                                 const std::string& vertShaderFile,
                                 const std::string& fragShaderFile)
@@ -85,7 +85,7 @@ std::unique_ptr<RenderObject>
     }
 
     // Oh yeah...
-    return std::make_unique<RenderObject>(modelPtr, shaderPtr);
+    return new RenderObject(modelPtr, shaderPtr);
 }
 
 
@@ -112,7 +112,7 @@ std::unique_ptr<RenderObject>
  * @return New RenderObject, using above assets,
  *         initialized to default pos/rotation/scale
  */
-std::unique_ptr<RenderObject>
+RenderObject*
     RenderObjectFactory::CreateFromJson(const json& configJson)
 {
     // Grab the asset filepath data from the json

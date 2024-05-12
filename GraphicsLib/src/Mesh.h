@@ -50,9 +50,6 @@ private:
     /// Textures of this mesh
     std::vector<TextureData> mTextures;
 
-    /// Shininess of the Mesh's material
-    float mMaterialShininess;
-
     /// OpenGL ID of the vertex attribute object for this mesh
     unsigned int mVAO;
 
@@ -69,8 +66,7 @@ public:
     // Constructor
     Mesh(   std::vector<Vertex> vertices,
             std::vector<unsigned int> indices,
-            std::vector<TextureData> textures,
-            float shininess);
+            std::vector<TextureData> textures);
 
     /// Default constructor (disabled)
     Mesh() = delete;

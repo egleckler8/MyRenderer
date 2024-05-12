@@ -46,28 +46,9 @@ private:
 
 public:
 
-
-    /**
-     * Construcotr
-     * @param renderData    Unique ptr to the render data. What I'd like to
-     *                      communicate here by using a unique_ptr is that
-     *                      this GameObject will be the new owner of the
-     *                      RenderObject instance.
-     * @param position      Position in world space of the object
-     * @param hitbox        Rectangular prism hitbox of the object
-     * @param rotation      Axis/angle pair of the 3D rotation
-     */
-    GameObject(std::unique_ptr<RenderObject> renderData,
+    GameObject(RenderObject* renderData,
                glm::vec3 position, glm::vec3 hitbox,
-               std::pair<float, glm::vec3> rotation)
-               :
-               mPosition(position), mHitbox(hitbox), mRotation(rotation)
-               {
-                    // Unpack the unique_ptr and take the raw ptr
-                    mRenderData = std::move(renderData).get();
-                    // The unique_ptr is moved to the constructor and
-                    // destroyed when it then falls out of scope.
-               }
+               std::pair<float, glm::vec3> rotation);
 
     /// Default constructor (disabled)
     GameObject() = delete;
@@ -80,7 +61,7 @@ public:
 
     // ****************************************************************
 
-    void AcceptVisitor(GameObjectVisitor& visitor);
+    virtual void AcceptVisitor(GameObjectVisitor& visitor);
 
     // ****************************************************************
 
