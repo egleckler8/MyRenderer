@@ -11,7 +11,7 @@
 #include <memory>
 #include "GameObject.h"
 
-class LightSource;
+class PointLight;
 /**
  *  * GameObject that has a light source, like a torch
  */
@@ -30,15 +30,15 @@ public:
      * @param hitbox Hitbox
      * @param lightSrc Pointer to the light source
      */
-    LightSrcObject(std::unique_ptr<RenderObject> renderData,
+    LightSrcObject(RenderObject* renderData,
                    glm::vec3 position, glm::vec3 hitbox,
                    std::pair<float, glm::vec3> rotation,
-                   std::unique_ptr<LightSource> lightSrc)
+                   LightSource* lightSrc)
                    :
-                   GameObject(std::move(renderData), position, hitbox, rotation)
+                   GameObject(renderData, position, hitbox, rotation)
                    {
                         // Unpack the unique_ptr and take the raw ptr
-                        mLightSource = std::move(lightSrc).get();
+                        mLightSource = lightSrc;
                         // The unique_ptr is moved to the constructor and
                         // destroyed when it then falls out of scope.
                    }
@@ -54,6 +54,10 @@ public:
 
     // ****************************************************************
 
+    void AcceptVisitor(GameObjectVisitor& visitor) override;
+
+    // ****************************************************************
+
     /**
      * Get a pointer to the light source. Make a copy of the member ptr
      *
@@ -62,6 +66,9 @@ public:
      * @return Pointer to this object's light source
      */
     LightSource* GetLightSource() { return mLightSource; }
+
+
+    void SetPosition(glm::vec3 pos) override;
 
 
 
