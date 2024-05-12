@@ -26,7 +26,6 @@ AttenuationCoefficients AttenCoeffsFromJson(const json& data);
 
 
 
-
 /**
  * Create a point light object from json.
  * The json should be formatted exactly as follows:
@@ -51,7 +50,7 @@ AttenuationCoefficients AttenCoeffsFromJson(const json& data);
  *
  * @param data json data to load phong colors & atten. coeffs.
  */
-PointLight*
+std::unique_ptr<PointLight>
     LightSourceFactory::CreatePointLight(const json &data)
 {
     // Phong colors:
@@ -62,7 +61,7 @@ PointLight*
     auto attenCoeffData = data.at("attenuation_coefficients");
     AttenuationCoefficients attenCoeffs = AttenCoeffsFromJson(attenCoeffData);
 
-    return new PointLight(phongColors, attenCoeffs);
+    return std::make_unique<PointLight>(phongColors, attenCoeffs);
 }
 
 
@@ -93,7 +92,7 @@ PointLight*
  *
  * @param configJson json data to load phong colors & direction
  */
-DirectionalLight*
+std::unique_ptr<DirectionalLight>
     LightSourceFactory::CreateDirectionalLight(const json &configJson)
 {
     // Direction:
@@ -104,7 +103,7 @@ DirectionalLight*
     auto phongData = configJson.at("phong_colors");
     PhongColors phongColors = PhongColorsFromJson(phongData);
 
-    return new DirectionalLight(direction, phongColors);
+    return std::make_unique<DirectionalLight>(direction, phongColors);
 }
 
 
@@ -123,34 +122,29 @@ DirectionalLight*
  *
  * @param configJson json data to load the light source
  */
-LightSource*
+std::unique_ptr<LightSource>
     LightSourceFactory::CreateFromJson(const json &configJson)
 {
     auto type = configJson.at("type");
     auto data = configJson.at("data");
 
-    LightSource* lightPtr = nullptr;
+    std::unique_ptr<LightSource> lightPtr;
 
     // Create based on source type
     if (type == "point")
     {
-        lightPtr = CreatePointLight(data);
+        return CreatePointLight(data);
     }
     else if (type == "directional")
     {
-        lightPtr = CreateDirectionalLight(data);
+        return CreateDirectionalLight(data);
     }
-
-
-    // Some error handling in case someone messes
-    // up the config files
-    if (lightPtr == nullptr)
+    else // Undefined type??
     {
         throw std::runtime_error("json config error. "
                                  "Attribute \"type\" of a light source was invalid.");
     }
 
-    return lightPtr;
 }
 
 

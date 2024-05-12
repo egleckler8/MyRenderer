@@ -32,8 +32,8 @@ class LightSourceFactory
 {
 private:
 
-    PointLight* CreatePointLight(const json &data);
-    DirectionalLight* CreateDirectionalLight(const nlohmann::json &configJson);
+    std::unique_ptr<PointLight> CreatePointLight(const json &data);
+    std::unique_ptr<DirectionalLight> CreateDirectionalLight(const nlohmann::json &configJson);
     // void CreateSpotLight(const nlohmann::json& configJson);
 
 public:
@@ -49,7 +49,7 @@ public:
 
     // ****************************************************************
 
-    LightSource* CreateFromJson(const nlohmann::json& configJson);
+    std::unique_ptr<LightSource> CreateFromJson(const nlohmann::json& configJson);
 
 
 };

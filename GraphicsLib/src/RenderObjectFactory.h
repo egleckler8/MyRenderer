@@ -53,7 +53,6 @@ private:
     std::map<std::string, std::shared_ptr<ShaderProgram>> mShadersInUse;
 
 
-
 public:
 
     /**
@@ -77,11 +76,11 @@ public:
 
     // ****************************************************************
 
-    RenderObject* Create(const std::string& modelFile,
+    std::unique_ptr<RenderObject> Create(const std::string& modelFile,
                         const std::string& vertShaderFile,
                         const std::string& fragShaderFile);
 
-    RenderObject* CreateFromJson(const nlohmann::json &configJson);
+    std::unique_ptr<RenderObject> CreateFromJson(const nlohmann::json &configJson);
 
 };
 

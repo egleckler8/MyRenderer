@@ -20,7 +20,7 @@ class LightSrcObject : public GameObject
 private:
 
     /// Light source object associated with this GameObject
-    LightSource* mLightSource = nullptr;
+    std::unique_ptr<LightSource> mLightSource;
 
 public:
 
@@ -30,17 +30,16 @@ public:
      * @param hitbox Hitbox
      * @param lightSrc Pointer to the light source
      */
-    LightSrcObject(RenderObject* renderData,
+    LightSrcObject(std::unique_ptr<RenderObject> renderData,
                    glm::vec3 position, glm::vec3 hitbox,
                    std::pair<float, glm::vec3> rotation,
-                   LightSource* lightSrc)
+                   std::unique_ptr<LightSource> lightSrc)
                    :
-                   GameObject(renderData, position, hitbox, rotation)
+                   GameObject(std::move(renderData), position, hitbox, rotation)
                    {
-                        // Unpack the unique_ptr and take the raw ptr
-                        mLightSource = lightSrc;
-                        // The unique_ptr is moved to the constructor and
-                        // destroyed when it then falls out of scope.
+                        // Move ownership to this object
+                        mLightSource = std::move(lightSrc);
+
                    }
 
     /// Default constructor (disabled)
@@ -65,7 +64,7 @@ public:
      *
      * @return Pointer to this object's light source
      */
-    LightSource* GetLightSource() { return mLightSource; }
+    LightSource* GetLightSource() { return mLightSource.get(); }
 
 
     void SetPosition(glm::vec3 pos) override;

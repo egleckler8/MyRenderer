@@ -85,7 +85,7 @@ int main()
     auto data1 = json::parse(fLight1);
     auto theSun = lightFactory.CreateFromJson(data1);
 
-    scene.AddLightSource(theSun);
+    scene.AddLightSource(theSun.get());
 
 
     while(true)

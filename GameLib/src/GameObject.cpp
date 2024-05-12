@@ -19,17 +19,23 @@
  * @param hitbox        Rectangular prism hitbox of the object
  * @param rotation      Axis/angle pair of the 3D rotation
  */
-GameObject::GameObject(RenderObject *renderData,
+GameObject::GameObject(std::unique_ptr<RenderObject> renderData,
                        glm::vec3 position,
                        glm::vec3 hitbox,
                        std::pair<float, glm::vec3> rotation) :
                        mPosition(position), mHitbox(hitbox),
-                       mRotation(rotation), mRenderData(renderData)
+                       mRotation(rotation)
 {
+    // Move ownership of the RenderObject here.
+    mRenderData = std::move(renderData);
     // Make sure to set the render data's position!
     mRenderData->SetPosition(mPosition);
     // and orientation...
     mRenderData->SetRotation(mRotation.first, mRotation.second);
+
+    // Initialize a default behavior (does nothing on Update)
+    mBehavior = std::make_unique<Behavior>(this);
+
 }
 
 
@@ -72,4 +78,18 @@ void GameObject::SetRotation(float rads, glm::vec3 axis)
 void GameObject::AcceptVisitor(GameObjectVisitor &visitor)
 {
     visitor.VisitGameObject(this);
+}
+
+
+/**
+ * Set the behavior of this object
+ * @param behavior New behavior
+ */
+void GameObject::SetBehavior(Behavior behavior)
+{
+
+}
+void GameObject::Update(double dt)
+{
+
 }

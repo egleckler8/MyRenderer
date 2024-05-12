@@ -19,6 +19,8 @@ set(SOURCE_FILES
         src/Game.h
         src/GameObjectLoader.cpp
         src/GameObjectLoader.h
+        src/Behavior.cpp
+        src/Behavior.h
 )
 
 set(HEADER_FILES

@@ -17,6 +17,8 @@
 #include <GraphicsLib/api.h>
 #include <glm.hpp>
 
+#include "Behavior.h"
+
 class RenderObject;
 class GameObjectVisitor;
 /**
@@ -27,7 +29,7 @@ class GameObject
 private:
 
     /// Rendering data for this entity
-    RenderObject* mRenderData = nullptr;
+    std::unique_ptr<RenderObject> mRenderData;
 
     /// Position of this object in world space, in METERS.
     glm::vec3 mPosition = glm::vec3(0.0f);
@@ -44,9 +46,12 @@ private:
     std::pair<float, glm::vec3> mRotation =
         std::pair<float, glm::vec3>(0.0, glm::vec3(1.0f, 0.0f, 0.0f));
 
+    /// Behavior that this object exhibits
+    std::unique_ptr<Behavior> mBehavior;
+
 public:
 
-    GameObject(RenderObject* renderData,
+    GameObject(std::unique_ptr<RenderObject> renderData,
                glm::vec3 position, glm::vec3 hitbox,
                std::pair<float, glm::vec3> rotation);
 
@@ -67,6 +72,8 @@ public:
 
     virtual void SetPosition(glm::vec3 pos);
     void SetRotation(float rads, glm::vec3 axis);
+    void SetBehavior(Behavior behavior);
+    virtual void Update(double dt);
 
     /**
      * Get a pointer to the light source. Make a copy of the member ptr
@@ -75,7 +82,10 @@ public:
      *
      * @return Pointer to this object's render data
      */
-    RenderObject* GetRenderData() const { return mRenderData; }
+    RenderObject* GetRenderData() const { return mRenderData.get(); }
+
+
+
 
 
 
