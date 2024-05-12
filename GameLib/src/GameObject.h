@@ -47,7 +47,7 @@ private:
         std::pair<float, glm::vec3>(0.0, glm::vec3(1.0f, 0.0f, 0.0f));
 
     /// Behavior that this object exhibits
-    std::unique_ptr<Behavior> mBehavior;
+    std::unique_ptr<Behavior> mBehavior = nullptr;
 
 public:
 
@@ -72,7 +72,7 @@ public:
 
     virtual void SetPosition(glm::vec3 pos);
     void SetRotation(float rads, glm::vec3 axis);
-    void SetBehavior(Behavior behavior);
+    void SetBehavior(std::unique_ptr<Behavior> behavior);
     virtual void Update(double dt);
 
     /**

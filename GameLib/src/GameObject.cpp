@@ -41,8 +41,6 @@ GameObject::GameObject(std::unique_ptr<RenderObject> renderData,
 
 
 
-
-
 /**
  * Set the position of this object, also
  * adjusting the position of the render data
@@ -82,14 +80,30 @@ void GameObject::AcceptVisitor(GameObjectVisitor &visitor)
 
 
 /**
- * Set the behavior of this object
+ * Set the behavior of this object and establish the
+ * two-way association between Behavior and exhibitor.
+ *
  * @param behavior New behavior
  */
-void GameObject::SetBehavior(Behavior behavior)
+void GameObject::SetBehavior(std::unique_ptr<Behavior> behavior)
 {
-
+    mBehavior = std::move(behavior);
+    mBehavior->SetExhibitor(this);
 }
+
+
+
+/**
+ * Update this object based on its Behavior.
+ * @param dt
+ */
 void GameObject::Update(double dt)
 {
+    // No nullptr access... make sure to set the behavior!
+    // Actually... maybe I should make this an error...
+    if (mBehavior != nullptr)
+    {
+        mBehavior->Update(dt);
+    }
 
 }
