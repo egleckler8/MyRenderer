@@ -80,7 +80,6 @@ void Mesh::SetUpMesh()
  */
 void Mesh::Render(std::shared_ptr<ShaderProgram> shaders)
 {
-
     // Set the texture uniforms in the shader
     // textures associated with materials?
 

@@ -98,7 +98,7 @@ void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat,
     else
     {
         std::cout
-        << "Be careful! Cannot render an instance with unitialized assets.\n"
+        << "Be careful! Cannot render an instance with uninitialized assets.\n"
         << "(RenderObject.cpp line 102)"
         << std::endl;
     }

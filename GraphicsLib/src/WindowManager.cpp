@@ -86,6 +86,7 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // far as I know now. So, I'll just stick it here until
     // I learn it should be anywhere else.
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
     // The perspective matrix will likely never change, so here it is:
     // It might need some touching up depending on the game, however.

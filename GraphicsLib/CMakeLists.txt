@@ -34,6 +34,9 @@ set(SOURCE_FILES
         src/LightSourceFactory.h
         src/PositionalLight.cpp
         src/PositionalLight.h
+        src/Quad.cpp
+        src/Quad.h
+        src/quad_vertices.h
 )
 
 set(HEADER_FILES
