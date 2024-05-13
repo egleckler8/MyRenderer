@@ -22,6 +22,7 @@ enum QuadType
 
 /**
  * A simplified mesh that is just a quad.
+ * Quads will be -1.0 to 1.0 in model space
  */
 class Quad : public Mesh
 {

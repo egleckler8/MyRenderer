@@ -29,14 +29,14 @@
  *          initialized to default pos/rotation/scale
  */
 std::unique_ptr<RenderObject>
-    RenderObjectFactory::Create(const std::string& modelFile,
+    RenderObjectFactory::Create(const std::string& modelDirectory,
                                 const std::string& vertShaderFile,
                                 const std::string& fragShaderFile)
 {
 
     // First, let's see if we've already loaded this model
     std::shared_ptr<Model> modelPtr;
-    auto modelIt = mModelsInUse.find(modelFile);
+    auto modelIt = mModelsInUse.find(modelDirectory);
     if (modelIt != mModelsInUse.end())
     {
         // It has already been loaded, so just make a copy
@@ -47,11 +47,11 @@ std::unique_ptr<RenderObject>
     {
         // It has not been loaded yet, so do it now.
         // The model class loads from path to object file
-        auto modelFilepath = mResourceDir + "/models/" + modelFile;
+        auto modelFilepath = mResourceDir + "/models/" + modelDirectory;
         modelPtr = std::make_shared<Model>(modelFilepath.c_str());
 
         // Remember to insert this to the map, now!
-        std::pair<std::string, std::shared_ptr<Model>> p(modelFile, modelPtr);
+        std::pair<std::string, std::shared_ptr<Model>> p(modelDirectory, modelPtr);
         mModelsInUse.insert(p);
     }
 
@@ -95,10 +95,17 @@ std::unique_ptr<RenderObject>
  * conforming to this exact format:
  *
  * {
- *     "model_file": <filename of 3d model with parent dir>,
+ *     "model_directory": <directory containing .obj file>,
  *     "vertex_shader_file":<filename of vertex shader>,
  *     "fragment_shader_file":<filename of fragment shader>
  * }
+ *
+ *
+ * NOTE: "model_directory" must have the same name as the .obj file it contains.
+ * For example, if the model file you want to load is "lantern.obj," make sure
+ * that it located in a directory called "lantern" in the "resources" folder for
+ * the project. Also make sure that all the appropriate textures are located
+ * in "resources/lantern!"
  *
  * All filenames should be relative to the implied
  * directory within the resources directory, e.g.
@@ -116,9 +123,9 @@ std::unique_ptr<RenderObject>
     RenderObjectFactory::CreateFromJson(const json& configJson)
 {
     // Grab the asset filepath data from the json
-    std::string modelFile = configJson.at("model_file");
+    std::string modelDir = configJson.at("model_directory");
     std::string vertShaderFile = configJson.at("vertex_shader_file");
     std::string fragShaderFile = configJson.at("fragment_shader_file");
 
-    return Create(modelFile, vertShaderFile, fragShaderFile);
+    return Create(modelDir, vertShaderFile, fragShaderFile);
 }

@@ -17,7 +17,7 @@ const double omega = 0.8;
  */
 void TestBehavior::Update(double t)
 {
-    std::cout << "dt: " << t << std::endl;
+    //std::cout << "dt: " << t << std::endl;
     auto object = GetExhibitor();
 
     double x = r * sin(omega * t);

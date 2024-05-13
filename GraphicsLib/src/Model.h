@@ -43,7 +43,7 @@ private:
     /// For optimization, so we don't reload extra textures
     std::vector<TextureData> mTexturesLoaded;
 
-    void LoadModel(const std::string& filepath);
+    void LoadModel(const std::string& fileDirectory);
     void ProcessNode(aiNode* node, const aiScene* scene);
     std::shared_ptr<Mesh> ProcessMesh(aiMesh* mesh, const aiScene* scene);
     std::vector<TextureData> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName);
@@ -56,7 +56,7 @@ public:
      * Constructor
      * @param filepath filepath to the model's object file
      */
-    explicit Model(const char* filepath) { LoadModel(filepath); }
+    explicit Model(const char* filepath);
 
     /// Default constructor (disabled)
     Model() = delete;

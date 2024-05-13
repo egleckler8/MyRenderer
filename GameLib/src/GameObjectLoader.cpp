@@ -25,7 +25,7 @@
  *  {
  *      "render_data":
  *      {
- *          "model_file": <filename of 3d model with parent dir>,
+ *          "model_directory": <directory containing .obj file>,
  *          "vertex_shader_file":<filename of vertex shader>,
  *          "fragment_shader_file":<filename of fragment shader>
  *      },
@@ -37,6 +37,12 @@
  *          "axis": {"x": <x component>, "y": <y ...> , "z": <z ...> }
  *      }
  *  }
+ *
+ * NOTE: "model_directory" must have the same name as the .obj file it contains.
+ * For example, if the model file you want to load is "lantern.obj," make sure
+ * that it located in a directory called "lantern" in the "resources" folder for
+ * the project. Also make sure that all the appropriate textures are located
+ * in "resources/lantern!"
  *
  * @param data Json data to load from
  * @return Initialized GameObject

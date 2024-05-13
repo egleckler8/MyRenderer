@@ -15,17 +15,38 @@
 #include "Texture2D.h"
 
 
+/**
+ * Constructor
+ * @param fileDirectory directory where this objects resources lie
+ */
+Model::Model(const char *fileDirectory)
+{
+    mFileDirectory = fileDirectory;
+    LoadModel(fileDirectory);
+}
+
+
 
 /**
- * Loads a model from it's filepath location
+ * Loads a model from it's resource folder filepath.
+ * By convention, all models files should be wavefront
+ * files (.obj) with the same name as the resources
+ * directory in which they are contained.
  *
  * Code copied from LearnOpenGL pg.165
  *
- * @param filepath Filepath of the model's file
+ * @param filepath Filepath of the model's resources folder
  */
-void Model::LoadModel(const std::string &filepath)
+void Model::LoadModel(const std::string &fileDirectory)
 {
     Assimp::Importer importer;
+
+    // This is why the convention of "filename" = "directory name"
+    // must be enforced. Only wavefront (.obj) files are allowed!
+    // This is for simplicity on the art designer (me...)
+    auto fileName = fileDirectory.substr(fileDirectory.find_last_of('/') + 1);
+    auto filepath = mFileDirectory + '/' + fileName + ".obj";
+
     const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs);
     // The pFlags argument is a set of post-processing flags that
     // assimp can run. Check pg. 165 of LearningOpenGL, there are
@@ -42,7 +63,6 @@ void Model::LoadModel(const std::string &filepath)
         << "****************************************************************" << std::endl;
         return;
     }
-    mFileDirectory = filepath.substr(0, filepath.find_last_of('/'));
     ProcessNode(scene->mRootNode, scene);
 
 }

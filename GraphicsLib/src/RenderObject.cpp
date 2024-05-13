@@ -51,7 +51,8 @@ RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
 
 /**
  * Set the shader uniforms corresponding to the transformation
- * matrices. Does not deal with lighting at all!
+ * matrices. Does not deal with lighting at all! Does not make
+ * any OpenGL function calls!
  *
  * @param viewMat view matrix used to render this model
  * @param projMat projection matrix used to render this model

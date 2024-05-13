@@ -62,7 +62,6 @@ private:
 
 public:
 
-
     RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderProgram> shaders);
 
     /// Default constructor (disabled)

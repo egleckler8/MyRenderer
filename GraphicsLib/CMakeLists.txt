@@ -37,10 +37,16 @@ set(SOURCE_FILES
         src/Quad.cpp
         src/Quad.h
         src/quad_vertices.h
+        src/Renderable.cpp
+        src/Renderable.h
+        src/FrameBuffer.cpp
+        src/FrameBuffer.h
 )
 
 set(HEADER_FILES
         include/GraphicsLib/api.h
+        src/Renderable.cpp
+        src/Renderable.h
 )
 
 # Add library target

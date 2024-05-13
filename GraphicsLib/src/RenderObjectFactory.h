@@ -76,7 +76,7 @@ public:
 
     // ****************************************************************
 
-    std::unique_ptr<RenderObject> Create(const std::string& modelFile,
+    std::unique_ptr<RenderObject> Create(const std::string& modelDirectory,
                         const std::string& vertShaderFile,
                         const std::string& fragShaderFile);
 

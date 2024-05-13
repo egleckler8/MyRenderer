@@ -11,10 +11,10 @@
 /// Vertices for a 2D quad - winded counterclockwise
 constexpr float SQUARE_VERTICES[] = {
     // Position            // Normal           // Texture coords
-    -0.5f,  0.5f, 0.0f,    0.0f, 0.0f, 1.0f,    0.0f, 1.0f,   // Top-left
-    0.5f,  0.5f, 0.0f,    0.0f, 0.0f, 1.0f,    1.0f, 1.0f,   // Top-right
-    -0.5f, -0.5f, 0.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f,   // Bottom-left
-    0.5f, -0.5f, 0.0f,    0.0f, 0.0f, 1.0f,    1.0f, 0.0f    // Bottom-right
+    -1.0f,  1.0f, 0.0f,    0.0f, 0.0f, 1.0f,    0.0f, 1.0f,   // Top-left
+    1.0f,  1.0f, 0.0f,    0.0f, 0.0f, 1.0f,    1.0f, 1.0f,   // Top-right
+    -1.0f, -1.0f, 0.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f,   // Bottom-left
+    1.0f, -1.0f, 0.0f,    0.0f, 0.0f, 1.0f,    1.0f, 0.0f    // Bottom-right
 };
 /// Indices for a 2D quad - winded counterclockwise
 constexpr unsigned int SQUARE_INDICES[] = {
@@ -26,35 +26,35 @@ constexpr unsigned int SQUARE_INDICES[] = {
 constexpr float CUBE_VERTICES[] = {
     // Position            // Normal           // Texture coords
     // Front face
-    -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 0.0f,  // Bottom-left
-    0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 0.0f,  // Bottom-right
-    0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 1.0f,  // Top-right
-    -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 1.0f,  // Top-left
+    -1.0f, -1.0f,  1.0f,   0.0f,  0.0f,  1.0f,   0.0f, 0.0f,  // Bottom-left
+    1.0f, -1.0f,  1.0f,   0.0f,  0.0f,  1.0f,   1.0f, 0.0f,  // Bottom-right
+    1.0f,  1.0f,  1.0f,   0.0f,  0.0f,  1.0f,   1.0f, 1.0f,  // Top-right
+    -1.0f,  1.0f,  1.0f,   0.0f,  0.0f,  1.0f,   0.0f, 1.0f,  // Top-left
     // Back face
-    -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 0.0f,  // Bottom-right
-    0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 0.0f,  // Bottom-left
-    0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 1.0f,  // Top-left
-    -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 1.0f,  // Top-right
+    -1.0f, -1.0f, -1.0f,   0.0f,  0.0f, -1.0f,   1.0f, 0.0f,  // Bottom-right
+    1.0f, -1.0f, -1.0f,   0.0f,  0.0f, -1.0f,   0.0f, 0.0f,  // Bottom-left
+    1.0f,  1.0f, -1.0f,   0.0f,  0.0f, -1.0f,   0.0f, 1.0f,  // Top-left
+    -1.0f,  1.0f, -1.0f,   0.0f,  0.0f, -1.0f,   1.0f, 1.0f,  // Top-right
     // Left face
-    -0.5f,  0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,   1.0f, 0.0f,  // Top-right
-    -0.5f,  0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,   0.0f, 0.0f,  // Top-left
-    -0.5f, -0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,   0.0f, 1.0f,  // Bottom-left
-    -0.5f, -0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,   1.0f, 1.0f,  // Bottom-right
+    -1.0f,  1.0f, -1.0f,  -1.0f,  0.0f,  0.0f,   1.0f, 0.0f,  // Top-right
+    -1.0f,  1.0f,  1.0f,  -1.0f,  0.0f,  0.0f,   0.0f, 0.0f,  // Top-left
+    -1.0f, -1.0f,  1.0f,  -1.0f,  0.0f,  0.0f,   0.0f, 1.0f,  // Bottom-left
+    -1.0f, -1.0f, -1.0f,  -1.0f,  0.0f,  0.0f,   1.0f, 1.0f,  // Bottom-right
     // Right face
-    0.5f,  0.5f, -0.5f,   1.0f,  0.0f,  0.0f,   0.0f, 0.0f,  // Top-left
-    0.5f,  0.5f,  0.5f,   1.0f,  0.0f,  0.0f,   1.0f, 0.0f,  // Top-right
-    0.5f, -0.5f,  0.5f,   1.0f,  0.0f,  0.0f,   1.0f, 1.0f,  // Bottom-right
-    0.5f, -0.5f, -0.5f,   1.0f,  0.0f,  0.0f,   0.0f, 1.0f,  // Bottom-left
+    1.0f,  1.0f, -1.0f,   1.0f,  0.0f,  0.0f,   0.0f, 0.0f,  // Top-left
+    1.0f,  1.0f,  1.0f,   1.0f,  0.0f,  0.0f,   1.0f, 0.0f,  // Top-right
+    1.0f, -1.0f,  1.0f,   1.0f,  0.0f,  0.0f,   1.0f, 1.0f,  // Bottom-right
+    1.0f, -1.0f, -1.0f,   1.0f,  0.0f,  0.0f,   0.0f, 1.0f,  // Bottom-left
     // Top face
-    -0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,   0.0f, 1.0f,  // Top-left
-    0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,   1.0f, 1.0f,  // Top-right
-    0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,   1.0f, 0.0f,  // Bottom-right
-    -0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,   0.0f, 0.0f,  // Bottom-left
+    -1.0f,  1.0f, -1.0f,   0.0f,  1.0f,  0.0f,   0.0f, 1.0f,  // Top-left
+    1.0f,  1.0f, -1.0f,   0.0f,  1.0f,  0.0f,   1.0f, 1.0f,  // Top-right
+    1.0f,  1.0f,  1.0f,   0.0f,  1.0f,  0.0f,   1.0f, 0.0f,  // Bottom-right
+    -1.0f,  1.0f,  1.0f,   0.0f,  1.0f,  0.0f,   0.0f, 0.0f,  // Bottom-left
     // Bottom face
-    -0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,   0.0f, 1.0f,  // Top-left
-    0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,   1.0f, 1.0f,  // Top-right
-    0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,   1.0f, 0.0f,  // Bottom-right
-    -0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,   0.0f, 0.0f   // Bottom-left
+    -1.0f, -1.0f, -1.0f,   0.0f, -1.0f,  0.0f,   0.0f, 1.0f,  // Top-left
+    1.0f, -1.0f, -1.0f,   0.0f, -1.0f,  0.0f,   1.0f, 1.0f,  // Top-right
+    1.0f, -1.0f,  1.0f,   0.0f, -1.0f,  0.0f,   1.0f, 0.0f,  // Bottom-right
+    -1.0f, -1.0f,  1.0f,   0.0f, -1.0f,  0.0f,   0.0f, 0.0f   // Bottom-left
 };
 /// Indices for a 3D quad - winded counterclockwise
 constexpr float CUBE_INDICES[] = {
