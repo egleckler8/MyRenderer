@@ -64,6 +64,9 @@ public:
     /// Assignment operator
     void operator=(const GameObject &) = delete;
 
+    /// Virtual destructor
+    ~GameObject() {}
+
     // ****************************************************************
 
     virtual void AcceptVisitor(GameObjectVisitor& visitor);
@@ -73,7 +76,7 @@ public:
     virtual void SetPosition(glm::vec3 pos);
     void SetRotation(float rads, glm::vec3 axis);
     void SetBehavior(std::unique_ptr<Behavior> behavior);
-    virtual void Update(double dt);
+    virtual void Update(double t);
 
     /**
      * Get a pointer to the light source. Make a copy of the member ptr
@@ -83,6 +86,13 @@ public:
      * @return Pointer to this object's render data
      */
     RenderObject* GetRenderData() const { return mRenderData.get(); }
+
+
+    /**
+     * Get the position of the object in 3D world space
+     * @return the position of the object in 3D world space
+     */
+    glm::vec3 GetPosition() const { return mPosition; }
 
 
 

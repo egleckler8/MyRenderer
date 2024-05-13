@@ -6,12 +6,11 @@
  * Related back to a GameObject that it will modify
  * when the behavior is told to update.
  *
- * Base class has "default" behavior: do nothing on Update
+ * ABSTRACT BASE CLASS!
  */
 
 #ifndef LEARNING_OPENGL_GAMELIB_SRC_BEHAVIOR_H
 #define LEARNING_OPENGL_GAMELIB_SRC_BEHAVIOR_H
-
 
 
 class GameObject;
@@ -19,18 +18,34 @@ class GameObject;
  * Encapsulates the functionality of some behavior.
  * Related back to a GameObject that it will modify
  * when the behavior is told to update.
+ *
+ * ABSTRACT BASE CLASS!
  */
 class Behavior
 {
 private:
 
-    /// Assocation back to its carrier object...
+    /// Association back to its carrier object...
     /// So the behavior can access & update the object
     GameObject* mExhibitor;
 
+protected:
+
+
+    /**
+     * Get the object who "exhibits" this behavior instance
+     *
+     * Protected so that only derived classes can access
+     * this exhibitor of this Behavior.
+     *
+     * @return the object who "exhibits" this behavior instance
+     */
+    GameObject* GetExhibitor() { return mExhibitor; }
+
+
 public:
 
-    // Has default constructor
+    /// Constructor
     Behavior(GameObject* exhibitor) : mExhibitor(exhibitor) {}
 
     /// Copy constructor (disabled)
@@ -38,6 +53,9 @@ public:
 
     /// Assignment operator
     void operator=(const Behavior &) = delete;
+
+    /// Virtual destructor
+    virtual ~Behavior() {}
 
     // ****************************************************************
 
@@ -49,12 +67,11 @@ public:
 
     // ****************************************************************
 
-    // TODO... do I make behavior abstract?
-    // If I make a "if not nullptr" clause in GameObject::Update,
-    // it might not be necessary to have a "default/do nothing" behavior
-    // On the other hand, GameObject forced constuctor initializes Behavior,
-    // and this default constructor is disabled, so we should be fine.
-    virtual void Update(double dt);
+    /**
+     * Updates the behavior based on elapsed time
+     * @param t Time in seconds
+     */
+    virtual void Update(double t) = 0;
 
 
 

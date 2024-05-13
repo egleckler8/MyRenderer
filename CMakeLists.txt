@@ -104,8 +104,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${GAME_LIBRARY}/include)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GAME_LIBRARY})
 
 
-# JsonLib
-# linkto game
+# JsonLib:
+# link to game
 target_include_directories(${GAME_LIBRARY} PRIVATE ${JSON_LIBRARY}/include)
 target_link_libraries(${GAME_LIBRARY} PRIVATE ${JSON_LIBRARY})
 # link to graphics

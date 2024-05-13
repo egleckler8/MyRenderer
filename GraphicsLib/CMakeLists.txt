@@ -32,6 +32,8 @@ set(SOURCE_FILES
         src/RenderObjectFactory.h
         src/LightSourceFactory.cpp
         src/LightSourceFactory.h
+        src/PositionalLight.cpp
+        src/PositionalLight.h
 )
 
 set(HEADER_FILES

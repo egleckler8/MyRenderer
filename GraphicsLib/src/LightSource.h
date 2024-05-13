@@ -8,6 +8,8 @@
  * be considered a "functionality class" that other objects
  * can have ownership of if they want to implement light
  * source properties.
+ *
+ * ABSTRACT BASE CLASS!
  */
 
 #ifndef LEARNING_OPENGL__LIGHTSOURCE_H
@@ -21,6 +23,7 @@
 class ShaderProgram;
 /**
  * A simple light source using the Phong model
+ * ABSTRACT BASE CLASS!
  */
 class LightSource
 {

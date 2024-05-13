@@ -21,6 +21,8 @@ set(SOURCE_FILES
         src/GameObjectLoader.h
         src/Behavior.cpp
         src/Behavior.h
+        src/TestBehavior.cpp
+        src/TestBehavior.h
 )
 
 set(HEADER_FILES
@@ -32,3 +34,6 @@ add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
 # Make the includes files public; add them to include path
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+
+# Dependencies specific to this lib?:

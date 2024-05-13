@@ -4,8 +4,9 @@
 #include "GLFW/glfw3.h"
 #include "nlohmann/json.hpp"
 
-#include "GraphicsLib/api.h"
+#include <GraphicsLib/api.h>
 #include <GameLib/api.h>
+
 
 
 
@@ -88,18 +89,25 @@ int main()
     scene.AddLightSource(theSun.get());
 
 
+
+    // Testing the behavior thing
+    // ugly way of getting the backpack...
+    auto& backpack = objects[1];
+
+    auto testBhvr = std::make_unique<TestBehavior>(backpack.get());
+
+    backpack->SetBehavior(std::move(testBhvr));
+
+
+
     while(true)
     {
-//        float t = glfwGetTime();
-//
-//        glm::vec3 pos(3.0*sin(0.5*t), 4.0, 4.0);
-//        glm::vec3 axis(0.0f, 1.0f, 0.0f);
-//        float angle = glm::radians(t * 10.0);
-//        float scale = (sin(0.2 * t) + 1.5) * 0.5;
-//        //lantern->SetPosition(pos);
-//        lantern->SetRotation(angle, axis);
-//        //backpack->SetScale(scale);
+        double t = glfwGetTime();
 
+        for (auto& object : objects)
+        {
+            object->Update(t);
+        }
 
         window.DisplayScene(scene);
     }

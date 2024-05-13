@@ -114,7 +114,21 @@ std::unique_ptr<LightSrcObject>
 
     // The light source
     auto lightSrcData = data.at("light_source");
-    auto lightSrcPtr = mLightSourceFactory.CreateFromJson(lightSrcData);
+    auto lightType = lightSrcData.at("type");
+
+    // We should enforce the fact that light source objects can only
+    // hold PointLight (for now) at the loading level, before another
+    // scary error occurs
+    if (lightType != "point")
+    {
+        throw std::runtime_error("JSON ERROR: \n"
+                                 "LightSrcObject must be initialized with point light.\n"
+                                 "Check the config file, dude...");
+    }
+
+    auto ptLightData = lightSrcData.at("data");
+
+    auto lightSrcPtr = mLightSourceFactory.CreatePointLight(ptLightData);
 
     // Moving the unique_ptr's to their parents
     return std::make_unique<LightSrcObject>(std::move(renderData), position,
@@ -176,7 +190,7 @@ std::vector<std::unique_ptr<GameObject>> GameObjectLoader::LoadObjects(const jso
         // }
         else
         {
-            throw std::runtime_error("JSON ERROR: "
+            throw std::runtime_error("JSON ERROR:\n "
                                      "Invalid \"type\" value for game object!");
         }
 

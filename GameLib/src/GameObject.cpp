@@ -33,9 +33,6 @@ GameObject::GameObject(std::unique_ptr<RenderObject> renderData,
     // and orientation...
     mRenderData->SetRotation(mRotation.first, mRotation.second);
 
-    // Initialize a default behavior (does nothing on Update)
-    mBehavior = std::make_unique<Behavior>(this);
-
 }
 
 
@@ -95,15 +92,15 @@ void GameObject::SetBehavior(std::unique_ptr<Behavior> behavior)
 
 /**
  * Update this object based on its Behavior.
- * @param dt
+ * @param t Total time so far
  */
-void GameObject::Update(double dt)
+void GameObject::Update(double t)
 {
     // No nullptr access... make sure to set the behavior!
     // Actually... maybe I should make this an error...
     if (mBehavior != nullptr)
     {
-        mBehavior->Update(dt);
+        mBehavior->Update(t);
     }
 
 }

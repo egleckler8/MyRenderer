@@ -12,4 +12,8 @@
 #include "../src/GameObjectLoader.h"
 #include "../src/SceneBuilderVisitor.h"
 
+// behavior testing
+#include "../src/Behavior.h"
+#include "../src/TestBehavior.h"
+
 #endif //LEARNING_OPENGL_GAMELIB_INCLUDE_GAMELIB_API_H

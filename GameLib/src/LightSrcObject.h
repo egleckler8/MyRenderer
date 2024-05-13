@@ -11,7 +11,7 @@
 #include <memory>
 #include "GameObject.h"
 
-class LightSource;
+class PointLight;
 /**
  *  * GameObject that has a light source, like a torch
  */
@@ -20,27 +20,14 @@ class LightSrcObject : public GameObject
 private:
 
     /// Light source object associated with this GameObject
-    std::unique_ptr<LightSource> mLightSource;
+    std::unique_ptr<PointLight> mLightSource;
 
 public:
 
-    /**
-     * Constructor
-     * @param renderData Data for object model
-     * @param hitbox Hitbox
-     * @param lightSrc Pointer to the light source
-     */
     LightSrcObject(std::unique_ptr<RenderObject> renderData,
                    glm::vec3 position, glm::vec3 hitbox,
                    std::pair<float, glm::vec3> rotation,
-                   std::unique_ptr<LightSource> lightSrc)
-                   :
-                   GameObject(std::move(renderData), position, hitbox, rotation)
-                   {
-                        // Move ownership to this object
-                        mLightSource = std::move(lightSrc);
-
-                   }
+                   std::unique_ptr<PointLight> lightSrc);
 
     /// Default constructor (disabled)
     LightSrcObject() = delete;
@@ -64,7 +51,7 @@ public:
      *
      * @return Pointer to this object's light source
      */
-    LightSource* GetLightSource() { return mLightSource.get(); }
+    PointLight* GetLightSource() { return mLightSource.get(); }
 
 
     void SetPosition(glm::vec3 pos) override;
