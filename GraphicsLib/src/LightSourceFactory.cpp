@@ -128,7 +128,7 @@ std::unique_ptr<LightSource>
     auto type = configJson.at("type");
     auto data = configJson.at("data");
 
-    std::unique_ptr<LightSource> lightPtr;
+    std::unique_ptr<PointLight> lightPtr;
 
     // Create based on source type
     if (type == "point")

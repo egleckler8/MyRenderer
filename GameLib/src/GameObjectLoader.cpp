@@ -50,7 +50,7 @@
 std::unique_ptr<GameObject>
     GameObjectLoader::LoadObject(const nlohmann::json &data)
 {
-    // Render data
+    // BindTextures data
     auto renderDataJson = data.at("render_data");
     auto renderData = mRenderObjectFactory.CreateFromJson(renderDataJson);
 
@@ -102,7 +102,7 @@ std::unique_ptr<LightSrcObject>
     // I hate to copy all this, but it's not quite that easy to
     // use the function LoadObject itself... due to its return type
 
-    // Render data
+    // BindTextures data
     auto renderDataJson = data.at("render_data");
     auto renderData = mRenderObjectFactory.CreateFromJson(renderDataJson);
 

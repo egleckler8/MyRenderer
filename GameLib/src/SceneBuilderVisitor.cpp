@@ -18,7 +18,7 @@
  */
 void SceneBuilderVisitor::VisitGameObject(GameObject *gameObject)
 {
-    mScene->AddRenderObject(gameObject->GetRenderData());
+    mScene.AddRenderObject(gameObject->GetRenderData());
 }
 
 
@@ -34,7 +34,7 @@ void SceneBuilderVisitor::VisitGameObject(GameObject *gameObject)
 void SceneBuilderVisitor::VisitLightSrcObject(LightSrcObject *lightSrcObject)
 {
     VisitGameObject(lightSrcObject);
-    mScene->AddLightSource(lightSrcObject->GetLightSource());
+    mScene.AddPointLight(lightSrcObject->GetLightSource());
 }
 
 

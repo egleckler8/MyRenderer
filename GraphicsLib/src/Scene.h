@@ -34,7 +34,8 @@
 #include <vector>
 
 class RenderObject;
-class LightSource;
+class PointLight;
+class DirectionalLight;
 class Camera;
 /**
  * Manages all the visible entities in the game
@@ -46,8 +47,14 @@ private:
     /// Pointers to all the Rendering data
     std::vector<RenderObject*> mObjects;
 
-    /// Pointers to all the LightSources
-    std::vector<LightSource*> mLights;
+    /// Pointers to all the movable LightSources
+    std::vector<PointLight*> mPointLights;
+
+    /// Pointer to a single directional light source
+    /// It's my design choice that only one is allowed per scene
+    DirectionalLight* mDirectionalLight = nullptr;
+
+    void UpdatePointLightIndices();
 
 public:
 
@@ -63,18 +70,35 @@ public:
     // ****************************************************************
 
     /**
+     * Get a reference to the list of render data for this scene
+     * @return a reference to the list of render data for this scene
+     */
+    std::vector<RenderObject*>& GetRenderObjects() { return mObjects; }
+
+    /**
+     * Get a reference to the list of light sources in this scene
+     * @return a reference to the list of light sources in this scene
+     */
+    std::vector<PointLight*>& GetPointLights() { return mPointLights; }
+
+    /**
+     * Get a pointer to the scene's single directional light
+     */
+    DirectionalLight* GetDirectionalLight() { return mDirectionalLight; }
+
+    /**
      * Add a physical entity to the scene
      * @param renderData thing to add
      */
     void AddRenderObject(RenderObject* renderData) { mObjects.push_back(renderData); }
 
-    /**
-     * Add a light source to the scene
-     * @param lightSrc
-     */
-    void AddLightSource(LightSource* lightSrc) { mLights.push_back(lightSrc); }
 
-    void RenderScene(glm::mat4 viewMat, glm::mat4 projMat) const;
+    void AddPointLight(PointLight* lightSrc);
+
+    // ****************************************************************
+
+
+
 
 
 };

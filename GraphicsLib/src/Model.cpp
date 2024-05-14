@@ -229,12 +229,12 @@ std::vector<TextureData> Model::LoadMaterialTextures(aiMaterial *mat, aiTextureT
 
 /**
  * RenderScene all the Model's meshes
- * @param shader ShaderProgram program used to draw the meshes
+ * @param shaders ShaderProgram program used to draw the meshes
  */
-void Model::Render(std::shared_ptr<ShaderProgram> shader)
+void Model::Draw(ShaderProgram &shaders)
 {
     for (unsigned int i = 0; i < mMeshes.size(); i++)
-        mMeshes[i]->Render(shader);
+        mMeshes[i]->Draw(shaders);
 }
 
 

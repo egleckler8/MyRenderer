@@ -59,7 +59,7 @@ private:
     /// OpenGL ID of the element buffer object for this mesh
     unsigned int mEBO;
 
-    void SetUpMesh();
+    void BindTextures(ShaderProgram &shaders);
 
 public:
 
@@ -77,8 +77,7 @@ public:
     /// Assignment operator
     void operator=(const Mesh &) = delete;
 
-
-    void Render(std::shared_ptr<ShaderProgram> shaders);
+    void Draw(ShaderProgram &shaders);
 
 };
 

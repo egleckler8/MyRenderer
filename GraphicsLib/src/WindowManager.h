@@ -58,19 +58,30 @@ public:
 
     // ****************************************************************
 
-    void DisplayScene(const Scene &scene);
-
     /**
      * Get the GLFW window managed by this class
      * @return pointer to a GLFW window
      */
     GLFWwindow* GetWindow() const { return mWindow; }
+    // TODO comment out...
 
     /**
      * Get a pointer to this window's camera
      * @return pointer to this window's camera
      */
     std::shared_ptr<Camera> GetCamera() const { return mCamera; }
+
+    /**
+     * Get the projection matrix
+     * @return the project matrix
+     */
+    glm::mat4 GetProjectionMatrix() const { return mProjectionMatrix; }
+
+    std::pair<int, int> GetWindowSize();
+
+    // ****************************************************************
+
+    void DisplayScene(const Scene &scene);
 
 
 

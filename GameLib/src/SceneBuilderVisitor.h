@@ -2,9 +2,9 @@
  * @file SceneBuilderVisitor.h
  * @author Elijah Gleckler
  *
- * A GameObject visitor that can
- * iterate over a bunch of GameObjects
- * and create a SceneObject.
+ * A GameObject visitor that can iterate over a
+ * bunch of GameObjects and collect their render
+ * data and light sources into a scene object
  *
  * Almost like a Scene factory? Idk.
  */
@@ -19,19 +19,20 @@
 class Scene;
 /**
  * A GameObject visitor that can iterate over a
- * bunch of GameObjects and create a SceneObject.
+ * bunch of GameObjects and collect their render
+ * data and light sources into a scene object
  */
 class SceneBuilderVisitor : public GameObjectVisitor
 {
 private:
 
     /// A scene we've created.
-    Scene* mScene = nullptr;
+    Scene& mScene;
 
 
 public:
 
-    SceneBuilderVisitor(Scene* scene) : mScene(scene) {}
+    SceneBuilderVisitor(Scene& scene) : mScene(scene) {}
 
     /// Default constructor (disabled)
     SceneBuilderVisitor() = delete;

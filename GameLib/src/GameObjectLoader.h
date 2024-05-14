@@ -5,7 +5,7 @@
  * Loads GameObjects from json, deducing
  * the base type via the json's format.
  *
- * This includes loading LightSource and
+ * This includes loading PointLight and
  * RenderData objects!
  */
 
@@ -31,7 +31,7 @@ private:
     /// store shaders & models in one place when we load
     RenderObjectFactory& mRenderObjectFactory;
 
-    /// Reference to LightSource factory so we can build light
+    /// Reference to PointLight factory so we can build light
     /// sources (without constructing a new object each time)
     LightSourceFactory& mLightSourceFactory;
 

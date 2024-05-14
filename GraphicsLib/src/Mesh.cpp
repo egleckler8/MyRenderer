@@ -23,16 +23,6 @@ Mesh::Mesh( std::vector<Vertex> vertices,
             mIndices(indices),
             mTextures(textures)
 {
-    // This will initialize the VAO, VBO, EBO--never fear
-    SetUpMesh();
-}
-
-/**
- * Take the member mesh data and set that baby up (duh).
- * Initializes all the OpenGL things, like VAO, VBO, EBO.
- */
-void Mesh::SetUpMesh()
-{
 
     // Create buffers for our members
     glGenVertexArrays(1, &mVAO);
@@ -68,17 +58,16 @@ void Mesh::SetUpMesh()
 
     // Unbind
     glBindVertexArray(0);
-
 }
 
 
+
 /**
- * Renders this mesh and its textures using the
- * provided shader program
+ * Binds this meshes textures to the provided shader program.
  *
- * @param shaders ShaderProgram program with which to render this mesh
+ * @param shaders Shaders in which we want to set the texture uniforms
  */
-void Mesh::Render(std::shared_ptr<ShaderProgram> shaders)
+void Mesh::BindTextures(ShaderProgram &shaders)
 {
     // Set the texture uniforms in the shader
     // textures associated with materials?
@@ -97,7 +86,8 @@ void Mesh::Render(std::shared_ptr<ShaderProgram> shaders)
         // with the naming convention that LearnOpenGL came up with
         TextureType type = mTextures[i].type;
         std::string number;
-        std::string uniformName = "material.texture_"; // assume it's in a material struct
+        std::string uniformName = "texture_"; // assuming we're going to the gbuf...
+                                              // check shaders/gbuf-geo.frag to see
 
         // retrieve texture number (the N in diffuse_textureN)
         if (type == TextureType::Diffuse)
@@ -116,20 +106,32 @@ void Mesh::Render(std::shared_ptr<ShaderProgram> shaders)
             uniformName += "roughness_" + number;
         }
 
-        // Set the uniform to this texture number, assuming it's in the material struct
-        shaders->use(); // I suppose we should assure this, even though it was
-                        // likely already called in RenderObject::Render
-        shaders->set1FUniform(uniformName.c_str(), i);
+        shaders.set1FUniform(uniformName.c_str(), i);
 
         glBindTexture(GL_TEXTURE_2D, mTextures[i].id);
 
     }
     glActiveTexture(0);
 
+
+
+}
+
+/**
+ * Draw the mesh to the active framebuffer
+ *
+ * Binds the textures then calls glDrawElements
+ *
+ * @param shaders Shader program to which to bind textures
+ */
+void Mesh::Draw(ShaderProgram &shaders)
+{
+    // Bind correct textures
+    BindTextures(shaders);
+
     // draw the mesh!
     glBindVertexArray(mVAO);
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-
 }
 

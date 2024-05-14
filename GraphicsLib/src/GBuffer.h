@@ -12,6 +12,12 @@
 
 #include "Quad.h"
 #include "ShaderProgram.h"
+#include "DirectionalLight.h"
+
+class WindowManager;
+class RenderObject;
+class PointLight;
+class Scene;
 /**
  * A g-buffer for deferred shading.
  */
@@ -22,18 +28,37 @@ private:
     /// OpenGl id of the framebuffer for the g-buffer
     unsigned int mGBuffer;
 
+    /// Position texture GL id
+    unsigned int mGPosition;
+
+    /// Normal texture GL id
+    unsigned int mGNormal;
+
+    /// Combined color/specular value texture GL id
+    unsigned int mGAlbedoSpec;
+
+    /// GL id of the renderbuffer holder depth and stencil data
+    unsigned int mDepthStencilBuf;
+
     /// The screen-sized quad we'll render to
     //Quad mQuad;
 
     /// Shader program for geometry pass
-    //ShaderProgram mGeometryShaders;
+    ShaderProgram mGeometryShaders;
 
     /// Shader program for lighting pass
-    //ShaderProgram mLightingShaders;
+    ShaderProgram mLightingShaders;
+
+    /// The window we'll render to
+    WindowManager& mWindow;
+
+    void GeometryPass(std::vector<RenderObject *> &objects);
+    void LightingPass(std::vector<PointLight *> &ptLights,
+                      DirectionalLight *dirLight);
 
 public:
 
-    GBuffer(int width, int height);
+    GBuffer(WindowManager& window);
 
     /// Default constructor (disabled)
     GBuffer() = delete;
@@ -45,6 +70,8 @@ public:
     void operator=(const GBuffer &) = delete;
 
     // ****************************************************************
+
+    void RenderScene(Scene& scene);
 
 
 

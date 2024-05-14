@@ -47,7 +47,7 @@ public:
 
 
     // Must do this:
-    void SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders) override;
+    void SetLightingUniforms(ShaderProgram &shaders) override;
 
 
 

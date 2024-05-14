@@ -25,7 +25,7 @@
 
 class Model;
 class ShaderProgram;
-class LightSource;
+class PointLight;
 /**
  * All the data necessary to render a 3d object
  */
@@ -75,8 +75,8 @@ public:
 
     // ****************************************************************
 
-    void Render(glm::mat4 viewMat, glm::mat4 projMat,
-                std::vector<LightSource*>& lights);
+    void SetTransformationUniforms(ShaderProgram &shaders, const glm::mat4 &viewMatrix);
+    void Draw(ShaderProgram &shaders);
 
     void SetPosition(glm::vec3 pos);
     void SetRotation(float rads, glm::vec3 axis);

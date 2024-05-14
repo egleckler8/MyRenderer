@@ -14,20 +14,19 @@
  * The way directional lights work in the shader is unique to
  * the other light types, so overriding is necessary.
  *
- * ALL SHADERS ONLY SUPPORT ONE DIRECTIONAL LIGHT RIGHT NOW...
+ * G-BUFFER SHADERS ONLY SUPPORT ONE DIRECTIONAL LIGHT RIGHT NOW...
  *
- * @param shaders ShaderProgram program into which to insert uniforms
+ * @param shaders Currently bound ShaderProgram program into which to insert uniforms
  */
-void DirectionalLight::SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders)
+void DirectionalLight::SetLightingUniforms(ShaderProgram &shaders)
 {
     // Grab these values from the parent class
     auto phongColors = GetPhongColors();
 
     // Set a slew of uniforms in the shaders:
-    shaders->use();
-    shaders->setVec3Uniform("dirLight.direction", mDirection);
-    shaders->setVec3Uniform("dirLight.ambient", phongColors.ambient);
-    shaders->setVec3Uniform("dirLight.diffuse", phongColors.diffuse); // darkened
-    shaders->setVec3Uniform("dirLight.specular", phongColors.specular);
+    shaders.setVec3Uniform("dirLight.direction", mDirection);
+    shaders.setVec3Uniform("dirLight.ambient", phongColors.ambient);
+    shaders.setVec3Uniform("dirLight.diffuse", phongColors.diffuse); // darkened
+    shaders.setVec3Uniform("dirLight.specular", phongColors.specular);
 
 }

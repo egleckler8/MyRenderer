@@ -69,7 +69,7 @@ public:
 
     // ****************************************************************
 
-    void Render(std::shared_ptr<ShaderProgram> shader);
+    void Draw(ShaderProgram &shaders);
 
 
 

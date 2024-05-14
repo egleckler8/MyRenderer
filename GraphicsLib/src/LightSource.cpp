@@ -1,5 +1,5 @@
 /**
- * @file LightSource.cpp
+ * @file PointLight.cpp
  * @author Elijah Gleckler
  */
 

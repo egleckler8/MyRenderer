@@ -56,8 +56,8 @@ int main()
 //    // Create a scene and add everything
 //    Scene scene;
 //    scene.AddRenderObject(backpack.get());
-//    scene.AddLightSource(theSun.get());
-//    scene.AddLightSource(tester.get());
+//    scene.AddPointLight(theSun.get());
+//    scene.AddPointLight(tester.get());
 //    scene.AddRenderObject(floor.get());
 //    scene.AddRenderObject(lantern.get());
 //    // tester->SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));
@@ -74,7 +74,7 @@ int main()
     auto objects = loader.LoadObjects(data);
 
     Scene scene;
-    SceneBuilderVisitor sbv(&scene);
+    SceneBuilderVisitor sbv(scene);
 
     for (auto& object : objects)
     {
@@ -86,7 +86,7 @@ int main()
     auto data1 = json::parse(fLight1);
     auto theSun = lightFactory.CreateFromJson(data1);
 
-    scene.AddLightSource(theSun.get());
+    //scene.AddPointLight(theSun.get());
 
 
 

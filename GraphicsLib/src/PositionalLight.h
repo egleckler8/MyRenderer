@@ -3,7 +3,7 @@
  * @author Elijah Gleckler
  *
  * TODO - Refactor this class to be in between??
- * PointLight & Spotlight and LightSource?
+ * PointLight & Spotlight and PointLight?
  */
 
 #ifndef LEARNING_OPENGL_GRAPHICSLIB_SRC_POSITIONALLIGHT_H

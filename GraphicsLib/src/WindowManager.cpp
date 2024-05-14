@@ -140,7 +140,6 @@ void WindowManager::DisplayScene(const Scene& scene)
         // the projection matrix depends on the window aspect
         // ratio, so it felt natural to have that here. However,
         // it might be more natural to move it in the future.
-        scene.RenderScene(mCamera->GetViewMatrix(), mProjectionMatrix);
 
         // Double-buffering, baby
         glfwSwapBuffers(mWindow);
@@ -153,4 +152,16 @@ void WindowManager::DisplayScene(const Scene& scene)
         glfwTerminate();
     }
 
+}
+
+
+/**
+ * Query glfw and get the window size
+ * @return (width, height) pair of window size
+ */
+std::pair<int, int> WindowManager::GetWindowSize()
+{
+    std::pair<int, int> size;
+    glfwGetWindowSize(mWindow, &size.first, &size.second);
+    return size;
 }

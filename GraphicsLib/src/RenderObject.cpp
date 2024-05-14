@@ -16,8 +16,6 @@
 const unsigned int MAX_LIGHTS_PER_SHADER = 16;
 
 const std::string MODEL_MAT_UNIFORM_NAME = "modelMat";  ///< Naming convention for model matrix in shaders
-const std::string VIEW_MAT_UNIFORM_NAME = "viewMat"; ///< Naming convention for view matrix in shaders
-const std::string PROJ_MAT_UNIFORM_NAME = "projMat"; ///< Naming convention for projection matrix in shaders
 const std::string NORMAL_MAT_UNIFORM_NAME = "normalMat"; ///< Naming convention for normal matrix in shaders
 
 
@@ -51,50 +49,34 @@ RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
 
 /**
  * Set the shader uniforms corresponding to the transformation
- * matrices. Does not deal with lighting at all! Does not make
- * any OpenGL function calls!
+ * matrices that this render object knows about, which is pretty
+ * much just its own model matrix.
  *
- * @param viewMat view matrix used to render this model
- * @param projMat projection matrix used to render this model
+ * The g-buffer or someone else should do the rest...
+ *
+ * Makes sure this RenderObject is in the right place in the final scene!
+ *
+ * @param shaders Currently bound shader program in which to set the uniforms
+ * @param viewMatrix View matrix so we can compute the normal matrix
+ *                   for this object and set the shaders.
  */
-void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat,
-                          std::vector<LightSource*>& lights)
+void RenderObject::SetTransformationUniforms(ShaderProgram &shaders,
+                                             const glm::mat4 &viewMatrix)
 {
-    if (mModel != nullptr && mShaders != nullptr)
+    if (mModel != nullptr)
     {
         // Update the model matrix based on our current
         // position, rotation, and scale
         UpdateModelMatrix();
 
         // Model-View matrix and Normal Matrix
-        glm::mat4 modelViewMat = viewMat * mModelMatrix;
+        glm::mat4 modelViewMat = viewMatrix * mModelMatrix;
         glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(modelViewMat)));
 
         // Set the transformation uniforms
-        mShaders->use(); // will not re-bind, OpenGL optimizes this for us
         mShaders->setMat4Uniform(MODEL_MAT_UNIFORM_NAME, mModelMatrix);
-        mShaders->setMat4Uniform(VIEW_MAT_UNIFORM_NAME, viewMat);
-        mShaders->setMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
         mShaders->setMat3Uniform(NORMAL_MAT_UNIFORM_NAME, normalMat);
 
-        // Set lighting uniforms
-        // THIS WILL FAIL HORRIBLY IF THE SHADERS DON'T FOLLOW THE
-        // EXPECTED NAMING CONVENTIONS!!!
-
-        // We neither want to exceed the maximum number of lights
-        // (which we've also specified in the shaders) nor do we
-        // want to index out of bounds on the light sources vector
-        for (   int i = 0;
-                i < lights.size() && i < MAX_LIGHTS_PER_SHADER;
-                ++i)
-        {
-            auto light = lights.at(i);
-            light->SetLightingUniforms(mShaders);
-        }
-
-        // Binding textures & shaders, setting uniforms,
-        // and the call to glDrawElements all happen in this call!
-        mModel->Render(mShaders);
     }
     else
     {
@@ -102,6 +84,21 @@ void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat,
                                  "(RenderObject.cpp line 102)");
     }
 
+}
+
+
+/**
+ * Draw the object to the currently bound framebuffer.
+ *
+ * Make sure SetTransformationUniforms is called to make
+ * sure that the object is in the right place!
+ *
+ * @param shaders Currently bound shader program that the
+ *                model will use to set textures uniforms
+ */
+void RenderObject::Draw(ShaderProgram &shaders)
+{
+    mModel->Draw(shaders);
 }
 
 

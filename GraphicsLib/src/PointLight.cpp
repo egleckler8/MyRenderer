@@ -15,22 +15,23 @@
  * The way point lights work in the shader is unique to
  * the other light types, so overriding is necessary.
  *
- * @param shaders ShaderProgram program into which to insert uniforms
+ * @param shaders Currently bound ShaderProgram program into which to insert uniforms
  */
-void PointLight::SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders)
+void PointLight::SetLightingUniforms(ShaderProgram &shaders)
 {
     // Grab these values from the parent class
     auto phongColors = GetPhongColors();
     auto attenCoeffs = mAttenuationCoefficients;
 
+    std::string indexStr = "pointLights[" + std::to_string(mShaderIndex) + "]";
+
     // Set a slew of uniforms in the shaders:
-    shaders->use();
-    shaders->setVec3Uniform("pointLights[0].position", mPosition);
-    shaders->setVec3Uniform("pointLights[0].ambient", phongColors.ambient);
-    shaders->setVec3Uniform("pointLights[0].diffuse", phongColors.diffuse); // darkened
-    shaders->setVec3Uniform("pointLights[0].specular", phongColors.specular);
-    shaders->set1FUniform("pointLights[0].constant", attenCoeffs.constant);
-    shaders->set1FUniform("pointLights[0].linear", attenCoeffs.linear);
-    shaders->set1FUniform("pointLights[0].quadratic", attenCoeffs.quadratic);
+    shaders.setVec3Uniform(indexStr + ".position", mPosition);
+    shaders.setVec3Uniform(indexStr + ".ambient", phongColors.ambient);
+    shaders.setVec3Uniform(indexStr + ".diffuse", phongColors.diffuse); // darkened
+    shaders.setVec3Uniform(indexStr + ".specular", phongColors.specular);
+    shaders.set1FUniform(indexStr + ".constant", attenCoeffs.constant);
+    shaders.set1FUniform(indexStr + ".linear", attenCoeffs.linear);
+    shaders.set1FUniform(indexStr + ".quadratic", attenCoeffs.quadratic);
 
 }

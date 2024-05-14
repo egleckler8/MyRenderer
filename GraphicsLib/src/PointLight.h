@@ -28,6 +28,12 @@ private:
 
     /// Attenuation coefficients
     AttenuationCoefficients mAttenuationCoefficients;
+
+    /// Shader index of the point light, so it
+    /// knows which index of the shader point light
+    /// array to set its uniforms in. Should be set
+    /// before the light is rendered in the lighting pass
+    unsigned int mShaderIndex;
     
 public:
 
@@ -53,12 +59,11 @@ public:
     /// Assignment operator
     void operator=(const PointLight &) = delete;
 
-    // Must do this:
-    virtual void SetLightingUniforms(std::shared_ptr<ShaderProgram> shaders) override;
-
-
     // ****************************************************************
-    //                     Getters & Setters
+
+    // Must do this:
+    virtual void SetLightingUniforms(ShaderProgram &shaders) override;
+
     // ****************************************************************
 
     /**
@@ -67,8 +72,15 @@ public:
      */
     void SetPosition(glm::vec3 pos) { mPosition = pos; }
 
+    /**
+     * Set the shader index of the point light so it can
+     * properly index into the g-buffer lighting shader
+     * and set the correct uniform struct
+     */
+    void SetShaderIndex(unsigned int i) { mShaderIndex = i; }
 
-    // Should I add setters for the AttenuationCoefficients struct values?
+
+
     
     
 
