@@ -33,7 +33,7 @@ class RenderObject
 {
 private:
 
-    /// 3D odel of the object, including meshes & textures.
+    /// 3D model of the object, including meshes & textures.
     std::shared_ptr<Model> mModel = nullptr;
 
     /// ShaderProgram program this object will follow.

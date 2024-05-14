@@ -19,7 +19,7 @@
 // #include "../src/SpotLight.h" // not ready, yet...
 #include "../src/Camera.h"
 #include "../src/Model.h"
-#include "../src/Shader.h"
+#include "../src/ShaderProgram.h"
 #include "../src/RenderObjectFactory.h"
 #include "../src/LightSourceFactory.h"
 

@@ -7,7 +7,7 @@
 #include <gtc/matrix_transform.hpp>
 
 #include "RenderObject.h"
-#include "Shader.h"
+#include "ShaderProgram.h"
 #include "Model.h"
 #include "LightSource.h"
 
@@ -92,16 +92,14 @@ void RenderObject::Render(glm::mat4 viewMat, glm::mat4 projMat,
             light->SetLightingUniforms(mShaders);
         }
 
-        // Binding textures & shaders and setting uniforms
-        // all happen in this call!
+        // Binding textures & shaders, setting uniforms,
+        // and the call to glDrawElements all happen in this call!
         mModel->Render(mShaders);
     }
     else
     {
-        std::cout
-        << "Be careful! Cannot render an instance with uninitialized assets.\n"
-        << "(RenderObject.cpp line 102)"
-        << std::endl;
+        throw std::runtime_error("Be careful! Cannot render an instance with uninitialized assets.\n"
+                                 "(RenderObject.cpp line 102)");
     }
 
 }

@@ -3,7 +3,7 @@
  * @author Elijah Gleckler
  */
 
-#include "Shader.h"
+#include "ShaderProgram.h"
 
 #include "glad/glad.h"
 #include "gtc/type_ptr.hpp"

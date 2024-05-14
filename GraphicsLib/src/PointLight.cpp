@@ -4,7 +4,7 @@
  */
 
 #include "PointLight.h"
-#include "Shader.h"
+#include "ShaderProgram.h"
 
 
 /**

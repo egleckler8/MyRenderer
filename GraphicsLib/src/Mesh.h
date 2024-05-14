@@ -53,7 +53,7 @@ private:
     /// OpenGL ID of the vertex attribute object for this mesh
     unsigned int mVAO;
 
-    /// OpenGL ID of the ertex buffer object for this mesh
+    /// OpenGL ID of the vertex buffer object for this mesh
     unsigned int mVBO;
 
     /// OpenGL ID of the element buffer object for this mesh

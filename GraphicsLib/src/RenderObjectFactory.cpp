@@ -8,7 +8,7 @@
 #include <nlohmann/json.hpp>
 
 #include "RenderObject.h"
-#include "Shader.h"
+#include "ShaderProgram.h"
 #include "Model.h"
 
 /**

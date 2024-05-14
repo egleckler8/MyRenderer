@@ -41,7 +41,7 @@ public:
 
     /**
      * Constructor for a 3D quad
-     * @param dimensions Dimensions, width by heigh in model space
+     * @param dimensions Dimensions, width by height in model space
      * @param textures List of all this quad's textures
      */
     Quad(glm::vec3 dimensions, std::vector<TextureData> textures)

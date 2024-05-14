@@ -7,7 +7,7 @@
 
 #include "Mesh.h"
 #include "Texture2D.h"
-#include "Shader.h"
+#include "ShaderProgram.h"
 
 /**
  * Constructor

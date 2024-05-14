@@ -3,8 +3,8 @@ set(CMAKE_CXX_STANDARD 17)
 project(GraphicsLib)
 
 set(SOURCE_FILES
-        src/Shader.cpp
-        src/Shader.h
+        src/ShaderProgram.cpp
+        src/ShaderProgram.h
         src/Camera.cpp
         src/Camera.cpp
         src/Camera.h
@@ -39,8 +39,8 @@ set(SOURCE_FILES
         src/quad_vertices.h
         src/Renderable.cpp
         src/Renderable.h
-        src/FrameBuffer.cpp
-        src/FrameBuffer.h
+        src/GBuffer.cpp
+        src/GBuffer.h
 )
 
 set(HEADER_FILES

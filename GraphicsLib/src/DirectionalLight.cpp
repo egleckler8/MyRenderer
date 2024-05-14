@@ -4,7 +4,7 @@
  */
 
 #include "DirectionalLight.h"
-#include "Shader.h"
+#include "ShaderProgram.h"
 
 /**
  * Set the lighting uniforms in the provided shader program.
