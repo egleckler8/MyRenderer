@@ -21,7 +21,7 @@
  *
  * Then, get the system ready for rendering
  * by setting up some things that won't change, like the
- * perspective matrix, and enable GL_DEPTH_TEST
+ * perspective matrix
  *
  * @param screenWidth width of created window
  * @param screenHeight height of create window
@@ -50,9 +50,8 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
 
     if (mWindow == nullptr)
     {
-        std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
-        // return -1;
+        throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(mWindow);
     // Bind the window resize to it
@@ -63,8 +62,7 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // for OpenGL, so we want to initialize GLAD before we call any OpenGL function:"
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialized GLAD" << std::endl;
-        // return -1;
+        throw std::runtime_error("Failed to initialized GLAD.");
     }
 
 
@@ -74,17 +72,11 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     //
 
     // Set the viewport to the correct size
-    int fbSizeX, fbSizeY;
-    glfwGetFramebufferSize(mWindow, &fbSizeX, &fbSizeY);
-    glViewport(0, 0, fbSizeX, fbSizeY);
+//    int fbSizeX, fbSizeY;
+//    glfwGetFramebufferSize(mWindow, &fbSizeX, &fbSizeY);
+//    glViewport(0, 0, fbSizeX, fbSizeY);
     // Damn! It worked, nice. It was from here:
     // https://stackoverflow.com/questions/76541033/why-is-my-triangles-been-drawn-in-left-bottom-side-of-the-window
-
-
-    // This is required to be called in only one place, as
-    // far as I know now. So, I'll just stick it here until
-    // I learn it should be anywhere else.
-
 
     // The perspective matrix will likely never change, so here it is:
     // It might need some touching up depending on the game, however.
@@ -95,7 +87,6 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // Initialize the camera with the window,
     // since it initialized fine
     mCamera = std::make_shared<Camera>(mWindow);
-
 
 }
 
@@ -126,7 +117,6 @@ void WindowManager::FramebufferSizeCallback(GLFWwindow* window, int width, int h
  */
 void WindowManager::UpdateWindow()
 {
-
     if(!glfwWindowShouldClose(mWindow))
     {
         // Double-buffering, baby
@@ -137,17 +127,14 @@ void WindowManager::UpdateWindow()
         mCamera->Update();
 
         // Rendering commands?
-        // ...
-
+        // ... no, somewhere else...
     }
     else
     {
         // Hmm... is this the best place for this code?
         glfwTerminate();
         std::cout << "GLFW terminated." << std::endl;
-
     }
-
 }
 
 

@@ -75,6 +75,9 @@ int main()
         // Render...
         gbuffer.RenderScene(scene);
 
+        // Oh, god...
+        // glfwSwapBuffers(window.GetWindow());
+
     }
 
 

@@ -83,10 +83,10 @@ GBuffer::GBuffer(WindowManager& window)
 
 {
 
-    // Grab the scr_width and scr_height of the window real quick
+    // Grab the scrWidth and scrHeight of the window real quick
     auto size = window.GetWindowSize();
-    auto scr_width = size.first;
-    auto scr_height = size.second;
+    auto scrWidth = size.first;
+    auto scrHeight = size.second;
 
     // Generate & bind a framebuffer for the g-buffer
     glGenFramebuffers(1, &mGBuffer);
@@ -95,7 +95,7 @@ GBuffer::GBuffer(WindowManager& window)
     // Position color buffer
     glGenTextures(1, &mGPosition);
     glBindTexture(GL_TEXTURE_2D, mGPosition);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, scr_width, scr_height, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, scrWidth, scrHeight, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mGPosition, 0);
@@ -103,7 +103,7 @@ GBuffer::GBuffer(WindowManager& window)
     // Normal color buffer
     glGenTextures(1, &mGNormal);
     glBindTexture(GL_TEXTURE_2D, mGNormal);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, scr_width, scr_height, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, scrWidth, scrHeight, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, mGNormal, 0);
@@ -115,7 +115,7 @@ GBuffer::GBuffer(WindowManager& window)
     // the A part is the specular intensity!
     glGenTextures(1, &mGAlbedoSpec);
     glBindTexture(GL_TEXTURE_2D, mGAlbedoSpec);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, scr_width, scr_height, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, scrWidth, scrHeight, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, mGAlbedoSpec, 0);
@@ -133,7 +133,7 @@ GBuffer::GBuffer(WindowManager& window)
     // Stored in a render buffer
     glGenRenderbuffers(1, &mDepthStencilBuf);
     glBindRenderbuffer(GL_RENDERBUFFER, mDepthStencilBuf);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, scr_width, scr_height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, scrWidth, scrHeight);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
     // Attach it to the framebuffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mDepthStencilBuf);
@@ -154,7 +154,9 @@ GBuffer::GBuffer(WindowManager& window)
     mGeometryShaders.use();
 
     // Projection matrix will likely never change, so we can set it here
-    auto projMat = mWindow.GetProjectionMatrix();
+    //auto projMat = mWindow.GetProjectionMatrix();
+    glm::mat4 projMat = glm::perspective(glm::radians(45.0f),
+                               (float)scrWidth / scrHeight, 0.1f, 100.0f);
     mGeometryShaders.SetMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
 
     // Lighting shaders:

@@ -108,7 +108,7 @@ void Camera::Update()
 
     }
 
-    std::cout << mPosition.x << ',' << mPosition.y << ',' << mPosition.z << std::endl;
+    // std::cout << mPosition.x << ',' << mPosition.y << ',' << mPosition.z << std::endl;
 }
 
 
