@@ -1,0 +1,5 @@
+{
+  "model_file": "room/room.obj",
+  "vertex_shader_file": "v4.vert",
+  "fragment_shader_file": "f4.frag"
+}

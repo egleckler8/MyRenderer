@@ -1,0 +1,5 @@
+{
+  "model_file": "lantern/lantern.obj",
+  "vertex_shader_file": "lantern.vert",
+  "fragment_shader_file": "lantern.frag"
+}

@@ -1,0 +1,5 @@
+{
+  "model_file": "backpack/backpack.obj",
+  "vertex_shader_file": "floor.vert",
+  "fragment_shader_file": "floor.frag"
+}

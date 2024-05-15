@@ -1,0 +1,5 @@
+{
+  "model_file": "brick-floor/brick-floor.obj",
+  "vertex_shader_file": "floor.vert",
+  "fragment_shader_file": "floor.frag"
+}

@@ -1,0 +1,83 @@
+{
+  "game_objects":
+  [
+
+    {
+      "type": "game_object",
+      "data":
+      {
+        "render_data":
+        {
+          "model_directory": "backpack",
+          "vertex_shader_file": "floor.vert",
+          "fragment_shader_file": "floor.frag"
+        },
+        "position": {"x": -3.0, "y": 2.0, "z": -2.0 },
+        "hitbox": {"x": 1.0, "y": 1.0, "z": 1.0 },
+        "rotation": {"angle": -120.0, "axis": {"x": 0.0, "y": 1.0, "z": 0.0}}
+      }
+    },
+
+
+    {
+      "type": "light_source_object",
+      "data":
+      {
+        "render_data":
+        {
+          "model_directory": "lantern",
+          "vertex_shader_file": "lantern.vert",
+          "fragment_shader_file": "lantern.frag"
+        },
+        "position": {"x": 4.0, "y": 4.0, "z": 4.0 },
+        "hitbox": {"x": 1.0, "y": 1.0, "z": 1.0 },
+        "rotation": {"angle": 0.805, "axis": {"x": 0.0, "y": 1.0, "z": 0.0}},
+        "light_source":
+        {
+          "type": "point",
+          "data":
+          {
+            "phong_colors":
+            {
+              "ambient": {"r": 0.2, "g": 0.1, "b": 0.0},
+              "diffuse": {"r": 0.8, "g": 0.6, "b": 0.6},
+              "specular": {"r": 1.0, "g": 0.9, "b": 0.9}
+            },
+            "attenuation_coefficients":
+            {
+              "constant": 1.0,
+              "linear": 0.25,
+              "quadratic": 0.05
+            }
+          }
+        }
+      }
+    },
+
+
+    {
+      "type": "game_object",
+      "data":
+      {
+        "render_data":
+        {
+          "model_directory": "brick-floor",
+          "vertex_shader_file": "floor.vert",
+          "fragment_shader_file": "floor.frag"
+        },
+        "position": {"x": 0.0, "y": 0.0, "z": 0.0 },
+        "hitbox": {"x": 8.0, "y": 0.05, "z": 8.0 },
+        "rotation": {"angle": 0.0, "axis": {"x": 0.0, "y": 1.0, "z": 0.0}}
+      }
+    }
+
+
+
+
+  ]
+}
+
+
+
+
+
