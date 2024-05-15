@@ -73,7 +73,6 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // Pre-rendering checklist:
     //
 
-
     // Set the viewport to the correct size
     int fbSizeX, fbSizeY;
     glfwGetFramebufferSize(mWindow, &fbSizeX, &fbSizeY);
@@ -96,6 +95,7 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // Initialize the camera with the window,
     // since it initialized fine
     mCamera = std::make_shared<Camera>(mWindow);
+
 
 }
 
@@ -120,36 +120,28 @@ void WindowManager::FramebufferSizeCallback(GLFWwindow* window, int width, int h
  * @param scene Scene object encapsulating necessary rendering
  *              data for all the game objects
  */
-void WindowManager::DisplayScene(const Scene& scene)
+void WindowManager::UpdateWindow()
 {
 
     if(!glfwWindowShouldClose(mWindow))
     {
-
-        // Set the background void
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        //glfwPollEvents();
-        mCamera->Update();
-
-        // Tell the scene to render itself with
-        // the provided projection matrix.
-        // I chose to pass the projection matrix as a parameter
-        // and store it in this class in such a manner because
-        // the projection matrix depends on the window aspect
-        // ratio, so it felt natural to have that here. However,
-        // it might be more natural to move it in the future.
-
         // Double-buffering, baby
         glfwSwapBuffers(mWindow);
+        // The end is the beginning--it's a cycle...
+
+        glfwPollEvents();
+        mCamera->Update();
+
+        // Rendering commands?
+        // ...
 
     }
     else
     {
         // Hmm... is this the best place for this code?
-        std::cout << "GLFW terminated." << std::endl;
         glfwTerminate();
+        std::cout << "GLFW terminated." << std::endl;
+
     }
 
 }

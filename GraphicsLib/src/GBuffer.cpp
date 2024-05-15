@@ -15,16 +15,16 @@
 #include "DirectionalLight.h"
 
 /// Hard-coded filepath to the g-buffer geometryvertex shader.
-const std::string GBUF_GEO_VERT_SHADER_FILEPATH = "../../resources/shaders/gbuf-geo.vert";
+const std::string GBUF_GEO_VERT_SHADER_FILEPATH = "../resources/shaders/gbuf-geo.vert";
 
 /// Hard-coded filepath to the g-buffer geometry fragment shader.
-const std::string GBUF_GEO_FRAG_SHADER_FILEPATH = "../../resources/shaders/gbuf-geo.frag";
+const std::string GBUF_GEO_FRAG_SHADER_FILEPATH = "../resources/shaders/gbuf-geo.frag";
 
 /// Hard-coded filepath to the g-buffer lighting pass vertex shader.
-const std::string GBUF_LIGHT_VERT_SHADER_FILEPATH = "../../resources/shaders/lighting-pass.vert";
+const std::string GBUF_LIGHT_VERT_SHADER_FILEPATH = "../resources/shaders/gbuf-light.vert";
 
 /// Hard-coded filepath to the g-buffer lighting pass fragment shader.
-const std::string GBUF_LIGHT_FRAG_SHADER_FILEPATH = "../../resources/shaders/gbuf-light.frag";
+const std::string GBUF_LIGHT_FRAG_SHADER_FILEPATH = "../resources/shaders/gbuf-light.frag";
 
 /// Naming convention for view matrix in shaders
 const std::string VIEW_MAT_UNIFORM_NAME = "viewMat";
@@ -67,6 +67,7 @@ const unsigned int ALBEDOSPEC_TEX_UNIT = 2;
 GBuffer::GBuffer(WindowManager& window)
     :
     mWindow(window),
+    mFullscreenQuad(),
     mGeometryShaders("g-buffer geometry shaders",
                      GBUF_GEO_VERT_SHADER_FILEPATH.c_str(),
                      GBUF_GEO_FRAG_SHADER_FILEPATH.c_str()),

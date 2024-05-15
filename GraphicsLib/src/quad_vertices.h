@@ -68,7 +68,7 @@ constexpr float CUBE_INDICES[] = {
 
 
 /// Since the base constructor must be called from initializer list...
-std::vector<Vertex> SquareVertices()
+std::vector<Vertex> GetSquareVertices()
 {
     // Put the array vertices into a vector...
     // Must remain compatible with Mesh.
@@ -111,7 +111,7 @@ std::vector<unsigned int> SquareIndices()
 }
 
 /// Since the base constructor must be called from initializer list...
-std::vector<Vertex> CubeVertices()
+std::vector<Vertex> GetCubeVertices()
 {
     // Put the array vertices into a vector...
     // Must remain compatible with Mesh.

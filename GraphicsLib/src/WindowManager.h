@@ -20,6 +20,7 @@
 #include <memory>
 #include <glm.hpp>
 
+
 class GLFWwindow;
 class Scene;
 class Camera;
@@ -74,7 +75,7 @@ public:
 
     // ****************************************************************
 
-    void DisplayScene(const Scene &scene);
+    void UpdateWindow();
 
 
 

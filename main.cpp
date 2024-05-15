@@ -9,9 +9,6 @@
 
 
 
-
-
-
 const int SCREEN_WIDTH = 1000; ///< Chosen by me
 const int SCREEN_HEIGHT = 800; ///< Chosen by me
 
@@ -21,46 +18,6 @@ int main()
 
     // Create window manager...
     WindowManager window(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-
-//    // Create a render data thingy
-//    RenderObjectFactory objectFactory("../resources");
-//
-//    std::ifstream fObj("../resources/json/backpack.json");
-//    auto data = json::parse(fObj);
-//    auto backpack = objectFactory.CreateFromJson(data);
-//    // make it face towards use when we spawn:
-//    backpack->SetScale(glm::vec3(1.0f, 1.0f, -1.0f));
-//
-//    // ROOM????
-//    std::ifstream fFloor("../resources/json/floor.json");
-//    auto floorData = json::parse(fFloor);
-//    auto floor = objectFactory.CreateFromJson(floorData);
-//
-//    std::ifstream fLant("../resources/json/lantern.json");
-//    auto lanternData = json::parse(fLant);
-//    auto lantern = objectFactory.CreateFromJson(lanternData);
-//    lantern->SetPosition(glm::vec3(4.0f, 4.0f, 4.0f));
-//
-//
-//
-//
-//
-//    std::ifstream fLight2("../resources/json/tester.json");
-//    auto data2 = json::parse(fLight2);
-//    auto tester = lightFactory.CreateFromJson(data2);
-//
-//
-//    //tester.SetPosition(glm::vec3(0.0f, 0.0f, -10.0f));
-//
-//    // Create a scene and add everything
-//    Scene scene;
-//    scene.AddRenderObject(backpack.get());
-//    scene.AddPointLight(theSun.get());
-//    scene.AddPointLight(tester.get());
-//    scene.AddRenderObject(floor.get());
-//    scene.AddRenderObject(lantern.get());
-//    // tester->SetPosition(glm::vec3(1.0f, 0.5f, 0.5f));
 
     std::ifstream f("../resources/json/yeah.json");
     auto data = json::parse(f);
@@ -84,9 +41,9 @@ int main()
 
     std::ifstream fLight1("../resources/json/sun.json");
     auto data1 = json::parse(fLight1);
-    auto theSun = lightFactory.CreateFromJson(data1);
+    auto theSun = lightFactory.CreateDirectionalLight(data1.at("data"));
 
-    //scene.AddPointLight(theSun.get());
+    scene.SetDirectionalLight(theSun.get());
 
 
 
@@ -99,6 +56,9 @@ int main()
     backpack->SetBehavior(std::move(testBhvr));
 
 
+    GBuffer gbuffer(window);
+
+
 
     while(true)
     {
@@ -109,7 +69,11 @@ int main()
             object->Update(t);
         }
 
-        window.DisplayScene(scene);
+        // This does the glfw stuff
+        window.UpdateWindow();
+        // Render...
+        gbuffer.RenderScene(scene);
+
     }
 
 

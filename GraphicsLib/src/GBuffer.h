@@ -13,7 +13,6 @@
 #ifndef LEARNING_OPENGL_GRAPHICSLIB_SRC_GBUFFER_H
 #define LEARNING_OPENGL_GRAPHICSLIB_SRC_GBUFFER_H
 
-#include "Quad.h"
 #include "ShaderProgram.h"
 #include "FullscreenQuad.h"
 

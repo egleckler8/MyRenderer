@@ -36,7 +36,7 @@ public:
      * @param textures List of all this quad's textures
      */
     Quad(glm::vec2 dimensions, std::vector<TextureData> textures)
-        : Mesh(SquareVertices(), SquareIndices(), textures) {}
+        : Mesh(GetSquareVertices(), SquareIndices(), textures) {}
 
 
     /**
@@ -45,7 +45,7 @@ public:
      * @param textures List of all this quad's textures
      */
     Quad(glm::vec3 dimensions, std::vector<TextureData> textures)
-        : Mesh(CubeVertices(), CubeIndices(), textures) {}
+        : Mesh(GetCubeVertices(), CubeIndices(), textures) {}
 
     /// Default constructor (disabled)
     Quad() = delete;

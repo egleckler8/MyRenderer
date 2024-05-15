@@ -36,7 +36,7 @@ Camera::Camera(GLFWwindow *window) : mWindow(window)
 void Camera::Update()
 {
 
-    glfwPollEvents();
+    // glfwPollEvents();
 
     // Change in time
     double currentTime = glfwGetTime();

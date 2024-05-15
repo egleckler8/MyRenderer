@@ -22,6 +22,7 @@
 #include "../src/ShaderProgram.h"
 #include "../src/RenderObjectFactory.h"
 #include "../src/LightSourceFactory.h"
+#include "../src/GBuffer.h"
 
 
 
