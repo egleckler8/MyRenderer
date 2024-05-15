@@ -41,12 +41,13 @@ set(SOURCE_FILES
         src/Renderable.h
         src/GBuffer.cpp
         src/GBuffer.h
+        src/FullscreenQuad.cpp
+        src/FullscreenQuad.h
 )
 
 set(HEADER_FILES
         include/GraphicsLib/api.h
-        src/Renderable.cpp
-        src/Renderable.h
+
 )
 
 # Add library target

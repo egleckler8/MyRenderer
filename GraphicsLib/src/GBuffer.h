@@ -15,11 +15,13 @@
 
 #include "Quad.h"
 #include "ShaderProgram.h"
-#include "DirectionalLight.h"
+#include "FullscreenQuad.h"
+
 
 class WindowManager;
 class RenderObject;
 class PointLight;
+class DirectionalLight;
 class Scene;
 /**
  * A g-buffer for deferred shading.
@@ -44,7 +46,7 @@ private:
     unsigned int mDepthStencilBuf;
 
     /// The screen-sized quad we'll render to
-    //Quad mQuad;
+    FullscreenQuad mFullscreenQuad;
 
     /// Shader program for geometry pass
     ShaderProgram mGeometryShaders;

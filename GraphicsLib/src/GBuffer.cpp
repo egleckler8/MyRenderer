@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "Scene.h"
 #include "PointLight.h"
+#include "DirectionalLight.h"
 
 /// Hard-coded filepath to the g-buffer geometryvertex shader.
 const std::string GBUF_GEO_VERT_SHADER_FILEPATH = "../../resources/shaders/gbuf-geo.vert";
@@ -74,16 +75,15 @@ GBuffer::GBuffer(WindowManager& window)
                      GBUF_LIGHT_FRAG_SHADER_FILEPATH.c_str())
 
 {
-    // Grab the width an height of the window real quick
+
+    // Grab the width and height of the window real quick
     auto size = window.GetWindowSize();
     auto width = size.first;
     auto height = size.second;
 
-
     // Generate & bind a framebuffer for the g-buffer
     glGenFramebuffers(1, &mGBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, mGBuffer);
-
 
     // Position color buffer
     glGenTextures(1, &mGPosition);
@@ -93,7 +93,6 @@ GBuffer::GBuffer(WindowManager& window)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mGPosition, 0);
 
-
     // Normal color buffer
     glGenTextures(1, &mGNormal);
     glBindTexture(GL_TEXTURE_2D, mGNormal);
@@ -101,10 +100,8 @@ GBuffer::GBuffer(WindowManager& window)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, mGNormal, 0);
-
     // Check out how we used GL_RGBA16F as the internal format for
     // the position and normal color buffers--we need high precision!
-
 
     // Diffuse/albedo & specular color buff
     // The RGB part is the diffuse/albedo color and
@@ -116,7 +113,6 @@ GBuffer::GBuffer(WindowManager& window)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, mGAlbedoSpec, 0);
 
-
     // Tell OpenGL which attachments we'll use
     unsigned int attachments[3] = {
         GL_COLOR_ATTACHMENT0, // position
@@ -125,7 +121,6 @@ GBuffer::GBuffer(WindowManager& window)
     };
 
     glDrawBuffers(3, attachments);
-
 
     // Depth and stencil buffers
     // Stored in a render buffer
@@ -136,17 +131,14 @@ GBuffer::GBuffer(WindowManager& window)
     // Attach it to the framebuffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mDepthStencilBuf);
 
-
     // Make sure it's all good!
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" <<
                   std::endl;
 
-
     // "Be sure to unbind the framebuffer to make sure we’re
     // not accidentally rendering to the wrong framebuffer." --LearnOpenGL pg. ??
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 
     // Out of "courtesy," we'll initialize some uniforms in the shaders,
     // so we don't have to repeatedly & redundantly do it at runtime
@@ -157,7 +149,6 @@ GBuffer::GBuffer(WindowManager& window)
     // Projection matrix will likely never change, so we can set it here
     auto projMat = mWindow.GetProjectionMatrix();
     mGeometryShaders.setMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
-
 
     // Lighting shaders:
     mLightingShaders.use();
@@ -172,10 +163,6 @@ GBuffer::GBuffer(WindowManager& window)
     mLightingShaders.SetIntUniform(POSITION_TEX_UNIFORM_NAME, POSITION_TEX_UNIT);
     mLightingShaders.SetIntUniform(NORMAL_TEX_UNIFORM_NAME, NORMAL_TEX_UNIT);
     mLightingShaders.SetIntUniform(ALBEDOSPEC_TEX_UNIFORM_NAME, ALBEDOSPEC_TEX_UNIT);
-
-
-    // Initialize the screen-sized quad:
-    // TODO
 
 }
 
@@ -270,11 +257,12 @@ void GBuffer::LightingPass(std::vector<PointLight *> &ptLights,
     // Set view position to the camera position??
     // TODO??
 
-
-    // render quad to screen
-    // TODO
+    // With textures bound and lighting shaders active,
+    // draw the fullscreen quad to the default framebuffer!
+    mFullscreenQuad.Draw();
 
 }
+
 
 
 /**
@@ -307,7 +295,7 @@ bool GBuffer::CheckUpdateDirLightState(DirectionalLight *dirLight)
     }
     // Else...
     // The current state is the same as the recorded state,
-    // so there is nothing to update/worry about
+    // so there is nothing to update/worry about.
     // We'll return whether it's active or not, then the
     // lighting pass will or will not render the directional
     // light, as expected.
