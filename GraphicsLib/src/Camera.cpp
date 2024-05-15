@@ -37,13 +37,13 @@ void Camera::Update()
 {
 
     // glfwPollEvents();
+    // ^^ Make sure that was called before this function
 
     // Change in time
     double currentTime = glfwGetTime();
     double dT = currentTime - mLastTime;
     // Adjust for animation
     mLastTime = currentTime;
-
 
     // Only if it's valid...
     if (mWindow)
@@ -72,9 +72,9 @@ void Camera::Update()
         // Moving vertically would be nice...
         // World vertical, not camera vertical.
         if (glfwGetKey(mWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
-            mPosition += (mMoveSpeed * (float)dT) * UpVec;
+            mPosition += (mMoveSpeed * (float)dT) * UP_VEC;
         else if (glfwGetKey(mWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-            mPosition -= (mMoveSpeed * (float)dT * UpVec);
+            mPosition -= (mMoveSpeed * (float)dT * UP_VEC);
 
 
         // Having yaw rotation on the keys would be nice...
@@ -90,8 +90,25 @@ void Camera::Update()
         else if (glfwGetKey(mWindow, GLFW_KEY_UP) == GLFW_PRESS)
             SetDirection(mPitch + (8.0 * mMoveSpeed * dT), mYaw);
 
+
+        // A little but to reset to origin
+        if (glfwGetKey(mWindow, GLFW_KEY_O) == GLFW_PRESS)
+        {
+            SetPosition(glm::vec3(0.0));
+        }
+        // Reset rotation
+        if (glfwGetKey(mWindow, GLFW_KEY_P) == GLFW_PRESS)
+        {
+            SetDirection(0.0, 0.0);
+        }
+
+
+
+
+
     }
 
+    std::cout << mPosition.x << ',' << mPosition.y << ',' << mPosition.z << std::endl;
 }
 
 
@@ -103,9 +120,7 @@ void Camera::Update()
  */
 glm::mat4 Camera::GetViewMatrix()
 {
-    glm::mat4 viewMat = glm::mat4(1.0f);
-    viewMat = glm::lookAt(mPosition, mPosition + mFrontVec, UpVec);
-
+    glm::mat4 viewMat = glm::lookAt(mPosition, mPosition + mFrontVec, UP_VEC);
     return viewMat;
 }
 
@@ -128,7 +143,6 @@ void Camera::StaticCursorCallback(GLFWwindow *window, double x, double y)
     {
         camera->CursorCallback(window, x, y);
     }
-
 }
 
 
@@ -161,7 +175,6 @@ void Camera::CursorCallback(GLFWwindow *window, double x, double y)
         SetDirection(mPitch + yOffset, mYaw + xOffset);
 
     }
-
 }
 
 
@@ -193,7 +206,7 @@ void Camera::SetDirection(double pitch, double yaw)
 
     // And adjust our basis vectors
     mFrontVec = glm::normalize(direction);
-    mRightVec = glm::normalize(glm::cross(mFrontVec, UpVec));
+    mRightVec = glm::normalize(glm::cross(mFrontVec, UP_VEC));
 
 }
 
@@ -264,7 +277,6 @@ void Camera::MouseButtonCallback(GLFWwindow *window, int button, int action, int
         }
 
     }
-
 }
 
 

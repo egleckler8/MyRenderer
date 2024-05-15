@@ -60,8 +60,7 @@ RenderObject::RenderObject(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
  * @param viewMatrix View matrix so we can compute the normal matrix
  *                   for this object and set the shaders.
  */
-void RenderObject::SetTransformationUniforms(ShaderProgram &shaders,
-                                             const glm::mat4 &viewMatrix)
+void RenderObject::SetTransformationUniforms(ShaderProgram &shaders)
 {
     if (mModel != nullptr)
     {

@@ -39,13 +39,13 @@ private:
     glm::vec3 mDirection = glm::vec3(0.0f, 0.0f, 0.0f);
 
     /// Up vector in camera space. So glm can do the Gram-Schmidt thingy in lookAt
-    static constexpr glm::vec3 UpVec = glm::vec3(0.0f, 1.0f, 0.0f);
+    static constexpr glm::vec3 UP_VEC = glm::vec3(0.0f, 1.0f, 0.0f);
 
     /// Vector IN WORLD SPACE that designates the direction of the front of the camera
     glm::vec3 mFrontVec = glm::vec3(0.0f,0.0f,1.0f);
 
     /// Vector in camera space that points right
-    glm::vec3 mRightVec = glm::normalize(glm::cross(mFrontVec, UpVec));
+    glm::vec3 mRightVec = glm::normalize(glm::cross(mFrontVec, UP_VEC));
 
     /// store the time of the window to compute animation in seconds
     double mLastTime = 0;

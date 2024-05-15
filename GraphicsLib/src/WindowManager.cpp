@@ -89,7 +89,8 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // The perspective matrix will likely never change, so here it is:
     // It might need some touching up depending on the game, however.
     // That's a later problem... :)     (bad idea, Eli...)
-    mProjectionMatrix = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
+    mProjectionMatrix = glm::perspective(glm::radians(45.0f),
+                                         (float)screenWidth / screenHeight, 0.1f, 100.0f);
 
     // Initialize the camera with the window,
     // since it initialized fine
@@ -109,6 +110,10 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
 void WindowManager::FramebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+    // TODO - some way to adjust perspective matrix... would be kinda clean B)
+//    mProjectionMatrix = glm::perspective(glm::radians(45.0f),
+//                                         (float)width / height, 0.1f, 100.0f);
+
 }
 
 

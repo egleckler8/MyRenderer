@@ -14,6 +14,9 @@
 #include "PointLight.h"
 #include "DirectionalLight.h"
 
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+
 /// Hard-coded filepath to the g-buffer geometry vertex shader.
 const std::string GBUF_GEO_VERT_SHADER_FILEPATH = "../resources/shaders/gbuf-geo.vert";
 
@@ -211,7 +214,7 @@ void GBuffer::GeometryPass(std::vector<RenderObject*> &objects)
     {
         // These two functions are decoupled intentionally so
         // that we only have to pass the view matrix to one
-        object->SetTransformationUniforms(mGeometryShaders, viewMat);
+        object->SetTransformationUniforms(mGeometryShaders);
         object->Draw(mGeometryShaders);
     }
 

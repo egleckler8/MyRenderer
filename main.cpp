@@ -57,7 +57,9 @@ int main()
 
     GBuffer gbuffer(window);
 
-
+    // Camera initial position
+    auto cam = window.GetCamera();
+    cam->SetPosition(glm::vec3(0.0, 1.0, 0.0));
 
     while(true)
     {
@@ -72,8 +74,6 @@ int main()
         window.UpdateWindow();
         // Render...
         gbuffer.RenderScene(scene);
-
-        //glfwSwapBuffers(window.GetWindow());
 
     }
 

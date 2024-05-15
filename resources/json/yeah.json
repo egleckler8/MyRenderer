@@ -12,7 +12,7 @@
           "vertex_shader_file": "floor.vert",
           "fragment_shader_file": "floor.frag"
         },
-        "position": {"x": -3.0, "y": 2.0, "z": -2.0 },
+        "position": {"x": -4.0, "y": 2.0, "z": -3.5 },
         "hitbox": {"x": 1.0, "y": 1.0, "z": 1.0 },
         "rotation": {"angle": -120.0, "axis": {"x": 0.0, "y": 1.0, "z": 0.0}}
       }

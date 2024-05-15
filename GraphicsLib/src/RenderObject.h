@@ -75,7 +75,7 @@ public:
 
     // ****************************************************************
 
-    void SetTransformationUniforms(ShaderProgram &shaders, const glm::mat4 &viewMatrix);
+    void SetTransformationUniforms(ShaderProgram &shaders);
     void Draw(ShaderProgram &shaders);
 
     void SetPosition(glm::vec3 pos);
