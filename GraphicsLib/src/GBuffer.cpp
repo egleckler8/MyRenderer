@@ -14,7 +14,7 @@
 #include "PointLight.h"
 #include "DirectionalLight.h"
 
-/// Hard-coded filepath to the g-buffer geometryvertex shader.
+/// Hard-coded filepath to the g-buffer geometry vertex shader.
 const std::string GBUF_GEO_VERT_SHADER_FILEPATH = "../resources/shaders/gbuf-geo.vert";
 
 /// Hard-coded filepath to the g-buffer geometry fragment shader.
@@ -35,9 +35,12 @@ const std::string PROJ_MAT_UNIFORM_NAME = "projMat";
 /// Naming convention for the directional light-skipping bool the lighting frag shader
 const std::string DIRLIGHT_OPTIMIZER_BOOL_UNIFORM_NAME = "dirLightIsActive";
 
+/// Uniform name for the view position in the lighting pass shaders
+const std::string VIEW_POS_UNIFORM_NAME = "viewPos";
+
 /// Uniform name for the "number of active lights" uniform in the
 /// lighting pass fragment shader.
-const std::string ACTIVE_LIGHTS_UNIFORM_NAME = "numActiveLights";
+const std::string ACTIVE_LIGHTS_UNIFORM_NAME = "numActivePtLights";
 
 /// Uniform name for the position texture in the lighting pass frag shader
 const std::string POSITION_TEX_UNIFORM_NAME = "gPosition";
@@ -77,10 +80,10 @@ GBuffer::GBuffer(WindowManager& window)
 
 {
 
-    // Grab the width and height of the window real quick
+    // Grab the scr_width and scr_height of the window real quick
     auto size = window.GetWindowSize();
-    auto width = size.first;
-    auto height = size.second;
+    auto scr_width = size.first;
+    auto scr_height = size.second;
 
     // Generate & bind a framebuffer for the g-buffer
     glGenFramebuffers(1, &mGBuffer);
@@ -89,7 +92,7 @@ GBuffer::GBuffer(WindowManager& window)
     // Position color buffer
     glGenTextures(1, &mGPosition);
     glBindTexture(GL_TEXTURE_2D, mGPosition);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, scr_width, scr_height, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mGPosition, 0);
@@ -97,7 +100,7 @@ GBuffer::GBuffer(WindowManager& window)
     // Normal color buffer
     glGenTextures(1, &mGNormal);
     glBindTexture(GL_TEXTURE_2D, mGNormal);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, scr_width, scr_height, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, mGNormal, 0);
@@ -109,7 +112,7 @@ GBuffer::GBuffer(WindowManager& window)
     // the A part is the specular intensity!
     glGenTextures(1, &mGAlbedoSpec);
     glBindTexture(GL_TEXTURE_2D, mGAlbedoSpec);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, scr_width, scr_height, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, mGAlbedoSpec, 0);
@@ -127,7 +130,7 @@ GBuffer::GBuffer(WindowManager& window)
     // Stored in a render buffer
     glGenRenderbuffers(1, &mDepthStencilBuf);
     glBindRenderbuffer(GL_RENDERBUFFER, mDepthStencilBuf);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, scr_width, scr_height);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
     // Attach it to the framebuffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mDepthStencilBuf);
@@ -149,7 +152,7 @@ GBuffer::GBuffer(WindowManager& window)
 
     // Projection matrix will likely never change, so we can set it here
     auto projMat = mWindow.GetProjectionMatrix();
-    mGeometryShaders.setMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
+    mGeometryShaders.SetMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
 
     // Lighting shaders:
     mLightingShaders.use();
@@ -158,13 +161,12 @@ GBuffer::GBuffer(WindowManager& window)
     mLightingShaders.SetIntUniform(ACTIVE_LIGHTS_UNIFORM_NAME, 0);
 
     // Set the sampler2D uniforms with the texture unit numbers
-    // (above at " *** Remember this convention! *** "
+    // (above at " *** Remember this convention! *** ")
     // These will not change per render loop, so I figure I can
     // set them here to save 3 set uniform calls
     mLightingShaders.SetIntUniform(POSITION_TEX_UNIFORM_NAME, POSITION_TEX_UNIT);
     mLightingShaders.SetIntUniform(NORMAL_TEX_UNIFORM_NAME, NORMAL_TEX_UNIT);
     mLightingShaders.SetIntUniform(ALBEDOSPEC_TEX_UNIFORM_NAME, ALBEDOSPEC_TEX_UNIT);
-
 
 }
 
@@ -193,15 +195,16 @@ void GBuffer::GeometryPass(std::vector<RenderObject*> &objects)
 
     // Bind the g-buffer
     glBindFramebuffer(GL_FRAMEBUFFER, mGBuffer);
-    glClearColor(0.2, 0.2, 0.2, 1.0);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
 
     // Activate the shaders before we pass them around!
     mGeometryShaders.use();
 
     // Get the transformation matrices from the window & set uniforms
     auto viewMat = mWindow.GetCamera()->GetViewMatrix();
-    mGeometryShaders.setMat4Uniform(VIEW_MAT_UNIFORM_NAME, viewMat);
+    mGeometryShaders.SetMat4Uniform(VIEW_MAT_UNIFORM_NAME, viewMat);
 
     // Render all the objects to the g-buffer
     for (RenderObject* object : objects)
@@ -211,6 +214,8 @@ void GBuffer::GeometryPass(std::vector<RenderObject*> &objects)
         object->SetTransformationUniforms(mGeometryShaders, viewMat);
         object->Draw(mGeometryShaders);
     }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 
@@ -227,6 +232,13 @@ void GBuffer::LightingPass(std::vector<PointLight *> &ptLights,
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // Activate lighting shaders
+    mLightingShaders.use();
+
+    // Set view position to the camera position
+    auto camPos = mWindow.GetCamera()->GetPosition();
+    mLightingShaders.SetVec3Uniform(VIEW_POS_UNIFORM_NAME, camPos);
+
     // bind all g-buffer textures
     glActiveTexture(GL_TEXTURE0 + POSITION_TEX_UNIT);
     glBindTexture(GL_TEXTURE_2D, mGPosition);
@@ -235,8 +247,8 @@ void GBuffer::LightingPass(std::vector<PointLight *> &ptLights,
     glActiveTexture(GL_TEXTURE0 + ALBEDOSPEC_TEX_UNIT);
     glBindTexture(GL_TEXTURE_2D, mGAlbedoSpec);
 
-    // Activate lighting shaders
-    mLightingShaders.use();
+    // Texture uniforms are already set in the constructor,
+    // since they will not change per render loop iteration.
 
     // Set single directional light
     // However, it could be that there is no directional light.
@@ -246,19 +258,15 @@ void GBuffer::LightingPass(std::vector<PointLight *> &ptLights,
         dirLight->SetLightingUniforms(mLightingShaders);
     }
 
-    // set lighting uniforms for each point light
+    // Set lighting uniforms for each point light
     for(PointLight* ptLight : ptLights)
     {
         // The indices in the uniform array should all be ok,
         // since they were established when the scene was created!
         ptLight->SetLightingUniforms(mLightingShaders);
     }
-
-    // Texture uniforms are already set in the constructor,
-    // since they will not change per render loop iteration.
-
-    // Set view position to the camera position??
-    // TODO??
+    // Tell the shaders how many point lights to consider
+    mLightingShaders.SetIntUniform(ACTIVE_LIGHTS_UNIFORM_NAME, ptLights.size());
 
     // With textures bound and lighting shaders active,
     // draw the fullscreen quad to the default framebuffer!

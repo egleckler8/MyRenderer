@@ -53,8 +53,8 @@ public:
     void set1FUniform(const std::string& uniformName, float val) const;
     void set3FUniform(const std::string& uniformName, float ary[]);
     void set4FUniform(const std::string& uniformName, float ary[]);
-    void setMat4Uniform(const std::string& uniformName, glm::mat4 mat);
-    void setVec3Uniform(const std::string& uniformName, glm::vec3 vec);
+    void SetMat4Uniform(const std::string& uniformName, glm::mat4 mat);
+    void SetVec3Uniform(const std::string& uniformName, glm::vec3 vec);
     void setMat3Uniform(const std::string& uniformName, glm::mat3 mat);
 
 

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include "glm.hpp"
 #include "GLFW/glfw3.h"
 #include "nlohmann/json.hpp"
 
@@ -43,7 +42,7 @@ int main()
     auto data1 = json::parse(fLight1);
     auto theSun = lightFactory.CreateDirectionalLight(data1.at("data"));
 
-    scene.SetDirectionalLight(theSun.get());
+    //scene.SetDirectionalLight(theSun.get());
 
 
 

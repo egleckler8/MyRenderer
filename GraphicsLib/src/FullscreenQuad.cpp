@@ -67,6 +67,7 @@ FullscreenQuad::FullscreenQuad()
  */
 void FullscreenQuad::Draw()
 {
+    glDisable(GL_DEPTH_TEST); // make sure it draws in front of everything...
     glBindVertexArray(mVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);

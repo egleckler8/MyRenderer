@@ -65,7 +65,8 @@ Mesh::Mesh( std::vector<Vertex> vertices,
 /**
  * Binds this meshes textures to the provided shader program.
  *
- * @param shaders Shaders in which we want to set the texture uniforms
+ * @param shaders Currently bound shaders in which we want
+ *                to set the texture uniforms
  */
 void Mesh::BindTextures(ShaderProgram &shaders)
 {

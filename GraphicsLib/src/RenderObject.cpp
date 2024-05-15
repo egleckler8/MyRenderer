@@ -70,12 +70,12 @@ void RenderObject::SetTransformationUniforms(ShaderProgram &shaders,
         UpdateModelMatrix();
 
         // Model-View matrix and Normal Matrix
-        glm::mat4 modelViewMat = viewMatrix * mModelMatrix;
-        glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(modelViewMat)));
+        // glm::mat4 modelViewMat = viewMatrix * mModelMatrix;
+        glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(mModelMatrix)));
 
         // Set the transformation uniforms
-        mShaders->setMat4Uniform(MODEL_MAT_UNIFORM_NAME, mModelMatrix);
-        mShaders->setMat3Uniform(NORMAL_MAT_UNIFORM_NAME, normalMat);
+        shaders.SetMat4Uniform(MODEL_MAT_UNIFORM_NAME, mModelMatrix);
+        shaders.setMat3Uniform(NORMAL_MAT_UNIFORM_NAME, normalMat);
 
     }
     else

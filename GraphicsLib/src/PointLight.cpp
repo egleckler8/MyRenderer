@@ -26,10 +26,10 @@ void PointLight::SetLightingUniforms(ShaderProgram &shaders)
     std::string indexStr = "pointLights[" + std::to_string(mShaderIndex) + "]";
 
     // Set a slew of uniforms in the shaders:
-    shaders.setVec3Uniform(indexStr + ".position", mPosition);
-    shaders.setVec3Uniform(indexStr + ".ambient", phongColors.ambient);
-    shaders.setVec3Uniform(indexStr + ".diffuse", phongColors.diffuse); // darkened
-    shaders.setVec3Uniform(indexStr + ".specular", phongColors.specular);
+    shaders.SetVec3Uniform(indexStr + ".position", mPosition);
+    shaders.SetVec3Uniform(indexStr + ".ambient", phongColors.ambient);
+    shaders.SetVec3Uniform(indexStr + ".diffuse", phongColors.diffuse); // darkened
+    shaders.SetVec3Uniform(indexStr + ".specular", phongColors.specular);
     shaders.set1FUniform(indexStr + ".constant", attenCoeffs.constant);
     shaders.set1FUniform(indexStr + ".linear", attenCoeffs.linear);
     shaders.set1FUniform(indexStr + ".quadratic", attenCoeffs.quadratic);
