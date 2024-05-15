@@ -1,4 +1,6 @@
 /cmake-build-debug
-/resources
+/resources/models
+/resources/shaders/old
+/resources/textures
 /thirdparty
 /test
