@@ -59,6 +59,9 @@ public:
 
     // ****************************************************************
 
+    // for testing only...
+    GLFWwindow* GetWindow() const { return mWindow; }
+
     /**
      * Get a pointer to this window's camera
      * @return pointer to this window's camera

@@ -165,6 +165,7 @@ GBuffer::GBuffer(WindowManager& window)
     mLightingShaders.SetIntUniform(NORMAL_TEX_UNIFORM_NAME, NORMAL_TEX_UNIT);
     mLightingShaders.SetIntUniform(ALBEDOSPEC_TEX_UNIFORM_NAME, ALBEDOSPEC_TEX_UNIT);
 
+
 }
 
 
@@ -189,9 +190,10 @@ void GBuffer::RenderScene(Scene &scene)
  */
 void GBuffer::GeometryPass(std::vector<RenderObject*> &objects)
 {
+
     // Bind the g-buffer
     glBindFramebuffer(GL_FRAMEBUFFER, mGBuffer);
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClearColor(0.2, 0.2, 0.2, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Activate the shaders before we pass them around!

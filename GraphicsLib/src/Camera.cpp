@@ -90,9 +90,7 @@ void Camera::Update()
         else if (glfwGetKey(mWindow, GLFW_KEY_UP) == GLFW_PRESS)
             SetDirection(mPitch + (8.0 * mMoveSpeed * dT), mYaw);
 
-
     }
-
 
 }
 
