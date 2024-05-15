@@ -195,7 +195,7 @@ void ShaderProgram::use()
  * @param uniformName the name of the uniform we want to set
  * @param val the new value to set it to
  */
-void ShaderProgram::setBoolUniform(const std::string &uniformName, bool val) const
+void ShaderProgram::SetBoolUniform(const std::string &uniformName, bool val) const
 {
     glUniform1i(glGetUniformLocation(mProgramID, uniformName.c_str()), (int)val);
 }
@@ -209,7 +209,7 @@ void ShaderProgram::setBoolUniform(const std::string &uniformName, bool val) con
  * @param uniformName the name of the uniform we want to set
  * @param val the new value to set it to
  */
-void ShaderProgram::setIntUniform(const std::string &uniformName, int val) const
+void ShaderProgram::SetIntUniform(const std::string &uniformName, int val) const
 {
     glUniform1i(glGetUniformLocation(mProgramID, uniformName.c_str()), val);
 }

@@ -106,6 +106,8 @@ void Mesh::BindTextures(ShaderProgram &shaders)
             uniformName += "roughness_" + number;
         }
 
+        // The value of the 2D sampler uniform should be the number
+        // of the texture unit to which the texture was bound
         shaders.set1FUniform(uniformName.c_str(), i);
 
         glBindTexture(GL_TEXTURE_2D, mTextures[i].id);

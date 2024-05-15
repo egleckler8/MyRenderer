@@ -48,8 +48,8 @@ public:
     void operator=(const ShaderProgram &) = delete;
 
     void use();
-    void setBoolUniform(const std::string& uniformName, bool val) const;
-    void setIntUniform(const std::string& uniformName, int val) const;
+    void SetBoolUniform(const std::string& uniformName, bool val) const;
+    void SetIntUniform(const std::string& uniformName, int val) const;
     void set1FUniform(const std::string& uniformName, float val) const;
     void set3FUniform(const std::string& uniformName, float ary[]);
     void set4FUniform(const std::string& uniformName, float ary[]);

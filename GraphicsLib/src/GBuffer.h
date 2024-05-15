@@ -5,6 +5,9 @@
  * A g-buffer for deferred shading.
  *
  * Basically stores the state of the g-buffer
+ * and has functions for rendering a scene
+ * to the g-buffer & drawing it to the
+ * default framebuffer/screen
  */
 
 #ifndef LEARNING_OPENGL_GRAPHICSLIB_SRC_GBUFFER_H
@@ -52,9 +55,15 @@ private:
     /// The window we'll render to
     WindowManager& mWindow;
 
+    /// Is there a directional light currently active?
+    /// Helps use save some lighting calculations when there isn't
+    bool mDirLightIsActive = false;
+
     void GeometryPass(std::vector<RenderObject *> &objects);
     void LightingPass(std::vector<PointLight *> &ptLights,
                       DirectionalLight *dirLight);
+
+    bool CheckUpdateDirLightState(DirectionalLight* dirLight);
 
 public:
 

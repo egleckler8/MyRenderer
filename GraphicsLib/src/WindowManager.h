@@ -59,13 +59,6 @@ public:
     // ****************************************************************
 
     /**
-     * Get the GLFW window managed by this class
-     * @return pointer to a GLFW window
-     */
-    GLFWwindow* GetWindow() const { return mWindow; }
-    // TODO comment out...
-
-    /**
      * Get a pointer to this window's camera
      * @return pointer to this window's camera
      */

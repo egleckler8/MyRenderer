@@ -52,14 +52,14 @@ private:
 
     /// Pointer to a single directional light source
     /// It's my design choice that only one is allowed per scene
-    DirectionalLight* mDirectionalLight = nullptr;
+    DirectionalLight* mDirectionalLight;
 
     void UpdatePointLightIndices();
 
 public:
 
     /// Default constructor
-    Scene() = default;
+    Scene();
 
     /// Copy constructor (disabled)
     Scene(const Scene &) = delete;
@@ -83,8 +83,16 @@ public:
 
     /**
      * Get a pointer to the scene's single directional light
+     * @return pointer to the sole directional light source
      */
     DirectionalLight* GetDirectionalLight() { return mDirectionalLight; }
+
+    /**
+     * Set the directional light of the scene.
+     * Set it to nullptr to signify an absence of a directional light source
+     * @param dirLight pointer to the new directional light source
+     */
+     void SetDirectionalLight(DirectionalLight* dirLight) { mDirectionalLight = dirLight; }
 
     /**
      * Add a physical entity to the scene
