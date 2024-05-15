@@ -37,6 +37,8 @@ public:
     FullscreenQuad();
     // copy, assign, and default construct all you want!
 
+    // ****************************************************************
+
     void Draw();
 
 };

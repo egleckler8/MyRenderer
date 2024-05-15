@@ -59,7 +59,7 @@ FullscreenQuad::FullscreenQuad()
  *
  * Hopefully, it's a shader program whose vertex
  * shader expects an input from a vbo like above...
- * That is,
+ * That is,:
  *
  * layout (location = 0) in vec2 aPos;
  * layout (location = 1) in vec2 aTexCoords;
