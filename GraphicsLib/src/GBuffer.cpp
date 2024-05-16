@@ -178,6 +178,7 @@ void GBuffer::RenderScene(Scene &scene)
 {
     GeometryPass(scene);
     LightingPass(scene);
+    SkyboxPass(scene);
 }
 
 
@@ -193,26 +194,17 @@ void GBuffer::GeometryPass(Scene &scene)
     // Bind the g-buffer
     glBindFramebuffer(GL_FRAMEBUFFER, mGBuffer);
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-
 
     // Get the transformation matrices from the window & set uniforms
     auto viewMat = mWindow.GetCamera()->GetViewMatrix();
-
-    // Render skybox;
-    // TODO figure out a cleaner way to give the projmat to skybox??
-    scene.RenderSkybox(mWindow.GetProjectionMatrix(), mWindow.GetCamera()->GetViewMatrix());
-    // TODO... i think this just won't work in a deferred system now,
-    // just like how blending won't work. gotta look into this.
 
     // Render all objects
     mGeometryShaders.use();
     mGeometryShaders.SetMat4Uniform(VIEW_MAT_UNIFORM_NAME, viewMat);
     scene.RenderObjects(mGeometryShaders);
 
-    // Unbind, for good measure.
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 
@@ -251,4 +243,28 @@ void GBuffer::LightingPass(Scene& scene)
     // With textures bound and lighting shaders active,
     // draw the fullscreen quad to the default framebuffer!
     mFullscreenQuad.Draw();
+}
+
+
+
+/**
+ * Do a stencil test and render the skybox
+ * @param scene Scene with the skybox data
+ */
+void GBuffer::SkyboxPass(Scene &scene)
+{
+
+    // Blit frambuffer with g-buffer depth and default buffer color
+    // for post-deferred pipeline (skybox?)
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, mGBuffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glBlitFramebuffer(0, 0, 1000, 800, 0, 0, 1000, 800, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    // Render skybox;
+    // TODO figure out a cleaner way to give the projmat to skybox??
+    scene.RenderSkybox(mWindow.GetProjectionMatrix(), mWindow.GetCamera()->GetViewMatrix());
+    // TODO... i think this just won't work in a deferred system now,
+    // just like how blending won't work. gotta look into this.
+
 }

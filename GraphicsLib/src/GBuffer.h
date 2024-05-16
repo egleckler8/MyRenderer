@@ -58,6 +58,7 @@ private:
 
     void GeometryPass(Scene &scene);
     void LightingPass(Scene& scene);
+    void SkyboxPass(Scene& scene);
 
 public:
 

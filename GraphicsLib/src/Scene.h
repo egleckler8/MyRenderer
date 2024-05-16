@@ -56,7 +56,7 @@ private:
     DirectionalLight* mDirectionalLight = nullptr;
 
     /// Skybox for this scene
-    Skybox* mSkybox = nullptr;
+    Skybox* mSkybox;
 
     /// Is there a directional light currently active?
     /// Helps use save some lighting calculations when there isn't

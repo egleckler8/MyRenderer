@@ -137,7 +137,6 @@ mSkyboxShaders("skybox shaders",
     // Set the cubemap texture uniform in the shaders (texture unit 0)
     mSkyboxShaders.SetIntUniform(CUBEMAP_TEX_UNIFORM_NAME, 0);
 
-
 }
 
 
@@ -202,7 +201,7 @@ unsigned int Skybox::LoadCubeMap(const std::string &faceTexDir)
  */
 void Skybox::Draw(glm::mat4 projMat, glm::mat4 viewMat)
 {
-    // Modify the viewmat to remove the translation portion
+    // Modify the view matrix to remove the translation portion
     viewMat = glm::mat4(glm::mat3(viewMat));
 
     // Set transformation uniforms
