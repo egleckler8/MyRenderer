@@ -256,10 +256,8 @@ unsigned int Model::TextureFromFile(const char *filepath, std::string fileDirect
     unsigned int textureId;
     glGenTextures(1, &textureId);
 
-
     // Load an image, getting its width, height, and number of color channels
     int width, height, numChannels;
-    // Bytes array of the image:
 
     // Shall we implement later?
     // Uh.... LearnOpenGL said they do this by default... idek why

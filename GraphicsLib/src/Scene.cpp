@@ -7,12 +7,20 @@
 
 #include "PointLight.h"
 #include "DirectionalLight.h"
+#include "RenderObject.h"
+#include "Skybox.h"
+
+/// Uniform name for the "number of active lights" uniform in any
+/// lighting shader that wants to render point lights
+const std::string ACTIVE_PT_LIGHTS_UNIFORM_NAME = "numActivePtLights";
+
+/// Naming convention for the directional light-skipping bool the lighting frag shader
+const std::string DIRLIGHT_OPTIMIZER_BOOL_UNIFORM_NAME = "dirLightIsActive";
+
 
 /**
  * Default constructor
- *
- * The only thing we do here is initialize a blank
- * directional light that will have no effect on the scene.
+ * (Does nothing...?)
  */
 Scene::Scene()
 {
@@ -74,7 +82,6 @@ Scene::Scene()
 }
 
 
-
 /**
  * Make sure each point light knows its
  * index in the vector so it can set the
@@ -106,4 +113,135 @@ void Scene::AddPointLight(PointLight *lightSrc)
 {
     mPointLights.push_back(lightSrc);
     UpdatePointLightIndices();
+}
+
+
+
+/**
+ * Render all RenderObjects to the currently
+ * bound framebuffer with a supplied set of
+ * shaders so each RenderObject can set its
+ * transformation uniforms.
+ *
+ * @param shaders Currently bound shaders
+ */
+void Scene::RenderObjects(ShaderProgram &shaders)
+{
+    // Render all the objects to the g-buffer
+    for (RenderObject* object : mObjects)
+    {
+        // These two functions are decoupled intentionally so
+        // that we only have to pass the view matrix to one
+        object->SetTransformationUniforms(shaders);
+        object->Draw(shaders);
+    }
+}
+
+
+
+/**
+ * Render lighting to the currently bound framebuffer.
+ *
+ * Doesn't really render anything... (right now)
+ *
+ * Just sets the lighting uniforms in the supplied shader.
+ * For now, these will most likely be the GBuffer's
+ * lighting shaders.
+ *
+ * @param shaders Shaders to set lighting uniforms
+ */
+void Scene::RenderLighting(ShaderProgram &shaders)
+{
+    // Set single directional light
+    // However, it could be that there is no directional light.
+    // SO heck and update the state of directional light activity
+    if (CheckUpdateDirLightState(shaders))
+    {
+        mDirectionalLight->SetLightingUniforms(shaders);
+    }
+
+    // Set lighting uniforms for each point light
+    for(PointLight* ptLight : mPointLights)
+    {
+        // The indices in the uniform array should all be ok,
+        // since they were established when the scene was created!
+        ptLight->SetLightingUniforms(shaders);
+    }
+
+    // Tell the shaders how many point lights to consider.
+    // This will fail if the lighting shaders don't have this uniform!
+    // It's a feature, not a bug... what I'm saying is, if you
+    // want to render lighting anywhere, you need to make sure
+    // the shaders know how many lights you want to render on
+    // this pass. Also, all shaders that want to render lights
+    // should have this same convention.
+    shaders.SetIntUniform(ACTIVE_PT_LIGHTS_UNIFORM_NAME, mPointLights.size());
+    // Will set the size when it's zero, and is called on
+    // every render pass, so we should never hit an error.
+}
+
+
+
+/**
+ * Render the skybox to the currently bound framebuffer.
+ * Skybox will use its own shaders, but needs projection
+ * and view matrices to draw.
+ *
+ * @param projMat projection matrix
+ * @param viewMat view matrix
+ */
+void Scene::RenderSkybox(glm::mat4 projMat, glm::mat4 viewMat)
+{
+    if (mSkybox != nullptr)
+    {
+        mSkybox->Draw(projMat, viewMat);
+    }
+}
+
+
+
+/**
+ * Check whether the input directional light is valid
+ * and update the state of the engine if it's not.
+ *
+ * Convenient because it checks the state of the input
+ * the state that this class holds--which tells the
+ * lighting shaders whether or not they should compute
+ * directional lighting.
+ *
+ * Here is another choice by me, similar to the "num
+ * ActivePtLights" thing: All shaders that want to
+ * render a directional light will only try to render
+ * one, and so there must be a uniform named ......
+ * $DIRLIGHT_OPTIMIZER_BOOL_UNIFORM_NAME... for the
+ * shaders to work.
+ *
+ * @param shaders Shaders we should tell whether there
+ *                is a directional light to render
+ * @return are we good to render directional light?
+ */
+bool Scene::CheckUpdateDirLightState(ShaderProgram &shaders)
+{
+    // This is an easy check...
+    bool dirLightIsActive = (mDirectionalLight != nullptr);
+
+    // Now, check if this is a state change from
+    // what this class last remembers
+    if (dirLightIsActive != mDirLightIsActive)
+    {
+        // Swap the state, ...
+        mDirLightIsActive = dirLightIsActive;
+        // ... and tell the lighting shader about it!
+        shaders.SetBoolUniform(DIRLIGHT_OPTIMIZER_BOOL_UNIFORM_NAME,
+                                        mDirLightIsActive);
+
+    }
+    // Else...
+    // The current state is the same as the recorded state,
+    // so there is nothing to update/worry about.
+    // We'll return whether it's active or not, then the
+    // lighting pass will or will not render the directional
+    // light, as expected.
+
+    return mDirLightIsActive;
 }

@@ -36,7 +36,8 @@
 class RenderObject;
 class PointLight;
 class DirectionalLight;
-class Camera;
+class Skybox;
+class ShaderProgram;
 /**
  * Manages all the visible entities in the game
  */
@@ -52,9 +53,18 @@ private:
 
     /// Pointer to a single directional light source
     /// It's my design choice that only one is allowed per scene
-    DirectionalLight* mDirectionalLight;
+    DirectionalLight* mDirectionalLight = nullptr;
+
+    /// Skybox for this scene
+    Skybox* mSkybox = nullptr;
+
+    /// Is there a directional light currently active?
+    /// Helps use save some lighting calculations when there isn't
+    /// and reduces uniform calls to only on state change.
+    bool mDirLightIsActive = false;
 
     void UpdatePointLightIndices();
+    bool CheckUpdateDirLightState(ShaderProgram &shaders);
 
 public:
 
@@ -86,13 +96,22 @@ public:
      * @return pointer to the sole directional light source
      */
     DirectionalLight* GetDirectionalLight() { return mDirectionalLight; }
+    // might remove this later if scene has more control in the
+    // rendering pipeline
 
     /**
      * Set the directional light of the scene.
      * Set it to nullptr to signify an absence of a directional light source
      * @param dirLight pointer to the new directional light source
      */
-     void SetDirectionalLight(DirectionalLight* dirLight) { mDirectionalLight = dirLight; }
+    void SetDirectionalLight(DirectionalLight* dirLight) { mDirectionalLight = dirLight; }
+
+    /**
+     * Set the skybox pointer of the scene
+     * Set it to nullptr to signify the absence of a skybox
+     * @param skybox pointer to new skybox
+     */
+    void SetSkybox(Skybox* skybox) { mSkybox = skybox; }
 
     /**
      * Add a physical entity to the scene
@@ -105,7 +124,9 @@ public:
 
     // ****************************************************************
 
-
+    void RenderObjects(ShaderProgram& shaders);
+    void RenderLighting(ShaderProgram& shaders);
+    void RenderSkybox(glm::mat4 projMat, glm::mat4 viewMat);
 
 
 

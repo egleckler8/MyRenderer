@@ -42,7 +42,7 @@ int main()
     auto data1 = json::parse(fLight1);
     auto theSun = lightFactory.CreateDirectionalLight(data1.at("data"));
 
-    //scene.SetDirectionalLight(theSun.get());
+    scene.SetDirectionalLight(theSun.get());
 
 
 
@@ -53,6 +53,14 @@ int main()
     auto testBhvr = std::make_unique<TestBehavior>(backpack.get());
 
     backpack->SetBehavior(std::move(testBhvr));
+
+
+
+
+    // Skybox??
+    Skybox skybox("../resources/textures/skybox");
+
+    scene.SetSkybox(&skybox);
 
 
     GBuffer gbuffer(window);

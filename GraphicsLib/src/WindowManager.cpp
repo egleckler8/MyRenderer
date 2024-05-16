@@ -39,9 +39,39 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+
     // This must be here for macOS
 #ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    std::cout << "Apple system detected." << std::endl;
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+
+    /*
+     * This one took me a hot minute to figure out...
+     * https://www.glfw.org/docs/3.3/window_guide.html
+     * control-f GLFW_COCOA_RETINA_FRAMEBUFFER to see what it does
+     * this GLFW debugging thread helped: https://github.com/glfw/glfw/issues/1857
+     * Apparently macOS, by default, doubles the resolution of the framebuffer
+     * for Retina displays, which doubles the framebuffer dimensions.
+     * After I set up the deferred rendering pipeline, I was rendering
+     * an offscreen framebuffer at the expected framebuffer dimensions--the
+     * dimensions input into the WindowManager constructor for the window
+     * width and height. These dimensions ended up in GBuffer's constructor
+     * as well, with a call to WindowManager::GetWindowSize(). However, the
+     * window size and framebuffer dimensions seem to be uncoupled in GLFW
+     * for whatever reason. So, what I was rendering to the g-buffer
+     * were textures of the doubled Cocoa Retina weird size, so when I again
+     * rendered them to the default framebuffer in the lighting pass, the Retina
+     * display was taking only the bottom fourth of the image, but then
+     * doubling it's resolution, or something. I'm not sure if anything I
+     * just typed is correct, I just did some research on the GLFW GitHub
+     * and gained some vague understanding of what's going on. Someone on
+     * there said that this would make sure Cocoa did not scale the framebuffer
+     * for the liquid Retina display, so I put it here, and now everything
+     * renders correctly (on both my monitors...)
+     */
+
+    glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+
 #endif
 
     // Next, we're required to create a window object
@@ -67,16 +97,7 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
 
 
 
-    //
     // Pre-rendering checklist:
-    //
-
-    // Set the viewport to the correct size
-//    int fbSizeX, fbSizeY;
-//    glfwGetFramebufferSize(mWindow, &fbSizeX, &fbSizeY);
-//    glViewport(0, 0, fbSizeX, fbSizeY);
-    // Damn! It worked, nice. It was from here:
-    // https://stackoverflow.com/questions/76541033/why-is-my-triangles-been-drawn-in-left-bottom-side-of-the-window
 
     // The perspective matrix will likely never change, so here it is:
     // It might need some touching up depending on the game, however.

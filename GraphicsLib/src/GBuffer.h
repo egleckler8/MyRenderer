@@ -56,15 +56,8 @@ private:
     /// The window we'll render to
     WindowManager& mWindow;
 
-    /// Is there a directional light currently active?
-    /// Helps use save some lighting calculations when there isn't
-    bool mDirLightIsActive = false;
-
-    void GeometryPass(std::vector<RenderObject *> &objects);
-    void LightingPass(std::vector<PointLight *> &ptLights,
-                      DirectionalLight *dirLight);
-
-    bool CheckUpdateDirLightState(DirectionalLight* dirLight);
+    void GeometryPass(Scene &scene);
+    void LightingPass(Scene& scene);
 
 public:
 

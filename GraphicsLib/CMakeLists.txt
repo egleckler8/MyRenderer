@@ -43,6 +43,8 @@ set(SOURCE_FILES
         src/GBuffer.h
         src/FullscreenQuad.cpp
         src/FullscreenQuad.h
+        src/Skybox.cpp
+        src/Skybox.h
 )
 
 set(HEADER_FILES

@@ -23,6 +23,11 @@
 #include "../src/RenderObjectFactory.h"
 #include "../src/LightSourceFactory.h"
 #include "../src/GBuffer.h"
+#include "../src/Skybox.h"
+
+// kind of a mess right now... might split it up later.
+// just throwing a lot in here so i can keep it to one
+// include in main.cpp.
 
 
 
