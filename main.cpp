@@ -23,7 +23,7 @@ int main()
     // Create window manager...
     WindowManager window(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    std::ifstream f("../resources/json/yeah1.json");
+    std::ifstream f("../resources/json/yeah.json");
     auto data = json::parse(f);
 
 
@@ -51,15 +51,15 @@ int main()
 
 
 
-    // Testing the behavior thing
-    // ugly way of getting the backpack...
-    // auto& backpack = objects[0];
-    // auto testBhvr = std::make_unique<TestBehavior>(backpack.get());
-    // backpack->SetBehavior(std::move(testBhvr));
+     // Testing the behavior thing
+     // ugly way of getting the backpack...
+     auto& backpack = objects[1];
+     auto testBhvr = std::make_unique<TestBehavior>(backpack.get());
+     backpack->SetBehavior(std::move(testBhvr));
 
 
     // It's wayyyy too big....
-    auto& sponza = objects[1];
+    auto& sponza = objects[2];
     sponza->GetRenderData()->SetScale(glm::vec3(0.05));
 
 
@@ -79,7 +79,7 @@ int main()
 
 
     // Let's add a bunch of random point lights:
-    auto ptLights = GetManyPtLights(scene, 7, 100.0);
+    auto ptLights = GetManyPtLights(scene, 1, 100.0);
     for (auto& light : ptLights)
     {
         scene.AddPointLight(light.get());

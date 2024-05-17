@@ -16,6 +16,7 @@ layout (location = 2) out vec4 gAlbedoSpec;
 // render object that's drawing
 uniform sampler2D texture_diffuse_1;
 uniform sampler2D texture_specular_1;
+uniform sampler2D texture_roughness_1; // TODO -> put into g-buffer?
 
 void main()
 {
