@@ -61,12 +61,12 @@
       {
         "render_data":
         {
-          "model_directory": "brick-floor",
+          "model_directory": "Sponza",
           "vertex_shader_file": "floor.vert",
           "fragment_shader_file": "floor.frag"
         },
         "position": {"x": 0.0, "y": 0.0, "z": 0.0 },
-        "hitbox": {"x": 8.0, "y": 0.05, "z": 8.0 },
+        "hitbox": {"x": 0.0, "y": 0.0, "z": 0.0 },
         "rotation": {"angle": 0.0, "axis": {"x": 0.0, "y": 1.0, "z": 0.0}}
       }
     }

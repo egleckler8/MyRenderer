@@ -77,7 +77,8 @@ void main() {
     vec3 directionalLighting = CalcDirectionalLight(dirLight, Normal, viewDir, Albedo, Specular);
 
     // point lighting
-    vec3 pointLighting = vec3(0.0f);
+    vec3 hardCodedAmbient = vec3(0.1f) * Albedo;
+    vec3 pointLighting = vec3(hardCodedAmbient);
     for (int i = 0; i < MAX_NUM_PT_LIGHTS && i < numActivePtLights; i++)
     {
         pointLighting += CalcPointLight(pointLights[i], Normal, FragPos, viewDir, Albedo, Specular);
@@ -127,6 +128,13 @@ vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir, vec
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 Albedo, float Specular)
 {
 
+    // Attenuation...
+    float distance = length(light.position - fragPos);
+    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
+    // if this is low enough, just cut off all the computation
+    if (attenuation < 0.01)
+        return vec3(0.0);
+
     // Compute light direction
     vec3 lightDir = normalize(light.position- fragPos);
 
@@ -141,10 +149,6 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, v
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), CalcShininess());
     vec3 specularLight = light.specular * spec * Specular;
-
-    // Attenuation
-    float distance = length(light.position - fragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
 
     // Attenuate!
     diffuseLight *= attenuation;

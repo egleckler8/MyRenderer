@@ -1,0 +1,47 @@
+{
+  "game_objects":
+  [
+
+    {
+      "type": "game_object",
+      "data":
+      {
+        "render_data":
+        {
+          "model_directory": "backpack",
+          "vertex_shader_file": "floor.vert",
+          "fragment_shader_file": "floor.frag"
+        },
+        "position": {"x": -4.0, "y": 2.0, "z": -3.5 },
+        "hitbox": {"x": 1.0, "y": 1.0, "z": 1.0 },
+        "rotation": {"angle": -120.0, "axis": {"x": 0.0, "y": 1.0, "z": 0.0}}
+      }
+    },
+
+
+    {
+      "type": "game_object",
+      "data":
+      {
+        "render_data":
+        {
+          "model_directory": "Sponza",
+          "vertex_shader_file": "floor.vert",
+          "fragment_shader_file": "floor.frag"
+        },
+        "position": {"x": 0.0, "y": 0.0, "z": 0.0 },
+        "hitbox": {"x": 0.0, "y": 0.0, "z": 0.0 },
+        "rotation": {"angle": 0.0, "axis": {"x": 0.0, "y": 1.0, "z": 0.0}}
+      }
+    }
+
+
+
+
+  ]
+}
+
+
+
+
+

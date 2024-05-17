@@ -103,7 +103,7 @@ WindowManager::WindowManager(int screenWidth, int screenHeight)
     // It might need some touching up depending on the game, however.
     // That's a later problem... :)     (bad idea, Eli...)
     mProjectionMatrix = glm::perspective(glm::radians(45.0f),
-                                         (float)screenWidth / screenHeight, 0.1f, 100.0f);
+                                         (float)screenWidth / screenHeight, 0.1f, 500.0f);
 
     // Initialize the camera with the window,
     // since it initialized fine

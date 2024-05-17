@@ -141,7 +141,7 @@ GBuffer::GBuffer(WindowManager& window)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // yeah
-    glDepthFunc(GL_LEQUAL);
+    glDepthFunc(GL_LESS);
 
     // Out of "courtesy," we'll initialize some uniforms in the shaders,
     // so we don't have to repeatedly & redundantly do it at runtime
@@ -150,9 +150,7 @@ GBuffer::GBuffer(WindowManager& window)
     mGeometryShaders.use();
 
     // Projection matrix will likely never change, so we can set it here
-    //auto projMat = mWindow.GetProjectionMatrix();
-    glm::mat4 projMat = glm::perspective(glm::radians(45.0f),
-                               (float)scrWidth / scrHeight, 0.1f, 100.0f);
+    auto projMat = mWindow.GetProjectionMatrix();
     mGeometryShaders.SetMat4Uniform(PROJ_MAT_UNIFORM_NAME, projMat);
 
     // Lighting shaders:
@@ -178,7 +176,7 @@ void GBuffer::RenderScene(Scene &scene)
 {
     GeometryPass(scene);
     LightingPass(scene);
-    SkyboxPass(scene);
+    //SkyboxPass(scene);
 }
 
 
@@ -194,7 +192,7 @@ void GBuffer::GeometryPass(Scene &scene)
     // Bind the g-buffer
     glBindFramebuffer(GL_FRAMEBUFFER, mGBuffer);
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
     // Get the transformation matrices from the window & set uniforms

@@ -8,7 +8,11 @@
 #include <gtc/matrix_transform.hpp>
 #include <iostream>
 
+/// Normal move speed
+const float NORMAL_MOVE_SPEED = 16.0;
 
+/// "Sprint" move speed
+const float SPRINT_MOVE_SPEED = 32.0;
 
 /**
  * Constructor
@@ -52,6 +56,14 @@ void Camera::Update()
         // Close the window if escape key is pressed
         if (glfwGetKey(mWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(mWindow, true);
+
+        // Speed boost?
+        if (glfwGetKey(mWindow, GLFW_KEY_TAB) == GLFW_PRESS)
+            mMoveSpeed = SPRINT_MOVE_SPEED;
+        else
+            mMoveSpeed = NORMAL_MOVE_SPEED;
+
+
 
         //
         // Check the ASDW keys and adjust x-z pos properly
@@ -105,9 +117,7 @@ void Camera::Update()
 
 
 
-
     }
-
     // std::cout << mPosition.x << ',' << mPosition.y << ',' << mPosition.z << std::endl;
 }
 
